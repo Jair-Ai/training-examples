@@ -72,25 +72,6 @@ export default {
   font-weight: bold;
 }
 
-.progressbar {
-  counter-reset: step;
-}
-.progressbar li:before {
-  content: counter(step);
-  counter-increment: step;
-  width: 30px;
-  height: 30px;
-  border: 2px solid #bebebe;
-  display: block;
-  margin: 0 auto 10px auto;
-  border-radius: 50%;
-  line-height: 27px;
-  background: white;
-  color: #bebebe;
-  text-align: center;
-  font-weight: bold;
-}
-
 .progressbar li:after {
   content: "";
   position: absolute;

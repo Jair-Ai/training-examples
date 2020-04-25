@@ -39,13 +39,7 @@
         label-for="input-3"
         description="Escolha para quem o cliente pode recomendar"
       >
-        <b-form-input
-          id="input-3"
-          v-model="form.ask"
-          required
-          placeholder="Amigo"
-          teste
-        ></b-form-input>
+        <b-form-input id="input-3" v-model="form.ask" required placeholder="Amigo" teste></b-form-input>
       </b-form-group>
 
       <b-form-group
@@ -56,8 +50,8 @@
       >
         <b-form-select
           id="input-4"
-          v-model="form.comment"
-          :option="choice"
+          v-model="form.food"
+          :options="comment"
           required
           placeholder="Amigo"
           teste
@@ -101,16 +95,16 @@ export default {
         campaign: "",
         company: "",
         ask: "",
-        comment: [
-          { text: "Escolha um", value: null },
-          "Qual o principal motivo para a sua nota?",
-          "O que motivou sua nota?",
-          "O que poderíamos fazer para melhorar?",
-          "Por que?",
-        ],
         file: null,
-        choice: null,
+        choice: null
       },
+      comment: [
+        { text: "Escolha um", value: null },
+        "Qual o principal motivo para a sua nota?",
+        "O que motivou sua nota?",
+        "O que poderíamos fazer para melhorar?",
+        "Por que?"
+      ]
     };
   },
   methods: {
@@ -132,8 +126,8 @@ export default {
         this.$nextTick(() => {
           this.show = true;
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

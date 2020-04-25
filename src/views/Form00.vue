@@ -1,6 +1,6 @@
 <template>
-  <b-container fluid="md">
-    <b-row float-center>
+  <b-container fluid="sm">
+    <b-row>
       <StepProgressBar></StepProgressBar>
     </b-row>
     <br />
