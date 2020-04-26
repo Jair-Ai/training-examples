@@ -11,21 +11,30 @@
       <b-col>
         <FormLeft></FormLeft>
       </b-col>
-      <b-col>teste col 2</b-col>
+      <b-col>
+        <FormRight></FormRight>
+      </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import FormLeft from "@/components/FormLeft.vue";
 import StepProgressBar from "@/components/StepProgressBar.vue";
+import FormLeft from "@/components/FormLeft.vue";
+import FormRight from "@/components/FormRight.vue";
+
 export default {
   name: "Forms",
   components: {
     FormLeft,
+    FormRight,
     StepProgressBar
   }
 };
 </script>
 
-<style></style>
+<style scoped>
+p {
+  text-align: center;
+}
+</style>
