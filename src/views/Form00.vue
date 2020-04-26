@@ -12,6 +12,11 @@
         <FormLeft></FormLeft>
       </b-col>
       <b-col>
+        <p class="pa">
+          Como a pesquisa será enviada
+          <b-icon-caret-down animation="fade" font-scale="2" variant="success" shift-v="-4"></b-icon-caret-down>
+        </p>
+
         <FormRight></FormRight>
       </b-col>
     </b-row>
@@ -34,7 +39,9 @@ export default {
 </script>
 
 <style scoped>
-p {
+.pa {
+  margin-top: -0.5rem;
   text-align: center;
+  font-weight: 600;
 }
 </style>
