@@ -9,12 +9,22 @@
     <p class="pa">Olá, João</p>
 
     <p class="pa">{{ chosenPhrase }}</p>
+    <div style="text-align: center">
+      <ul>
+        <li class="listNPS" v-for="number in score" :key="number">{{ number }}</li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "FormRight",
+  data() {
+    return {
+      score: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    };
+  },
   props: {
     imageLink: {
       type: String,
@@ -31,7 +41,18 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+ul {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  list-style: none;
+}
+ul li {
+  padding: 2px 5px;
+  display: inline-block;
+  background: #11e9c550;
+}
 .pa {
   text-align: center;
 }

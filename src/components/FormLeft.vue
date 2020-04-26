@@ -75,10 +75,10 @@
       </b-form-group>
       <div class="test">
         <div style="float: left;">
-          <b-button type="reset" variant="danger">Reset</b-button>
+          <b-button type="reset" variant="danger">Limpar</b-button>
         </div>
         <div class="float-right">
-          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="submit" variant="primary">Salvar e avançar</b-button>
         </div>
       </div>
     </b-form>
