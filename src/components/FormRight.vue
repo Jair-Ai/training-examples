@@ -4,13 +4,12 @@
     <hr />
     <p>Para: João</p>
     <hr />
-    <p>Assunto: {{ subject }}</p>
+    <p>Assunto: {{ campaign }}</p>
     <hr />
-    <img class="center" :src="imageLink" alt="Logo da Empresa" />
-    {{ subjects }}
+    <img class="center" :src="file" alt="Logo da Empresa" />
     <p class="pa">Olá, João</p>
 
-    <p class="pa">{{ chosenPhrase }}</p>
+    <p class="pa">{{ choice }}</p>
 
     <div>
       <ul class="float">
@@ -19,7 +18,9 @@
           v-for="(color, i) in score_color"
           :key="color"
           :style="{ 'background-color': color }"
-        >{{ i + 1 }}</li>
+        >
+          {{ i }}
+        </li>
       </ul>
     </div>
     <br />
@@ -36,13 +37,15 @@
 </template>
 
 <script>
+import { EventBus } from "../main";
+
 export default {
   name: "FormRight",
   data() {
     return {
       score_color: [
-        "#FF4500",
         "#FF0000",
+        "#ff1a1a",
         "#FF4500",
         "#FF8C00",
         "#FFD700",
@@ -50,18 +53,19 @@ export default {
         "#98FB98",
         "#00FA9A",
         "#7CFC00",
-        "#3CB371"
+        "#3CB371",
+        "#003300"
       ]
     };
   },
   props: {
-    imageLink: {
-      type: String,
+    file: {
+      type: [String, Object, Image],
       required: true,
       default:
         "http://www.promoview.com.br/uploads/2017/06/images/JUNHO/11.06/Unilever_faz_da_inclusao_social_estrategia_de_negocio.jpg"
     },
-    chosenPhrase: {
+    choice: {
       type: String,
       required: true,
       default: "Qual a chance de voce nos recomendar para alguem?"
@@ -71,11 +75,19 @@ export default {
       required: true,
       default: "Unilever"
     },
-    subject: {
+    campaign: {
       type: String,
       required: true,
       default: "Pesquisa de satisfação"
+    },
+    ask: {
+      type: String
     }
+  },
+  mounted() {
+    EventBus.$on("DataSend", valor => {
+      this[valor[0]] = valor[1];
+    });
   }
 };
 </script>

@@ -28,6 +28,7 @@ import StepProgressBar from "@/components/StepProgressBar.vue";
 import FormLeft from "@/components/FormLeft.vue";
 import FormRight from "@/components/FormRight.vue";
 
+
 export default {
   name: "Forms",
   components: {

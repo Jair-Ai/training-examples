@@ -10,6 +10,7 @@
         <b-form-input
           id="input-1"
           v-model="form.campaign"
+          @keyup="generico($event, 'campaign')"
           type="text"
           required
           placeholder="Pesquisa de satisfação"
@@ -26,6 +27,7 @@
         <b-form-input
           id="input-2"
           v-model="form.company"
+          @keyup="generico($event, 'company')"
           type="text"
           required
           placeholder="MInha empresa"
@@ -39,7 +41,14 @@
         label-for="input-3"
         description="Escolha para quem o cliente pode recomendar"
       >
-        <b-form-input id="input-3" v-model="form.ask" required placeholder="Amigo" teste></b-form-input>
+        <b-form-input
+          id="input-3"
+          v-model="form.ask"
+          @keyup="generico($event, 'ask')"
+          required
+          placeholder="Amigo"
+          teste
+        ></b-form-input>
       </b-form-group>
 
       <b-form-group
@@ -50,7 +59,8 @@
       >
         <b-form-select
           id="input-4"
-          v-model="form.food"
+          v-model="form.choice"
+          @keyup="generico($event, 'choice')"
           :options="comment"
           required
           placeholder="Amigo"
@@ -68,6 +78,7 @@
           id="input-5"
           v-model="form.file"
           :state="Boolean(form.file)"
+          @keyup="generico($event, 'file')"
           placeholder="Escolha ou arraste uma imagem"
           required
           teste
@@ -87,6 +98,9 @@
 </template>
 
 <script>
+import { EventBus } from "../main";
+console.log(EventBus);
+
 export default {
   name: "form-left",
   data() {
@@ -109,11 +123,18 @@ export default {
       ]
     };
   },
+
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
       alert(JSON.stringify(this.form));
     },
+
+    generico(event, atribute) {
+      console.log(event.target.value);
+      EventBus.$emit("DataSend", [atribute, event.target.value]);
+    },
+
     onReset(evt) {
       evt.preventDefaut();
       //Reset form values
@@ -121,7 +142,7 @@ export default {
         (this.form.company = ""),
         (this.form.ask = ""),
         (this.form.file = ""),
-        (this.choice = ""),
+        (this.form.choice = ""),
         (this.show = false),
         // Trick to reset/clear native browser form validation state
         (this.show = false),
