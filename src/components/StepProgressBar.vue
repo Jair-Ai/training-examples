@@ -25,8 +25,7 @@ export default {
   z-index: 1;
 }
 .progressbar li {
-  list-style: none;
-  float: left;
+  display: inline-block;
   width: 20%;
   position: relative;
   text-align: center;

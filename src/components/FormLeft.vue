@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-container fluid="xl">
     <b-form @submit="onSubmit" @reset="onReset" v-if="show" float-right>
       <b-form-group
         id="input-group-1"
@@ -68,9 +68,10 @@
           id="input-5"
           v-model="form.file"
           :state="Boolean(form.file)"
-          placeholder="Escolha uma imagem ou arraste ate aqui"
+          placeholder="Escolha ou arraste uma imagem"
           required
           teste
+          v-if="avancada"
         ></b-form-file>
       </b-form-group>
       <div class="test">
@@ -82,7 +83,7 @@
         </div>
       </div>
     </b-form>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -91,6 +92,7 @@ export default {
   data() {
     return {
       show: true,
+      avancada: true,
       form: {
         campaign: "",
         company: "",

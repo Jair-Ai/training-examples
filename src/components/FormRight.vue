@@ -1,20 +1,38 @@
 <template>
-  <div class="divmaster">
-    <p>{company}</p>
+  <b-container class="divmaster" fluid="sm">
+    <p style="font-weight: 600;">De: {{ company }}</p>
     <hr />
     <p>Para: João</p>
+    <hr />
+    <p>Assunto: {{ subject }}</p>
     <hr />
     <img class="center" :src="imageLink" alt="Logo da Empresa" />
     {{ subjects }}
     <p class="pa">Olá, João</p>
 
     <p class="pa">{{ chosenPhrase }}</p>
-    <div style="text-align: center">
-      <ul>
-        <li class="listNPS" v-for="number in score" :key="number">{{ number }}</li>
+
+    <div>
+      <ul class="float">
+        <li
+          class="listNPS"
+          v-for="(color, i) in score_color"
+          :key="color"
+          :style="{ 'background-color': color }"
+        >{{ i + 1 }}</li>
       </ul>
     </div>
-  </div>
+    <br />
+    <p class="pa2">Vote com um clique</p>
+    <br />
+    <hr />
+    <img
+      class="center2"
+      src="https://onlyask.me/wp-content/uploads/2019/09/only_ask_logo_horizontal@2x-300x60.png"
+      alt="OnlyAsk"
+    />
+    <p class="pa2" style="text-decoration: underline">Descadastrar e-mail</p>
+  </b-container>
 </template>
 
 <script>
@@ -22,7 +40,18 @@ export default {
   name: "FormRight",
   data() {
     return {
-      score: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      score_color: [
+        "#FF4500",
+        "#FF0000",
+        "#FF4500",
+        "#FF8C00",
+        "#FFD700",
+        "#FFDAB9",
+        "#98FB98",
+        "#00FA9A",
+        "#7CFC00",
+        "#3CB371"
+      ]
     };
   },
   props: {
@@ -30,18 +59,30 @@ export default {
       type: String,
       required: true,
       default:
-        "https://onlyask.me/wp-content/uploads/2019/09/only_ask_logo_horizontal@2x-300x60.png"
+        "http://www.promoview.com.br/uploads/2017/06/images/JUNHO/11.06/Unilever_faz_da_inclusao_social_estrategia_de_negocio.jpg"
     },
     chosenPhrase: {
       type: String,
       required: true,
       default: "Qual a chance de voce nos recomendar para alguem?"
+    },
+    company: {
+      type: String,
+      required: true,
+      default: "Unilever"
+    },
+    subject: {
+      type: String,
+      required: true,
+      default: "Pesquisa de satisfação"
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
+$color-simple: #11e9c550;
+$color-simpleText: #16a89060;
 ul {
   margin: 0;
   padding: 0;
@@ -49,12 +90,62 @@ ul {
   list-style: none;
 }
 ul li {
-  padding: 2px 5px;
   display: inline-block;
-  background: #11e9c550;
+  margin-left: 1px;
+  margin-top: 1px;
+  border-radius: 3px;
+  width: 30px;
+  height: 28px;
+  align-content: center;
+  color: white;
+}
+
+ul li:hover {
+  font-size: 1.1rem;
+  animation: pulse 2s infinite;
+}
+
+ul::before {
+  content: "Improvável";
+  position: absolute;
+  margin-top: 30px;
+  font-size: 13px;
+  color: grey;
+}
+
+ul::after {
+  content: "provável";
+  position: absolute;
+  margin-left: -50px;
+  margin-top: 30px;
+  font-size: 13px;
+  color: grey;
+}
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
 }
 .pa {
   text-align: center;
+}
+
+.pa2 {
+  text-align: center;
+  font-size: 0.7rem;
+  color: grey;
+  margin-top: -5px;
 }
 
 .center {
@@ -63,10 +154,24 @@ ul li {
   margin-bottom: 3rem;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
+  width: 35%;
+}
+
+.center2 {
+  display: block;
+  margin-top: 1.6rem;
+  margin-bottom: 1.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
 }
 
 .divmaster {
-  border: dotted #11e9c550;
+  border: 1px solid grey;
+}
+
+hr {
+  margin-top: -15px;
+  margin-bottom: 5px;
 }
 </style>
