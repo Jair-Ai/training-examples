@@ -43,6 +43,11 @@ export default {
   name: "FormRight",
   data() {
     return {
+      file: null,
+      choice: "Qual a chance de voce nos recomendar para alguem?",
+      company: "Unilever",
+      campaign: "Pesquisa de satisfação",
+      ask: "",
       score_color: [
         "#FF0000",
         "#ff1a1a",
@@ -58,36 +63,14 @@ export default {
       ]
     };
   },
-  props: {
-    file: {
-      type: [String, Object, Image],
-      required: true,
-      default:
-        "http://www.promoview.com.br/uploads/2017/06/images/JUNHO/11.06/Unilever_faz_da_inclusao_social_estrategia_de_negocio.jpg"
-    },
-    choice: {
-      type: String,
-      required: true,
-      default: "Qual a chance de voce nos recomendar para alguem?"
-    },
-    company: {
-      type: String,
-      required: true,
-      default: "Unilever"
-    },
-    campaign: {
-      type: String,
-      required: true,
-      default: "Pesquisa de satisfação"
-    },
-    ask: {
-      type: String
-    }
-  },
   mounted() {
     EventBus.$on("DataSend", valor => {
       this[valor[0]] = valor[1];
+      console.log(`Como chega a inforcação ${valor[0]}`);
     });
+      EventBus.$on("FileSend", valor => {
+        this.file = valor;
+      });
   }
 };
 </script>

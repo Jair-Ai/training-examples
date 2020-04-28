@@ -60,7 +60,7 @@
         <b-form-select
           id="input-4"
           v-model="form.choice"
-          @keyup="generico($event, 'choice')"
+          @change="generico($event, 'choice')"
           :options="comment"
           required
           placeholder="Amigo"
@@ -78,7 +78,7 @@
           id="input-5"
           v-model="form.file"
           :state="Boolean(form.file)"
-          @keyup="generico($event, 'file')"
+          @change="onFileSelected($event, 'file')"
           placeholder="Escolha ou arraste uma imagem"
           required
           teste
@@ -99,7 +99,6 @@
 
 <script>
 import { EventBus } from "../main";
-console.log(EventBus);
 
 export default {
   name: "form-left",
@@ -131,8 +130,11 @@ export default {
     },
 
     generico(event, atribute) {
-      console.log(event.target.value);
-      EventBus.$emit("DataSend", [atribute, event.target.value]);
+      console.log(event);
+      EventBus.$emit("DataSend", [atribute, event]);
+    },
+    onFileSelected(event) {
+      EventBus.$emit("FileSend", event.target.files[0])
     },
 
     onReset(evt) {
