@@ -30,7 +30,7 @@
           @keyup="generico($event, 'company')"
           type="text"
           required
-          placeholder="MInha empresa"
+          placeholder="Minha empresa"
           teste
         ></b-form-input>
       </b-form-group>
@@ -131,10 +131,14 @@ export default {
 
     generico(event, atribute) {
       console.log(event);
-      EventBus.$emit("DataSend", [atribute, event]);
+      if (atribute == "choice") EventBus.$emit("DataSend", [atribute, event]);
+      else EventBus.$emit("DataSend", [atribute, event.target.value]);
     },
     onFileSelected(event) {
-      EventBus.$emit("FileSend", event.target.files[0])
+      const file = event.target.files[0];
+      this.url = URL.createObjectURL(file);
+      console.log(this.url);
+      EventBus.$emit("FileSend", this.url);
     },
 
     onReset(evt) {

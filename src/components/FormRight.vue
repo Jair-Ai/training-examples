@@ -49,17 +49,17 @@ export default {
       campaign: "Pesquisa de satisfação",
       ask: "",
       score_color: [
-        "#FF0000",
-        "#ff1a1a",
-        "#FF4500",
-        "#FF8C00",
-        "#FFD700",
-        "#FFDAB9",
-        "#98FB98",
-        "#00FA9A",
-        "#7CFC00",
-        "#3CB371",
-        "#003300"
+        "#ef778d",
+        "#f19587",
+        "#f2a484",
+        "#f2b280",
+        "#f3c17d",
+        "#f4d07a",
+        "#efe77b",
+        "#d8e97d",
+        "#bde37f",
+        "#a5dd81",
+        "#91d683"
       ]
     };
   },
@@ -68,9 +68,9 @@ export default {
       this[valor[0]] = valor[1];
       console.log(`Como chega a inforcação ${valor[0]}`);
     });
-      EventBus.$on("FileSend", valor => {
-        this.file = valor;
-      });
+    EventBus.$on("FileSend", valor => {
+      this.file = valor;
+    });
   }
 };
 </script>
@@ -83,6 +83,7 @@ ul {
   padding: 0;
   text-align: center;
   list-style: none;
+  font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
 }
 ul li {
   display: inline-block;
@@ -90,9 +91,11 @@ ul li {
   margin-top: 1px;
   border-radius: 3px;
   width: 30px;
-  height: 28px;
+  height: 24x;
   align-content: center;
   color: white;
+  font-family: Helvetica Neue,Helvetica, Arial,sans-serif;
+  font-weight: bold;
 }
 
 ul li:hover {
