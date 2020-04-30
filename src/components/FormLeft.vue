@@ -3,7 +3,7 @@
     <b-form @submit="onSubmit" @reset="onReset" v-if="show" float-right>
       <b-form-group
         id="input-group-1"
-        label="Nome da campanha"
+        label="Assunto"
         label-for="input-1"
         description="Campo obrigatório"
       >
@@ -62,6 +62,7 @@
           v-model="form.choice"
           @change="generico($event, 'choice')"
           :options="comment"
+          :selected="comment[3]"
           required
           placeholder="Amigo"
           teste
@@ -117,7 +118,6 @@ export default {
         { text: "Escolha um", value: null },
         "Qual o principal motivo para a sua nota?",
         "O que motivou sua nota?",
-        "O que poderíamos fazer para melhorar?",
         "Por que?"
       ]
     };

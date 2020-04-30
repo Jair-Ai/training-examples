@@ -83,7 +83,7 @@ ul {
   padding: 0;
   text-align: center;
   list-style: none;
-  font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 ul li {
   display: inline-block;
@@ -94,7 +94,7 @@ ul li {
   height: 24x;
   align-content: center;
   color: white;
-  font-family: Helvetica Neue,Helvetica, Arial,sans-serif;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   font-weight: bold;
 }
 
