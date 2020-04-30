@@ -3,7 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
-
+import { VueCsvImport } from "vue-csv-import";
 // Install BootstrapVue
 Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
@@ -16,7 +16,8 @@ Vue.config.productionTip = false;
 export const EventBus = new Vue();
 
 new Vue({
+  components: { VueCsvImport },
   router,
   store,
-  render: (h) => h(App),
+  render: h => h(App)
 }).$mount("#app");

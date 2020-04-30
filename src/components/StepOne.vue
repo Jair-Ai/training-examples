@@ -20,7 +20,7 @@
     </b-row>
   </b-container>
 </template>
-
+nao fica
 <script>
 import FormLeft from "./FormLeft.vue";
 import FormRight from "./FormRight.vue";
