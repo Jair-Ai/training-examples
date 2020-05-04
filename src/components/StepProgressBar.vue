@@ -6,25 +6,30 @@
           :class="[step >= i ? 'active' : 'none']"
           v-for="i in lenght"
           :key="i"
-        >
-          Step {{ i }}
-        </li>
+          @click="stepClicked(i)"
+        >Step {{ i }}</li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+import { EventBus } from "../main";
 export default {
   name: "Step_Progress_Bar",
   props: {
-    lenght:{
+    lenght: {
       type: Number,
       default: 3
     },
     step: {
       type: Number,
       default: 2
+    }
+  },
+  methods: {
+    stepClicked(step) {
+      EventBus.$emit("CurrentStep", step);
     }
   }
 };
@@ -44,7 +49,8 @@ export default {
   width: 20%;
   position: relative;
   text-align: center;
-  lign-content: center;
+  align-content: center;
+  cursor: pointer;
 }
 
 .progressbar li:before {
@@ -75,7 +81,6 @@ export default {
   text-align: center;
   list-style: none;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-  
 }
 .progressbar li:before {
   content: counter(step);

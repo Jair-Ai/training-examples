@@ -55,7 +55,9 @@
               </template>
 
               <template slot="next" slot-scope="{ load }">
-                <button @click.prevent="load">load!</button>
+                <b-button variant="primary" @click.prevent="load"
+                  >Carregar!</b-button
+                >
               </template>
 
               <template slot="submit" slot-scope="{ submit }">
@@ -81,7 +83,7 @@ import testeCsv from "./testeCsv";
 export default {
   name: "StepTwo",
   components: {
-    testeCsv
+    testeCsv,
   },
   data() {
     return {
@@ -92,20 +94,20 @@ export default {
       fields: [
         {
           key: "Nome",
-          sortable: true
+          sortable: true,
         },
         {
           key: "E-mail",
-          sortable: false
+          sortable: false,
         },
         {
           key: "Telefone",
           label: "telefone",
           sortable: true,
           // Variant applies to the whole column, including the header and footer
-          variant: "danger"
-        }
-      ]
+          variant: "danger",
+        },
+      ],
     };
   },
   methods: {
@@ -119,17 +121,16 @@ export default {
       var reader = FileReader();
       this.table = reader.readAsText(file);
       EventBus.$emit("FileSend", this.table);
-    }
+    },
   },
   mounted() {
     this.dismissCountDown = this.dismissSecs;
-  }
+  },
 };
 </script>
 
 <style>
 .separate {
   padding: 30px;
-
 }
 </style>
