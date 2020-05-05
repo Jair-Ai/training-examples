@@ -9,7 +9,7 @@
     <img class="center" :src="file" alt="Logo da Empresa" />
     <p class="pa">Olá, João</p>
 
-    <p class="pa">{{ choice }}</p>
+    <p class="pa"> Qual a probabilidade de você nos recomendar para um amigo ou {{ choice }}.</p>
 
     <div>
       <ul class="float">
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       file: null,
-      choice: "Qual a chance de voce nos recomendar para alguem?",
+      choice: "familiar",
       company: "Unilever",
       campaign: "Pesquisa de satisfação",
       ask: "",

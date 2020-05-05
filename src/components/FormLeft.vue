@@ -43,8 +43,8 @@
       >
         <b-form-input
           id="input-3"
-          v-model="form.ask"
-          @keyup="generico($event, 'ask')"
+          v-model="form.choice"
+          @keyup="generico($event, 'choice')"
           required
           placeholder="Amigo"
           teste
@@ -59,12 +59,12 @@
       >
         <b-form-select
           id="input-4"
-          v-model="form.choice"
-          @change="generico($event, 'choice')"
+          v-model="form.ask"
+          @change="generico($event, 'ask')"
           :options="comment"
           :selected="comment[3]"
           required
-          placeholder="Amigo"
+          placeholder="familiar"
           teste
         ></b-form-select>
       </b-form-group>
@@ -131,7 +131,7 @@ export default {
 
     generico(event, atribute) {
       console.log(event);
-      if (atribute == "choice") EventBus.$emit("DataSend", [atribute, event]);
+      if (atribute == "ask") EventBus.$emit("DataSend", [atribute, event]);
       else EventBus.$emit("DataSend", [atribute, event.target.value]);
     },
     onFileSelected(event) {

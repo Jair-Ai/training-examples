@@ -7,9 +7,10 @@
       @dismissed="dismissCountDown = 0"
       @dismiss-count-down="countDownChanged"
     >
-      Você ja cadastrou sua pesquisa, agora precisa cadastrar clientes, afinal
-      de que adiantaria uma pesquisa sem clientes! {{ dismissCountDown }}
+      {{ AlertStepTwo }} {{ dismissCountDown }}
     </b-alert>
+
+    <p>{{ textClient }}</p>
     <div>
       <b-tabs content-class="mt-3" fill>
         <b-tab title="Copie e Cole">
@@ -19,13 +20,11 @@
               class="form-control"
               id="textarea"
               v-model="text"
-              placeholder="Enter something..."
+              placeholder="É simples, é só copiar do excell e colar aqui!"
               rows="3"
               max-rows="6"
               @input="print"
             ></textarea>
-
-            <pre class="mt-3 mb-0">{{ text }}</pre>
           </div>
           <div>
             <b-table
@@ -109,9 +108,6 @@
             </div>
           </div>
         </b-tab>
-        <b-tab title="Outra Forma" disabled>
-          <p>I'm a disabled tab!</p>
-        </b-tab>
       </b-tabs>
     </div>
   </b-container>
@@ -128,13 +124,17 @@ export default {
   },
   data() {
     return {
-      dismissSecs: 7,
+      AlertStepTwo:
+        "Você ja cadastrou sua pesquisa, agora precisa cadastrar clientes, afinal de que adiantaria uma pesquisa sem clientes!",
+      dismissSecs: 10,
       dismissCountDown: 0,
       items: [],
       quero: false,
       csv: "",
       text: "",
       toTable: "",
+      textClient:
+        "Voce pode optar por copiar e colar ou Importar um arquivo de clientes.",
       transProps: {
         // Transition name
         name: "flip-list"
@@ -215,8 +215,33 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .separate {
   padding: 30px;
+}
+
+* *::before,
+*::after {
+  box-sizing: border-box;
+}
+
+p {
+  position: relative;
+  overflow: hidden;
+  font-weight: 700;
+
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  text-align: center;
+}
+
+p::first-letter {
+  color: Green;
+  font-size: xx-large;
+}
+
+p:hover::after {
+  transform: rotete(0) translate(0, 0);
 }
 </style>
