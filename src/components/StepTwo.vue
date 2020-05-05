@@ -29,10 +29,10 @@
           </div>
           <div>
             <b-table
+              v-if="tableone"
               striped
               hover
               :items="toTable"
-              :fields="fields"
               small
               primary-key="a"
               :tbody-transition-props="transProps"
@@ -141,6 +141,7 @@ export default {
       },
       perPage: 20,
       currentPage: 1,
+      tableone: false,
       fields: [
         {
           key: "Nome",
@@ -158,7 +159,8 @@ export default {
           //variant: "danger"
         }
       ],
-      fieldsPaste: []
+      fieldsPaste: [],
+      filds2: ""
     };
   },
   computed: {
@@ -179,8 +181,10 @@ export default {
       }
       console.log(clipRows[0].length);
       console.log(clipRows);
+      this.fields2 = clipRows[0];
       for (let i = 1; i < clipRows.length; i++) {
         var item = {};
+
         for (let j = 0; j < clipRows[0].length; j++) {
           item[clipRows[0][j]] = clipRows[i][j];
         }
@@ -189,9 +193,9 @@ export default {
       }
 
       console.log("Agora vem o Json");
-      this.toTable = JSON.stringify(jsonteste);
-      console.log(this.toTable);
-
+      this.toTable = jsonteste;
+      console.log(JSON.stringify(jsonteste));
+      this.tableone = true;
     },
     onFileSelected() {
       console.log(this.$refs.csv.selectedFile);
