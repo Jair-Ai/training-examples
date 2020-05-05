@@ -2,15 +2,8 @@
   <div>
     <div class="form">
       <div>
-        <div
-          class="form-check form-group csv-import-checkbox"
-          v-if="headers === null"
-        >
-          <slot
-            name="hasHeaders"
-            :headers="hasHeaders"
-            :toggle="toggleHasHeaders"
-          >
+        <div class="form-check form-group csv-import-checkbox" v-if="headers === null">
+          <slot name="hasHeaders" :headers="hasHeaders" :toggle="toggleHasHeaders">
             <input
               :class="checkboxClass"
               type="checkbox"
@@ -18,9 +11,7 @@
               :value="hasHeaders"
               @change="toggleHasHeaders"
             />
-            <label class="form-check-label" :for="makeId('hasHeaders')">
-              File Has Headers
-            </label>
+            <label class="form-check-label" :for="makeId('hasHeaders')">File Has Headers</label>
           </slot>
         </div>
         <div class="form-group csv-import-file">
@@ -28,14 +19,12 @@
             ref="csv"
             accept=".csv"
             type="file"
-            @change.prevent="validFileMimeType"
+            @change.prevent="load"
             :class="inputClass"
             name="csv"
           />
           <slot name="error" v-if="showErrorMessage">
-            <div class="invalid-feedback d-block">
-              File type is invalid
-            </div>
+            <div class="invalid-feedback d-block">File type is invalid</div>
           </slot>
         </div>
         <div class="leftButton form-group" v-if="loadbutton">
@@ -45,9 +34,7 @@
               :disabled="disabledNextButton"
               :class="buttonClass"
               @click.prevent="load"
-            >
-              {{ loadBtnText }}
-            </button>
+            >{{ loadBtnText }}</button>
           </slot>
         </div>
       </div>
@@ -71,12 +58,7 @@
                     :name="`csv_uploader_map_${key}`"
                     v-model="map[field.key]"
                   >
-                    <option
-                      v-for="(column, key) in firstRow"
-                      :key="key"
-                      :value="key"
-                      >{{ column }}</option
-                    >
+                    <option v-for="(column, key) in firstRow" :key="key" :value="key">{{ column }}</option>
                   </select>
                 </td>
               </tr>
@@ -108,59 +90,59 @@ export default {
   props: {
     value: Array,
     url: {
-      type: String,
+      type: String
     },
     mapFields: {
-      required: true,
+      required: true
     },
     callback: {
       type: Function,
-      default: () => ({}),
+      default: () => ({})
     },
     catch: {
       type: Function,
-      default: () => ({}),
+      default: () => ({})
     },
     finally: {
       type: Function,
-      default: () => ({}),
+      default: () => ({})
     },
     parseConfig: {
       type: Object,
       default() {
         return {};
-      },
+      }
     },
     headers: {
-      default: null,
+      default: null
     },
     loadBtnText: {
       type: String,
-      default: "Next",
+      default: "Next"
     },
     submitBtnText: {
       type: String,
-      default: "Submit",
+      default: "Submit"
     },
     tableClass: {
       type: String,
-      default: "table",
+      default: "table"
     },
     checkboxClass: {
       type: String,
-      default: "form-check-input",
+      default: "form-check-input"
     },
     buttonClass: {
       type: String,
-      default: "btn btn-primary",
+      default: "btn btn-primary"
     },
     inputClass: {
       type: String,
-      default: "form-control-file",
+      default: "form-control-file"
     },
     validation: {
       type: Boolean,
-      default: true,
+      default: true
     },
     fileMimeTypes: {
       type: Array,
@@ -169,15 +151,15 @@ export default {
           "text/csv",
           "text/x-csv",
           "application/vnd.ms-excel",
-          "text/plain",
+          "text/plain"
         ];
-      },
-    },
+      }
+    }
   },
 
   data: () => ({
     form: {
-      csv: null,
+      csv: null
     },
     fieldsToMap: [],
     map: {},
@@ -186,24 +168,24 @@ export default {
     sample: null,
     isValidFileMimeType: false,
     fileSelected: false,
-    loadbutton: true,
+    loadbutton: true
   }),
 
   created() {
     this.hasHeaders = this.headers;
 
     if (isArray(this.mapFields)) {
-      this.fieldsToMap = map(this.mapFields, (item) => {
+      this.fieldsToMap = map(this.mapFields, item => {
         return {
           key: item,
-          label: item,
+          label: item
         };
       });
     } else {
       this.fieldsToMap = map(this.mapFields, (label, key) => {
         return {
           key: key,
-          label: label,
+          label: label
         };
       });
     }
@@ -218,13 +200,13 @@ export default {
       if (this.url) {
         axios
           .post(this.url, this.form)
-          .then((response) => {
+          .then(response => {
             _this.callback(response);
           })
-          .catch((response) => {
+          .catch(response => {
             _this.catch(response);
           })
-          .finally((response) => {
+          .finally(response => {
             _this.finally(response);
           });
       } else {
@@ -236,7 +218,7 @@ export default {
 
       let csv = this.hasHeaders ? drop(this.csv) : this.csv;
 
-      return map(csv, (row) => {
+      return map(csv, row => {
         let newRow = {};
 
         forEach(_this.map, (column, field) => {
@@ -246,6 +228,7 @@ export default {
         return newRow;
       });
     },
+
     validFileMimeType() {
       let file = this.$refs.csv.selectedFile;
       const mimeType =
@@ -264,10 +247,15 @@ export default {
     validateMimeType(type) {
       return this.fileMimeTypes.indexOf(type) > -1;
     },
+    onFileChange() {
+      var _this = this;
+      console.log(_this.$refs.csv["$refs"]["input"].files[0]);
+    },
+
     load() {
       const _this = this;
       console.log(_this);
-      this.readFile((output) => {
+      this.readFile(output => {
         _this.sample = get(
           Papa.parse(output, { preview: 2, skipEmptyLines: true }),
           "data"
@@ -276,7 +264,7 @@ export default {
       });
     },
     readFile(callback) {
-      let file = this.$refs.csv.selectedFile;
+      let file = this.$refs.csv["$refs"]["input"].files[0];
 
       if (file) {
         let reader = new FileReader();
@@ -292,7 +280,7 @@ export default {
     },
     makeId(id) {
       return `${id}${this._uid}`;
-    },
+    }
   },
   watch: {
     map: {
@@ -311,8 +299,8 @@ export default {
             this.submit();
           }
         }
-      },
-    },
+      }
+    }
   },
   computed: {
     firstRow() {
@@ -323,8 +311,8 @@ export default {
     },
     disabledNextButton() {
       return !this.isValidFileMimeType;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
