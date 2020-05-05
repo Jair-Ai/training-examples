@@ -2,8 +2,15 @@
   <div>
     <div class="form">
       <div>
-        <div class="form-check form-group csv-import-checkbox" v-if="headers === null">
-          <slot name="hasHeaders" :headers="hasHeaders" :toggle="toggleHasHeaders">
+        <div
+          class="form-check form-group csv-import-checkbox"
+          v-if="headers === null"
+        >
+          <slot
+            name="hasHeaders"
+            :headers="hasHeaders"
+            :toggle="toggleHasHeaders"
+          >
             <input
               :class="checkboxClass"
               type="checkbox"
@@ -11,7 +18,9 @@
               :value="hasHeaders"
               @change="toggleHasHeaders"
             />
-            <label class="form-check-label" :for="makeId('hasHeaders')">File Has Headers</label>
+            <label class="form-check-label" :for="makeId('hasHeaders')"
+              >File Has Headers</label
+            >
           </slot>
         </div>
         <div class="form-group csv-import-file">
@@ -34,7 +43,9 @@
               :disabled="disabledNextButton"
               :class="buttonClass"
               @click.prevent="load"
-            >{{ loadBtnText }}</button>
+            >
+              {{ loadBtnText }}
+            </button>
           </slot>
         </div>
       </div>
@@ -58,7 +69,12 @@
                     :name="`csv_uploader_map_${key}`"
                     v-model="map[field.key]"
                   >
-                    <option v-for="(column, key) in firstRow" :key="key" :value="key">{{ column }}</option>
+                    <option
+                      v-for="(column, key) in firstRow"
+                      :key="key"
+                      :value="key"
+                      >{{ column }}</option
+                    >
                   </select>
                 </td>
               </tr>
@@ -121,6 +137,10 @@ export default {
       type: String,
       default: "Next"
     },
+    loadbutton: {
+      type: Boolean,
+      default: false
+    },
     submitBtnText: {
       type: String,
       default: "Submit"
@@ -168,8 +188,7 @@ export default {
     csv: null,
     sample: null,
     isValidFileMimeType: false,
-    fileSelected: false,
-    loadbutton: true
+    fileSelected: false
   }),
 
   created() {
