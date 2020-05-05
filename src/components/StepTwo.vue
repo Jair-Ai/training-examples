@@ -26,7 +26,11 @@
               ref="csv"
             ></b-form-file>
 
-            <testeCsv v-model="csv" url="/hello" :map-fields="['Nome', 'E-mail', 'Telefone']">
+            <testeCsv
+              v-model="csv"
+              url="http://localhost:8080/PlotCsv"
+              :map-fields="['Nome', 'E-mail', 'Telefone']"
+            >
               <template slot="hasHeaders" slot-scope="{ headers, toggle }">
                 <label>
                   <input type="checkbox" id="hasHeaders" :value="headers" @change="toggle" />

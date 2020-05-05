@@ -85,6 +85,7 @@ import { drop, every, forEach, get, isArray, map, set } from "lodash";
 import axios from "axios";
 import Papa from "papaparse";
 import mimeTypes from "mime-types";
+import { EventBus } from "../main";
 
 export default {
   props: {
@@ -195,8 +196,8 @@ export default {
     submit() {
       const _this = this;
       this.form.csv = this.buildMappedCsv();
-      this.$emit("input", this.form.csv);
-
+      EventBus.$emit("inputCsv", this.form.csv);
+      console.log(this.form.csv);
       if (this.url) {
         axios
           .post(this.url, this.form)

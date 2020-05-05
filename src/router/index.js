@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Forms from "../views/FormsHandler.vue";
+import PlotCsv from "../views/PlotCsv.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -16,8 +17,9 @@ const routes = [
     component: Forms,
   },
   {
-    path: "/hello",
-    name: "Forms",
+    path: "/PlotCsv",
+    name: "PlotCsv",
+    component: PlotCsv,
   },
 
   {
