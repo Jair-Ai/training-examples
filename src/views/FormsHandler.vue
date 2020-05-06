@@ -1,16 +1,16 @@
 <template>
   <b-container fluid="xl">
     <b-row>
-      <StepProgressBar></StepProgressBar>
+      <StepProgressBar :lenght="stepsTo"></StepProgressBar>
     </b-row>
     <br />
     <br />
     <br />
     <hr />
     <b-row>
-      <StepOne v-if="componentActive === 1"></StepOne>
-      <StepTwo v-if="componentActive === 2"></StepTwo>
-      <StepThree v-if="componentActive === 3"></StepThree>
+      <StepOne v-if="componentActive === 0"></StepOne>
+      <StepTwo v-if="componentActive === 1"></StepTwo>
+      <StepThree v-if="componentActive === 2"></StepThree>
     </b-row>
   </b-container>
 </template>
@@ -25,7 +25,8 @@ export default {
   name: "Formshandler",
   data() {
     return {
-      componentActive: 1
+      componentActive: 0,
+      stepsTo: ["Pesquisa", "Clientes", "Data de Envio", "Confira"]
     };
   },
   components: {
@@ -35,8 +36,8 @@ export default {
     StepThree
   },
   mounted() {
-    EventBus.$on("CurrentStep", step => {
-      this.componentActive = step;
+    EventBus.$on("StepDone", valor => {
+      this.componentActive = valor + 1;
     });
   }
 };

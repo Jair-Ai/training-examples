@@ -9,7 +9,9 @@
     <img class="center" :src="file" alt="Logo da Empresa" />
     <p class="pa">Olá, João</p>
 
-    <p class="pa"> Qual a probabilidade de você nos recomendar para um amigo ou {{ choice }}.</p>
+    <p class="pa">
+      Qual a probabilidade de você nos recomendar para um amigo ou {{ choice }}.
+    </p>
 
     <div>
       <ul class="float">
@@ -59,19 +61,18 @@ export default {
         "#d8e97d",
         "#bde37f",
         "#a5dd81",
-        "#91d683"
-      ]
+        "#91d683",
+      ],
     };
   },
   mounted() {
-    EventBus.$on("DataSend", valor => {
+    EventBus.$on("DataSend", (valor) => {
       this[valor[0]] = valor[1];
-      console.log(`Como chega a inforcação ${valor[0]}`);
     });
-    EventBus.$on("FileSend", valor => {
+    EventBus.$on("FileSend", (valor) => {
       this.file = valor;
     });
-  }
+  },
 };
 </script>
 

@@ -107,19 +107,20 @@ export default {
     return {
       show: true,
       avancada: true,
+      done: false,
       form: {
         campaign: "",
         company: "",
         ask: "",
         file: null,
-        choice: null
+        choice: null,
       },
       comment: [
         { text: "Escolha um", value: null },
         "Qual o principal motivo para a sua nota?",
         "O que motivou sua nota?",
-        "Por que?"
-      ]
+        "Por que?",
+      ],
     };
   },
 
@@ -127,6 +128,8 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       alert(JSON.stringify(this.form));
+      EventBus.$emit("CurrentStep", 1);
+      EventBus.$emit("StepDone", 0);
     },
 
     generico(event, atribute) {
@@ -155,8 +158,8 @@ export default {
         this.$nextTick(() => {
           this.show = true;
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

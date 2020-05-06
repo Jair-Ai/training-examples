@@ -4,10 +4,12 @@
       <ul class="progressbar">
         <li
           :class="[step >= i ? 'active' : 'none']"
-          v-for="i in lenght"
+          v-for="(item, i) in lenght"
           :key="i"
           @click="stepClicked(i)"
-        >Step {{ i }}</li>
+        >
+          {{ item }}
+        </li>
       </ul>
     </div>
   </div>
@@ -19,27 +21,42 @@ export default {
   name: "Step_Progress_Bar",
   props: {
     lenght: {
-      type: Number,
-      default: 3
+      type: Array,
+      default() {
+        return [];
+      },
+      validator(val) {
+        return val && val.length > 0;
+      },
     },
     step: {
       type: Number,
-      default: 2
-    }
+      default: -1,
+    },
   },
   methods: {
     stepClicked(step) {
       EventBus.$emit("CurrentStep", step);
-    }
-  }
+    },
+  },
+  mounted() {
+    EventBus.$on("StepDone", (stepDone) => {
+      this.step = stepDone;
+    });
+  },
 };
 </script>
 
-<style>
+<style lang="scss">
 .container {
   width: 100%;
   position: absolute;
   z-index: 1;
+  text-align: center;
+}
+
+.progressbar {
+  text-align: center;
 }
 
 .progressbar li {
@@ -114,6 +131,11 @@ export default {
 }
 
 .progressbar li.active:before {
+  content: "\f00c";
+  content: "\2713;";
+  content: "\10003";
+  content: "\10004";
+  content: "\2713";
   border-color: #3aac5d;
   background: #3aac5d;
   color: white;
@@ -122,9 +144,10 @@ export default {
 .progressbar li.active + li:after {
   background: #3aac5d;
 }
-.progressbar li.active + li:before {
-  border-color: #3aac5d;
-  background: #3aac5d;
-  color: white;
+
+@media (max-width: 643px) {
+  .progressbar {
+    display: flex;
+  }
 }
 </style>

@@ -107,63 +107,63 @@ export default {
   props: {
     value: Array,
     url: {
-      type: String
+      type: String,
     },
     mapFields: {
-      required: true
+      required: true,
     },
     callback: {
       type: Function,
-      default: () => ({})
+      default: () => ({}),
     },
     catch: {
       type: Function,
-      default: () => ({})
+      default: () => ({}),
     },
     finally: {
       type: Function,
-      default: () => ({})
+      default: () => ({}),
     },
     parseConfig: {
       type: Object,
       default() {
         return {};
-      }
+      },
     },
     headers: {
-      default: null
+      default: null,
     },
     loadBtnText: {
       type: String,
-      default: "Next"
+      default: "Next",
     },
     loadbutton: {
       type: Boolean,
-      default: false
+      default: false,
     },
     submitBtnText: {
       type: String,
-      default: "Submit"
+      default: "Submit",
     },
     tableClass: {
       type: String,
-      default: "table"
+      default: "table",
     },
     checkboxClass: {
       type: String,
-      default: "form-check-input"
+      default: "form-check-input",
     },
     buttonClass: {
       type: String,
-      default: "btn btn-primary"
+      default: "btn btn-primary",
     },
     inputClass: {
       type: String,
-      default: "form-control-file"
+      default: "form-control-file",
     },
     validation: {
       type: Boolean,
-      default: true
+      default: true,
     },
     fileMimeTypes: {
       type: Array,
@@ -172,15 +172,15 @@ export default {
           "text/csv",
           "text/x-csv",
           "application/vnd.ms-excel",
-          "text/plain"
+          "text/plain",
         ];
-      }
-    }
+      },
+    },
   },
 
   data: () => ({
     form: {
-      csv: null
+      csv: null,
     },
     fieldsToMap: [],
     map: {},
@@ -188,24 +188,24 @@ export default {
     csv: null,
     sample: null,
     isValidFileMimeType: false,
-    fileSelected: false
+    fileSelected: false,
   }),
 
   created() {
     this.hasHeaders = this.headers;
 
     if (isArray(this.mapFields)) {
-      this.fieldsToMap = map(this.mapFields, item => {
+      this.fieldsToMap = map(this.mapFields, (item) => {
         return {
           key: item,
-          label: item
+          label: item,
         };
       });
     } else {
       this.fieldsToMap = map(this.mapFields, (label, key) => {
         return {
           key: key,
-          label: label
+          label: label,
         };
       });
     }
@@ -216,17 +216,16 @@ export default {
       const _this = this;
       this.form.csv = this.buildMappedCsv();
       EventBus.$emit("inputCsv", this.form.csv);
-      console.log(this.form.csv);
       if (this.url) {
         axios
           .post(this.url, this.form)
-          .then(response => {
+          .then((response) => {
             _this.callback(response);
           })
-          .catch(response => {
+          .catch((response) => {
             _this.catch(response);
           })
-          .finally(response => {
+          .finally((response) => {
             _this.finally(response);
           });
       } else {
@@ -238,7 +237,7 @@ export default {
 
       let csv = this.hasHeaders ? drop(this.csv) : this.csv;
 
-      return map(csv, row => {
+      return map(csv, (row) => {
         let newRow = {};
 
         forEach(_this.map, (column, field) => {
@@ -275,7 +274,7 @@ export default {
     load() {
       const _this = this;
       console.log(_this);
-      this.readFile(output => {
+      this.readFile((output) => {
         _this.sample = get(
           Papa.parse(output, { preview: 2, skipEmptyLines: true }),
           "data"
@@ -300,7 +299,7 @@ export default {
     },
     makeId(id) {
       return `${id}${this._uid}`;
-    }
+    },
   },
   watch: {
     map: {
@@ -319,8 +318,8 @@ export default {
             this.submit();
           }
         }
-      }
-    }
+      },
+    },
   },
   computed: {
     firstRow() {
@@ -331,8 +330,8 @@ export default {
     },
     disabledNextButton() {
       return !this.isValidFileMimeType;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
