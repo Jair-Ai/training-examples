@@ -7,9 +7,7 @@
           v-for="(item, i) in lenght"
           :key="i"
           @click="stepClicked(i)"
-        >
-          {{ item }}
-        </li>
+        >{{ item }}</li>
       </ul>
     </div>
   </div>
@@ -27,23 +25,23 @@ export default {
       },
       validator(val) {
         return val && val.length > 0;
-      },
+      }
     },
     step: {
       type: Number,
-      default: -1,
-    },
+      default: -1
+    }
   },
   methods: {
     stepClicked(step) {
       EventBus.$emit("CurrentStep", step);
-    },
+    }
   },
   mounted() {
-    EventBus.$on("StepDone", (stepDone) => {
+    EventBus.$on("StepDone", stepDone => {
       this.step = stepDone;
     });
-  },
+  }
 };
 </script>
 
