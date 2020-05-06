@@ -39,6 +39,10 @@ export default {
     EventBus.$on("StepDone", valor => {
       this.componentActive = valor + 1;
     });
+
+    EventBus.$on("CurrentStep", valor => {
+      this.componentActive = valor;
+    });
   }
 };
 </script>
