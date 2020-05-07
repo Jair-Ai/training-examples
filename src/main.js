@@ -6,6 +6,7 @@ import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import { VueCsvImport } from "vue-csv-import";
 import { Datetime } from "vue-datetime";
 import { Settings } from "luxon";
+import * as Yup from "yup";
 
 Settings.defaultLocale = "pt-Br";
 Vue.use(Datetime);
@@ -21,9 +22,22 @@ import "vue-datetime/dist/vue-datetime.css";
 Vue.config.productionTip = false;
 export const EventBus = new Vue();
 
+const emailValidator = function(arraytoValidate) {
+  const yupValidator = Yup.string()
+    .email()
+    .required();
+
+  let validTable = arraytoValidate.filter(element => {
+    return yupValidator.isValidSync(element.email);
+  });
+  console.log(validTable);
+};
+
+export { emailValidator };
+
 new Vue({
   components: { VueCsvImport, Datetime },
   router,
   store,
-  render: (h) => h(App),
+  render: h => h(App)
 }).$mount("#app");

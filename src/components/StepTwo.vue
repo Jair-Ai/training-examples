@@ -38,6 +38,9 @@
               :per-page="perPage"
               :current-page="currentPage"
             ></b-table>
+            <b-button v-if="tableone" type="submit" variant="primary"
+              >Salvar e avançar</b-button
+            >
           </div>
         </b-tab>
         <b-tab title="Importe em Formato Csv" active>
@@ -110,13 +113,21 @@
         </b-tab>
       </b-tabs>
     </div>
+    <div class="botoes" v-if="everythingOK">
+      <div style="float: left;">
+        <b-button type="reset" variant="danger">Limpar</b-button>
+      </div>
+      <div class="float-right">
+        <b-button type="submit" variant="primary">Salvar e avançar</b-button>
+      </div>
+    </div>
   </b-container>
 </template>
 
 <script>
 import { EventBus } from "../main";
 import testeCsv from "./testeCsv";
-
+import { emailValidator } from "../main";
 export default {
   name: "StepTwo",
   components: {
@@ -142,6 +153,7 @@ export default {
       perPage: 20,
       currentPage: 1,
       tableone: false,
+      everythingOK: true,
       fields: [
         {
           key: "Nome",
@@ -196,6 +208,7 @@ export default {
       this.toTable = jsonteste;
       console.log(JSON.stringify(jsonteste));
       this.tableone = true;
+      emailValidator(this.toTable);
     },
     onFileSelected() {
       console.log(this.$refs.csv.selectedFile);
@@ -216,6 +229,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.botoes {
+  display: inline;
+  overflow: auto;
+  white-space: nowrap;
+  margin: 0px auto;
+}
+
 .separate {
   padding: 30px;
 }
