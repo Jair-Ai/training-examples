@@ -1,8 +1,9 @@
 <template>
   <b-container fluid>
-    <b-row>
+    <b-row md="12" cols="1">
       <textarea
         class="form-control"
+        style="margin-bottom: 50px; margin-top: 20px;"
         id="textarea"
         v-model="text"
         placeholder="É simples, é só copiar do excell e colar aqui!"
@@ -11,15 +12,14 @@
         @input="print"
       ></textarea>
     </b-row>
-    <b-row>
-      <b-col sm="8" md="5" class="my-2">
+    <b-row md="12" cols="2">
+      <b-col>
         <b-form-group
           inline
           label="Filtro"
-          label-cols-sm="2"
+          label-cols-sm="1"
           label-align-sm="left"
           label-size="sm"
-          class="mb-2 mr-sm-2 mb-sm-0"
           label-for="filterInput"
         >
           <b-input-group size="sm">
@@ -30,16 +30,18 @@
               placeholder="Digite aqui para buscar"
             ></b-form-input>
             <b-input-group-append>
-              <b-button :disabled="!filter" @click="filter = ''">Limpar</b-button>
+              <b-button :disabled="!filter" @click="filter = ''"
+                >Limpar</b-button
+              >
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
       </b-col>
-      <b-col sm="4" md="7" class="my-1">
+      <b-col>
         <b-pagination
           v-if="rows >= perPage"
           v-model="currentPage"
-          :total-rows="totalRows"
+          :total-rows="rows"
           :per-page="perPage"
           aria-controls="my-table"
           align="fill"
@@ -50,20 +52,19 @@
     </b-row>
     <b-row>
       <b-table
-        v-if="tableone"
         striped
         hover
         :items="toTableCP"
+        :fields="fields"
         small
+        primary-key="a"
+        :tbody-transition-props="transProps"
         :per-page="perPage"
         :current-page="currentPage"
         :filter="filter"
         :filterIncludedFields="filterOn"
         @filtered="onFiltered"
       >
-        <template v-slot:head(Nome)="data">
-          <span class="text-info">{{ data.label.toUpperCase() }}</span>
-        </template>
       </b-table>
     </b-row>
   </b-container>
@@ -76,14 +77,12 @@ export default {
   data() {
     return {
       text: "",
-      toTableC: [],
+      toTableCP: [],
       perPage: 20,
       currentPage: 1,
-      items: [],
       tableone: false,
       filter: null,
       filtersOn: [],
-      totalRows: 1,
       fields: [
         {
           key: "Nome",
@@ -99,8 +98,6 @@ export default {
           key: "Telefone",
           label: "Telefone",
           sortable: true
-          // Variant applies to the whole column, including the header and footer
-          //variant: "danger"
         }
       ]
     };
@@ -109,18 +106,17 @@ export default {
     transProps: {}
   },
   computed: {
-    sortOptions() {
-      // Create an options list from our fields
-      return this.fields
-        .filter(f => f.sortable)
-        .map(f => {
-          return { text: f.label, value: f.key };
-        });
+    rows() {
+      if (this.filter <= 0) {
+        return this.toTableCP.length;
+      } else {
+        return 1;
+      }
     }
   },
   mounted() {
     // Set the initial number of items
-    this.totalRows = this.items.length;
+    this.rows = this.toTableCP.length;
   },
 
   methods: {
@@ -161,7 +157,7 @@ export default {
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
-      this.totalRows = filteredItems.length;
+      this.rows = filteredItems.length;
       this.currentPage = 1;
     }
   }
