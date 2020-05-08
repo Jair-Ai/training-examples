@@ -22,18 +22,31 @@ import "vue-datetime/dist/vue-datetime.css";
 Vue.config.productionTip = false;
 export const EventBus = new Vue();
 
-const emailValidator = function(arraytoValidate) {
+const emailValidator = async function(arraytoValidate) {
+  const yupValidator = Yup.string()
+    .email()
+    .required();
+
+  return arraytoValidate.filter(element =>
+    yupValidator.isValidSync(element.email)
+  );
+};
+
+const emailValidatorNot = function(arraytoValidate) {
   const yupValidator = Yup.string()
     .email()
     .required();
 
   let validTable = arraytoValidate.filter(element => {
-    return yupValidator.isValidSync(element.email);
+    return !yupValidator.isValidSync(element.email);
   });
   console.log(validTable);
 };
 
+
+
 export { emailValidator };
+export { emailValidatorNot };
 
 const fields = [
   {

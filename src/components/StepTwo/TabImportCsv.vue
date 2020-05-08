@@ -57,13 +57,13 @@
         >
           <b-input-group size="sm">
             <b-form-input
-              v-model="filter"
+              v-model="filters"
               type="search"
               id="filterInput"
               placeholder="Digite aqui para buscar"
             ></b-form-input>
             <b-input-group-append>
-              <b-button :disabled="!filter" @click="filter = ''"
+              <b-button :disabled="!filters" @click="filters = ''"
                 >Limpar</b-button
               >
             </b-input-group-append>
@@ -94,7 +94,7 @@
         :tbody-transition-props="transProps"
         :per-page="perPage"
         :current-page="currentPage"
-        :filter="filter"
+        :filter="filters"
         :filterIncludedFields="filterOn"
         @filtered="onFiltered"
       ></b-table>
@@ -111,6 +111,9 @@ export default {
   components: {
     testeCsv
   },
+  props: {
+    transProps: {}
+  },
   data() {
     return {
       items: [],
@@ -121,9 +124,8 @@ export default {
       currentPage: 1,
       tableone: false,
       everythingOK: true,
-      filter: null,
+      filters: null,
       filtersOn: [],
-      totalRows: 1,
       fields: [
         {
           key: "Nome",
@@ -145,7 +147,7 @@ export default {
   },
   computed: {
     rows() {
-      if (this.filter <= 0) {
+      if (this.filters <= 0) {
         return this.items.length;
       } else {
         return 1;

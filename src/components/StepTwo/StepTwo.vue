@@ -6,16 +6,17 @@
       variant="info"
       @dismissed="dismissCountDown = 0"
       @dismiss-count-down="countDownChanged"
-    >{{ AlertStepTwo }} {{ dismissCountDown }}</b-alert>
+      >{{ AlertStepTwo }} {{ dismissCountDown }}</b-alert
+    >
 
     <p>{{ textClient }}</p>
     <div>
       <b-tabs content-class="mt-3" fill>
         <b-tab title="Copie e Cole">
-          <TabCopyAndPast :fields="fields" :transProps="transProps"></TabCopyAndPast>
+          <TabCopyAndPast :transProps="transProps"></TabCopyAndPast>
         </b-tab>
         <b-tab title="Importe em Formato Csv" active>
-          <TabImportCsv></TabImportCsv>
+          <TabImportCsv :transProps="transProps"></TabImportCsv>
         </b-tab>
       </b-tabs>
     </div>
@@ -45,31 +46,13 @@ export default {
         "Você ja cadastrou sua pesquisa, agora precisa cadastrar clientes, afinal de que adiantaria uma pesquisa sem clientes!",
       dismissSecs: 10,
       dismissCountDown: 0,
+      textClient:
+        "Voce pode optar por copiar e colar ou Importar um arquivo de clientes.",
       transProps: {
         // Transition name
         name: "flip-list"
       },
-      perPage: 20,
-      currentPage: 1,
-      tableone: false,
-      everythingOK: true,
-      fields: [
-        {
-          key: "Nome",
-          sortable: true
-        },
-        {
-          key: "E-mail",
-          sortable: true
-        },
-        {
-          key: "Telefone",
-          label: "telefone",
-          sortable: true
-          // Variant applies to the whole column, including the header and footer
-          //variant: "danger"
-        }
-      ]
+      everythingOK: true
     };
   },
   methods: {
@@ -90,13 +73,7 @@ export default {
   white-space: nowrap;
   margin: 0px auto;
 }
-
-.separate {
-  padding: 30px;
-}
-
-* *::before,
-*::after {
+* *::before *::after {
   box-sizing: border-box;
 }
 

@@ -15,6 +15,7 @@
     <b-row md="12" cols="2">
       <b-col>
         <b-form-group
+          v-if="rows >= 1"
           inline
           label="Filtro"
           label-cols-sm="1"
@@ -24,13 +25,13 @@
         >
           <b-input-group size="sm">
             <b-form-input
-              v-model="filter"
+              v-model="filters"
               type="search"
               id="filterInput"
               placeholder="Digite aqui para buscar"
             ></b-form-input>
             <b-input-group-append>
-              <b-button :disabled="!filter" @click="filter = ''"
+              <b-button :disabled="!filters" @click="filters = ''"
                 >Limpar</b-button
               >
             </b-input-group-append>
@@ -61,8 +62,8 @@
         :tbody-transition-props="transProps"
         :per-page="perPage"
         :current-page="currentPage"
-        :filter="filter"
-        :filterIncludedFields="filterOn"
+        :filter="filters"
+        :filterIncludedFields="filtersOn"
         @filtered="onFiltered"
       >
       </b-table>
@@ -71,7 +72,7 @@
 </template>
 
 <script>
-import { emailValidator } from "../../main";
+import { emailValidator, emailValidatorNot } from "../../main";
 export default {
   name: "TabCopyAndPast",
   data() {
@@ -81,7 +82,7 @@ export default {
       perPage: 20,
       currentPage: 1,
       tableone: false,
-      filter: null,
+      filters: null,
       filtersOn: [],
       fields: [
         {
@@ -107,7 +108,7 @@ export default {
   },
   computed: {
     rows() {
-      if (this.filter <= 0) {
+      if (this.filters <= 0) {
         return this.toTableCP.length;
       } else {
         return 1;
@@ -120,15 +121,13 @@ export default {
   },
 
   methods: {
-    print() {
+    async print() {
       var jsonteste = [];
-      console.log(this.text);
       var clipRows = this.text.split("\n");
       for (let i = 0; i < clipRows.length; i++) {
         clipRows[i] = clipRows[i].split("\t");
       }
-      console.log(clipRows[0].length);
-      console.log(clipRows);
+
       this.fields = clipRows[0];
       for (let i = 1; i < clipRows.length; i++) {
         var item = {};
@@ -136,24 +135,22 @@ export default {
         for (let j = 0; j < clipRows[0].length; j++) {
           item[clipRows[0][j]] = clipRows[i][j];
         }
-        console.log(item);
         jsonteste.push(item);
       }
-
-      console.log("Agora vem o Json");
-      this.toTableCP = jsonteste;
-      console.log(JSON.stringify(jsonteste));
+      console.log(jsonteste);
+      //console.log("Agora vem o Json");
+      //console.log(JSON.stringify(jsonteste));
       this.tableone = true;
-      emailValidator(this.toTable);
-    },
-    info(item, index, button) {
-      this.infoModal.title = `Row index: ${index}`;
-      this.infoModal.content = JSON.stringify(item, null, 2);
-      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-    },
-    resetInfoModal() {
-      this.infoModal.title = "";
-      this.infoModal.content = "";
+      var corrects = await emailValidator(jsonteste);
+      var incorrects = emailValidatorNot(jsonteste);
+      this.toTableCP = corrects;
+      console.log(
+        `Tipo do corrects ${typeof corrects}, agora o tipo do Geral ${typeof this
+          .toTableCP}`
+      );
+      console.log("Ai vem o novo array");
+      console.log(corrects);
+      console.log(incorrects);
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
