@@ -7,12 +7,7 @@
       <b-col sm="6">
         <p class="pa">
           Como a pesquisa será enviada
-          <b-icon-caret-down
-            animation="fade"
-            font-scale="2"
-            variant="success"
-            shift-v="-4"
-          ></b-icon-caret-down>
+          <b-icon-caret-down animation="fade" font-scale="2" variant="success" shift-v="-4"></b-icon-caret-down>
         </p>
 
         <FormRight></FormRight>

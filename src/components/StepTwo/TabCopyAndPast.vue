@@ -12,7 +12,7 @@
       ></textarea>
     </b-row>
     <b-row>
-      <b-col sm="8" md="5" class="my-1">
+      <b-col sm="8" md="5" class="my-2">
         <b-form-group
           inline
           label="Filtro"
@@ -65,13 +65,12 @@
           <span class="text-info">{{ data.label.toUpperCase() }}</span>
         </template>
       </b-table>
-      <b-button v-if="tableone" type="submit" variant="primary">Salvar e avançar</b-button>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import { emailValidator } from "../main";
+import { emailValidator } from "../../main";
 export default {
   name: "TabCopyAndPast",
   data() {

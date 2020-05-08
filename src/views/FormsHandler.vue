@@ -17,10 +17,11 @@
 
 <script>
 import StepProgressBar from "@/components/StepProgressBar.vue";
-import StepOne from "@/components/StepOne.vue";
-import StepTwo from "@/components/StepTwo.vue";
-import StepThree from "@/components/StepThree.vue";
+import StepOne from "@/components//StepOne/StepOne.vue";
+import StepTwo from "@/components/StepTwo/StepTwo.vue";
+import StepThree from "@/components/StepThree/StepThree.vue";
 import { EventBus } from "../main";
+
 export default {
   name: "Formshandler",
   data() {

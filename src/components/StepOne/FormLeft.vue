@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import { EventBus } from "../main";
+import { EventBus } from "../../main";
 
 export default {
   name: "form-left",
@@ -113,14 +113,14 @@ export default {
         company: "",
         ask: "",
         file: null,
-        choice: null,
+        choice: null
       },
       comment: [
         { text: "Escolha um", value: null },
         "Qual o principal motivo para a sua nota?",
         "O que motivou sua nota?",
-        "Por que?",
-      ],
+        "Por que?"
+      ]
     };
   },
 
@@ -158,8 +158,8 @@ export default {
         this.$nextTick(() => {
           this.show = true;
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

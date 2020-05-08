@@ -6,48 +6,17 @@
       variant="info"
       @dismissed="dismissCountDown = 0"
       @dismiss-count-down="countDownChanged"
-    >
-      {{ AlertStepTwo }} {{ dismissCountDown }}
-    </b-alert>
+    >{{ AlertStepTwo }} {{ dismissCountDown }}</b-alert>
 
     <p>{{ textClient }}</p>
     <div>
       <b-tabs content-class="mt-3" fill>
         <b-tab title="Copie e Cole">
-          <div class="form-group">
-            <label for=""></label>
-            <textarea
-              class="form-control"
-              id="textarea"
-              v-model="text"
-              placeholder="É simples, é só copiar do excell e colar aqui!"
-              rows="3"
-              max-rows="6"
-              @input="print"
-            ></textarea>
-          </div>
-          <div>
-            <b-table
-              v-if="tableone"
-              striped
-              hover
-              :items="toTable"
-              small
-              primary-key="a"
-              :tbody-transition-props="transProps"
-              :per-page="perPage"
-              :current-page="currentPage"
-            ></b-table>
-            <b-button v-if="tableone" type="submit" variant="primary"
-              >Salvar e avançar</b-button
-            >
-          </div>
+          <TabCopyAndPast :fields="fields" :transProps="transProps"></TabCopyAndPast>
         </b-tab>
         <b-tab title="Importe em Formato Csv" active>
           <div class="separate">
-            <b-alert show variant="warning"
-              >A ordem tem que ser Nome - Email - Telefone</b-alert
-            >
+            <b-alert show variant="warning">A ordem tem que ser Nome - Email - Telefone</b-alert>
             <b-form-file
               v-if="quero"
               class="separate"
@@ -56,19 +25,10 @@
               ref="csv"
             ></b-form-file>
 
-            <testeCsv
-              v-model="csv"
-              :map-fields="['Nome', 'E-mail', 'Telefone']"
-              url="teste"
-            >
+            <testeCsv v-model="csv" :map-fields="['Nome', 'E-mail', 'Telefone']" url="teste">
               <template slot="hasHeaders" slot-scope="{ headers, toggle }">
                 <label>
-                  <input
-                    type="checkbox"
-                    id="hasHeaders"
-                    :value="headers"
-                    @change="toggle"
-                  />
+                  <input type="checkbox" id="hasHeaders" :value="headers" @change="toggle" />
                   Cabeçalho?
                 </label>
               </template>
@@ -83,9 +43,7 @@
               </template>
 
               <template slot="submit" slot-scope="{ submit }">
-                <b-button variant="primary" @click.prevent="submit"
-                  >send!</b-button
-                >
+                <b-button variant="primary" @click.prevent="submit">send!</b-button>
               </template>
             </testeCsv>
             <div>
@@ -111,12 +69,6 @@
             </div>
           </div>
         </b-tab>
-        <b-tab>
-          <TabCopyAndPast
-            :fields="fields"
-            :transProps="transProps"
-          ></TabCopyAndPast>
-        </b-tab>
       </b-tabs>
     </div>
     <div class="botoes" v-if="everythingOK">
@@ -131,9 +83,8 @@
 </template>
 
 <script>
-import { EventBus } from "../main";
+import { EventBus } from "../../main";
 import testeCsv from "./testeCsv";
-import { emailValidator } from "../main";
 import TabCopyAndPast from "./TabCopyAndPast";
 export default {
   name: "StepTwo",
@@ -191,33 +142,6 @@ export default {
   methods: {
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown;
-    },
-
-    print() {
-      var jsonteste = [];
-      console.log(this.text);
-      var clipRows = this.text.split("\n");
-      for (let i = 0; i < clipRows.length; i++) {
-        clipRows[i] = clipRows[i].split("\t");
-      }
-      console.log(clipRows[0].length);
-      console.log(clipRows);
-      this.fields2 = clipRows[0];
-      for (let i = 1; i < clipRows.length; i++) {
-        var item = {};
-
-        for (let j = 0; j < clipRows[0].length; j++) {
-          item[clipRows[0][j]] = clipRows[i][j];
-        }
-        console.log(item);
-        jsonteste.push(item);
-      }
-
-      console.log("Agora vem o Json");
-      this.toTable = jsonteste;
-      console.log(JSON.stringify(jsonteste));
-      this.tableone = true;
-      emailValidator(this.toTable);
     },
     onFileSelected() {
       console.log(this.$refs.csv.selectedFile);

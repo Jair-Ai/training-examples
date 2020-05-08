@@ -9,9 +9,7 @@
     <img class="center" :src="file" alt="Logo da Empresa" />
     <p class="pa">Olá, João</p>
 
-    <p class="pa">
-      Qual a probabilidade de você nos recomendar para um amigo ou {{ choice }}.
-    </p>
+    <p class="pa">Qual a probabilidade de você nos recomendar para um amigo ou {{ choice }}.</p>
 
     <div>
       <ul class="float">
@@ -20,9 +18,7 @@
           v-for="(color, i) in score_color"
           :key="color"
           :style="{ 'background-color': color }"
-        >
-          {{ i }}
-        </li>
+        >{{ i }}</li>
       </ul>
     </div>
     <br />
@@ -39,7 +35,7 @@
 </template>
 
 <script>
-import { EventBus } from "../main";
+import { EventBus } from "../../main";
 
 export default {
   name: "FormRight",
