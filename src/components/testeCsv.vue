@@ -105,7 +105,7 @@ import { EventBus } from "../main";
 
 export default {
   props: {
-    value: Array,
+    value: String,
     url: {
       type: String,
     },

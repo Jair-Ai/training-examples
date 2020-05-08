@@ -35,6 +35,26 @@ const emailValidator = function(arraytoValidate) {
 
 export { emailValidator };
 
+const fields = [
+  {
+    key: "Nome",
+    sortable: true
+  },
+  {
+    key: "E-mail",
+    sortable: true
+  },
+  {
+    key: "Telefone",
+    label: "telefone",
+    sortable: true
+    // Variant applies to the whole column, including the header and footer
+    //variant: "danger"
+  }
+];
+
+export { fields };
+
 new Vue({
   components: { VueCsvImport, Datetime },
   router,

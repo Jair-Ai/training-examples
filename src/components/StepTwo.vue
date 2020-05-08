@@ -111,6 +111,12 @@
             </div>
           </div>
         </b-tab>
+        <b-tab>
+          <TabCopyAndPast
+            :fields="fields"
+            :transProps="transProps"
+          ></TabCopyAndPast>
+        </b-tab>
       </b-tabs>
     </div>
     <div class="botoes" v-if="everythingOK">
@@ -128,10 +134,12 @@
 import { EventBus } from "../main";
 import testeCsv from "./testeCsv";
 import { emailValidator } from "../main";
+import TabCopyAndPast from "./TabCopyAndPast";
 export default {
   name: "StepTwo",
   components: {
-    testeCsv
+    testeCsv,
+    TabCopyAndPast
   },
   data() {
     return {
@@ -184,6 +192,7 @@ export default {
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown;
     },
+
     print() {
       var jsonteste = [];
       console.log(this.text);
