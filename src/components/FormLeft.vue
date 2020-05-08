@@ -86,7 +86,7 @@
           v-if="avancada"
         ></b-form-file>
       </b-form-group>
-      <div class="test">
+      <div class="botoes">
         <div style="float: left;">
           <b-button type="reset" variant="danger">Limpar</b-button>
         </div>
@@ -169,7 +169,7 @@ export default {
   margin-right: 0;
 }
 
-.test {
+.botoes {
   display: inline;
   overflow: auto;
   white-space: nowrap;

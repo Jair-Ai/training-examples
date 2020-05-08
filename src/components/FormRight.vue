@@ -61,18 +61,19 @@ export default {
         "#d8e97d",
         "#bde37f",
         "#a5dd81",
-        "#91d683",
-      ],
+        "#91d683"
+      ]
     };
   },
   mounted() {
-    EventBus.$on("DataSend", (valor) => {
+    EventBus.$on("DataSend", valor => {
       this[valor[0]] = valor[1];
+      console.log(`Como chega a inforcação ${valor[0]}`);
     });
-    EventBus.$on("FileSend", (valor) => {
+    EventBus.$on("FileSend", valor => {
       this.file = valor;
     });
-  },
+  }
 };
 </script>
 

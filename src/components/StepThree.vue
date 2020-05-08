@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
 <template>
   <b-container float-center>
-    <h4 style="text-align: center">Aqui voce configurará o envio da sua pesquisa</h4>
+    <h4 style="text-align: center">
+      Aqui voce configurará o envio da sua pesquisa
+    </h4>
 
     <hr />
     <div class="text-center">
@@ -11,12 +13,14 @@
           :pressed="!dataform"
           @click="dataform = false"
           active
-        >Enviar Agora</b-button>
+          >Enviar Agora</b-button
+        >
         <b-button
           variant="outline-primary"
           @click="dataform = true"
           :pressed="dataform"
-        >Escolher Data de Envio</b-button>
+          >Escolher Data de Envio</b-button
+        >
       </b-button-group>
     </div>
     <br />
@@ -25,7 +29,12 @@
         <div class="text-center">
           <label for="startDate" slot="before">
             Data De Envio
-            <b-icon-caret-down animation="fade" font-scale="2" variant="primary" shift-v="-4"></b-icon-caret-down>
+            <b-icon-caret-down
+              animation="fade"
+              font-scale="2"
+              variant="primary"
+              shift-v="-4"
+            ></b-icon-caret-down>
           </label>
           <datetime
             v-model="date"
