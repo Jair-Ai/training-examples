@@ -220,6 +220,7 @@ export default {
       const _this = this;
 
       let csv = this.hasHeaders ? drop(this.csv) : this.csv;
+      console.log(csv);
 
       return map(csv, row => {
         let newRow = {};
@@ -297,7 +298,7 @@ export default {
             : every(this.mapFields, function(item, key) {
                 return newVal(key);
               });
-
+          console.log("chamou a função map");
           if (hasAllKeys) {
             this.submit();
           }

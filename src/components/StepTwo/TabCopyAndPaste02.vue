@@ -12,6 +12,46 @@
         @input="print"
       ></textarea>
     </b-row>
+    <b-row>
+      <div class="vue-csv-uploader-part-two">
+        <div class="vue-csv-mapping" v-if="sample">
+          <table :class="tableClass">
+            <slot name="thead">
+              <thead>
+                <tr>
+                  <th>Field</th>
+                  <th>CSV Column</th>
+                </tr>
+              </thead>
+            </slot>
+            <tbody>
+              <tr v-for="(field, key) in fieldsToMap" :key="key">
+                <td>{{ field.label }}</td>
+                <td>
+                  <select
+                    class="form-control"
+                    :name="`csv_uploader_map_${key}`"
+                    v-model="map[field.key]"
+                  >
+                    <option v-for="(column, key) in firstRow" :key="key" :value="key">{{ column }}</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="leftButton form-group" v-if="url">
+            <slot name="submit" :submit="submit">
+              <input
+                type="submit"
+                :class="buttonClass"
+                @click.prevent="submit"
+                :value="submitBtnText"
+              />
+            </slot>
+          </div>
+        </div>
+      </div>
+    </b-row>
     <b-row md="12" cols="1">
       <div>
         <div class="mt-3" style="margin-bottom: 30px">
@@ -89,6 +129,7 @@
 
 <script>
 import { emailValidator, emailValidatorNot } from "../../main";
+import { drop, every, forEach, get, isArray, map, set } from "lodash";
 export default {
   name: "TabCopyAndPast",
   data() {
@@ -108,23 +149,23 @@ export default {
         {
           key: "Nome",
           label: "Nome",
-          sortable: true
+          sortable: true,
         },
         {
           key: "E-mail",
           label: "E-mail",
-          sortable: true
+          sortable: true,
         },
         {
           key: "Telefone",
           label: "Telefone",
-          sortable: true
-        }
-      ]
+          sortable: true,
+        },
+      ],
     };
   },
   props: {
-    transProps: {}
+    transProps: {},
   },
   computed: {
     rows() {
@@ -133,6 +174,9 @@ export default {
       } else {
         return 1;
       }
+    },
+    firstRow() {
+      return get(this, "sample.0");
     }
   },
   mounted() {
@@ -161,7 +205,8 @@ export default {
         clipRows[i] = clipRows[i].split("\t");
       }
 
-      this.fields = clipRows[0];
+      this.sample = clipRows;
+
       for (let i = 1; i < clipRows.length; i++) {
         var item = {};
 
@@ -179,12 +224,20 @@ export default {
       this.toTableCP = this.corrects;
       console.log(this.incorrects);
     },
+    headerValidator (row){
+      if (row[0].lenght === 3):
+        
+
+
+      
+
+    },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.rows = filteredItems.length;
       this.currentPage = 1;
-    }
-  }
+    },
+  },
 };
 </script>
 
