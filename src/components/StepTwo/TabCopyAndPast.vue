@@ -12,6 +12,20 @@
         @input="print"
       ></textarea>
     </b-row>
+    <b-row md="12" cols="1">
+      <div>
+        <div class="mt-3" style="margin-bottom: 30px">
+          <b-button-group size="sm">
+            <b-button @click="change(true)" variant="success" :pressed="showCorrects"
+              >Registros Corretos</b-button
+            >
+            <b-button @click="change(false)" variant="danger"  :pressed="!showCorrects"
+              >Registros Incorretos</b-button
+            >
+          </b-button-group>
+        </div>
+      </div>
+    </b-row>
     <b-row md="12" cols="2">
       <b-col>
         <b-form-group
@@ -53,6 +67,8 @@
     </b-row>
     <b-row>
       <b-table
+        v-if="showCorrects"
+        id="my-table"
         striped
         hover
         :items="toTableCP"
@@ -84,6 +100,10 @@ export default {
       tableone: false,
       filters: null,
       filtersOn: [],
+      corrects: {},
+      incorrects: {},
+      show: false,
+      showCorrects: true,
       fields: [
         {
           key: "Nome",
@@ -121,6 +141,19 @@ export default {
   },
 
   methods: {
+    change(validator) {
+      if (validator) {
+        this.toTableCP = this.corrects;
+        this.$root.$emit("bv::refresh::table", "my-table");
+        this.showCorrects = true;
+      } else {
+        this.toTableCP = this.incorrects;
+        this.showCorrects = false;
+      }
+    },
+    showIncorrects() {
+      this.toTableCP = this.incorrects;
+    },
     async print() {
       var jsonteste = [];
       var clipRows = this.text.split("\n");
@@ -141,16 +174,10 @@ export default {
       //console.log("Agora vem o Json");
       //console.log(JSON.stringify(jsonteste));
       this.tableone = true;
-      var corrects = await emailValidator(jsonteste);
-      var incorrects = emailValidatorNot(jsonteste);
-      this.toTableCP = corrects;
-      console.log(
-        `Tipo do corrects ${typeof corrects}, agora o tipo do Geral ${typeof this
-          .toTableCP}`
-      );
-      console.log("Ai vem o novo array");
-      console.log(corrects);
-      console.log(incorrects);
+      this.corrects = await emailValidator(jsonteste);
+      this.incorrects = await emailValidatorNot(jsonteste);
+      this.toTableCP = this.corrects;
+      console.log(this.incorrects);
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering

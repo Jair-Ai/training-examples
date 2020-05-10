@@ -32,18 +32,15 @@ const emailValidator = async function(arraytoValidate) {
   );
 };
 
-const emailValidatorNot = function(arraytoValidate) {
+const emailValidatorNot = async function(arraytoValidate) {
   const yupValidator = Yup.string()
     .email()
     .required();
 
-  let validTable = arraytoValidate.filter(element => {
-    return !yupValidator.isValidSync(element.email);
-  });
-  console.log(validTable);
+  return arraytoValidate.filter(element =>
+    !yupValidator.isValidSync(element.email)
+  );
 };
-
-
 
 export { emailValidator };
 export { emailValidatorNot };
