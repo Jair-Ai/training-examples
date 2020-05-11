@@ -6,8 +6,7 @@
       variant="info"
       @dismissed="dismissCountDown = 0"
       @dismiss-count-down="countDownChanged"
-      >{{ AlertStepTwo }} {{ dismissCountDown }}</b-alert
-    >
+    >{{ AlertStepTwo }} {{ dismissCountDown }}</b-alert>
 
     <p>{{ textClient }}</p>
     <div>
@@ -17,11 +16,10 @@
         </b-tab>
         <b-tab title="Importe em Formato Csv" active>
           <TabImportCsv :transProps="transProps"></TabImportCsv>
-          
         </b-tab>
-        <b-tab title="Under test" active> 
-            <underTest></underTest>
-          </b-tab>
+        <b-tab title="Under test" active>
+          <underTest></underTest>
+        </b-tab>
       </b-tabs>
     </div>
     <div class="botoes" v-if="everythingOK">

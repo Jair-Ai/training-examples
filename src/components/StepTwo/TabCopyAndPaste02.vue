@@ -1,6 +1,9 @@
 <template>
   <b-container fluid>
     <b-row md="12" cols="1">
+      <b-alert show variant="warning">A ordem tem que ser Nome - Email - Telefone</b-alert>
+    </b-row>
+    <b-row md="12" cols="1">
       <textarea
         class="form-control"
         style="margin-bottom: 50px; margin-top: 20px;"
@@ -12,67 +15,67 @@
         @input="readPasteText"
       ></textarea>
     </b-row>
-    <b-row md="12" cols="1">
-      <div class="vue-csv-uploader-part-two">
-        <div class="vue-csv-mapping" v-if="notCorrect">
-          <table :class="tableClass">
-            <slot name="thead">
-              <thead>
-                <tr>
-                  <th>Field</th>
-                  <th>CSV Column</th>
-                </tr>
-              </thead>
-            </slot>
-            <tbody>
-              <tr v-for="(field, key) in fields" :key="key">
-                <td>{{ field.label }}</td>
-                <td>
-                  <select
-                    class="form-control"
-                    :name="`csv_uploader_map_${key}`"
-                    v-model="map[field.key]"
-                  >
-                    <option
-                      v-for="(column, key) in firstRow"
-                      :key="key"
-                      :value="key"
-                      >{{ column }}</option
-                    >
-                  </select>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="leftButton form-group" v-if="url">
-            <slot name="submit" :submit="submit">
-              <input
-                type="submit"
-                :class="buttonClass"
-                @click.prevent="submit"
-                :value="submitBtnText"
-              />
-            </slot>
-          </div>
-        </div>
-      </div>
+    <b-row md="12" cols="1" v-if="notCorrect">
+      <b-card bg-variant="light">
+        <b-form-group
+          label-cols-lg="3"
+          label="Escolha as colunas correspondentes ao lado"
+          label-size="lg"
+          label-class="font-weight-bold pt-0"
+          class="mb-0"
+        >
+          <b-form-group
+            id="input-name"
+            label-cols-sm="3"
+            label-align-sm="right"
+            label="Nome"
+            label-for="select_name"
+            description="Escolha aqui a coluna correspondente ao nome"
+          >
+            <b-form-select
+              id="select_name"
+              v-model="map.name"
+              :options="firstRow"
+              required
+              placeholder="familiar"
+            ></b-form-select>
+          </b-form-group>
+          <b-form-group
+            id="input-email"
+            label-cols-sm="3"
+            label-align-sm="right"
+            label="Email"
+            label-for="select_email"
+            description="Escolha aqui qual coluna corresponde ao email"
+          >
+            <b-form-select id="select_email" v-model="map.email" :options="firstRow" required></b-form-select>
+          </b-form-group>
+          <b-form-group
+            id="input-telefone"
+            label-cols-sm="3"
+            label-align-sm="right"
+            label="Telefone"
+            label-for="select_telefone"
+          >
+            <b-form-select id="select_telefone" v-model="map.telefone" :options="firstRow"></b-form-select>
+          </b-form-group>
+        </b-form-group>
+      </b-card>
     </b-row>
-    <b-row md="12" cols="1">
+    <b-row md="12" cols="1" v-if="toTableCP.length > 0">
       <div>
         <div class="mt-3" style="margin-bottom: 30px">
           <b-button-group size="sm">
             <b-button
               @click="change(true)"
-              variant="success"
+              variant="outline-success"
               :pressed="showCorrects"
-              >Registros Corretos</b-button
-            >
+            >Registros Corretos</b-button>
             <b-button
               @click="change(false)"
-              variant="danger"
+              variant="outline-danger"
               :pressed="!showCorrects"
-              >Registros Incorretos</b-button
-            >
+            >Registros Incorretos</b-button>
           </b-button-group>
         </div>
       </div>
@@ -96,9 +99,7 @@
               placeholder="Digite aqui para buscar"
             ></b-form-input>
             <b-input-group-append>
-              <b-button :disabled="!filters" @click="filters = ''"
-                >Limpar</b-button
-              >
+              <b-button :disabled="!filters" @click="filters = ''">Limpar</b-button>
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
@@ -156,7 +157,9 @@ export default {
       showCorrects: true,
       validNames: ["nome", "nomes", "cliente", "clientes"],
       validEmails: ["e-mail", "email"],
-      notCorrect: true,
+      notCorrect: false,
+      map: {},
+      sample: {},
       fields: [
         {
           key: "Nome",
@@ -188,6 +191,7 @@ export default {
       }
     },
     firstRow() {
+      console.log("Esta rodando first row");
       return get(this, "sample.0");
     }
   },
@@ -216,6 +220,7 @@ export default {
     },
     async print() {
       console.log("Entrou no print");
+      this.notCorrect = false;
       var jsonteste = [];
       for (let i = 1; i < this.sample.length; i++) {
         var item = {};
@@ -231,11 +236,18 @@ export default {
       this.tableone = true;
       this.corrects = await emailValidator(jsonteste);
       this.incorrects = await emailValidatorNot(jsonteste);
-      this.toTableCP = this.corrects;
+      if (this.incorrects.length > 0) {
+        this.showCorrects = false;
+        this.toTableCP = this.incorrects;
+      } else {
+        this.toTableCP = this.corrects;
+      }
+
       console.log(this.incorrects);
     },
     headerValidator(row, tam) {
-      if ( tam === 3) {
+      this.sample = row;
+      if (tam === 3) {
         console.log(row[0]);
         console.log(this.validNames.includes(row[0][0].toLowerCase()));
         console.log(this.validEmails.includes(row[0][1].toLowerCase()));
@@ -243,7 +255,6 @@ export default {
           this.validNames.includes(row[0][0].toLowerCase()) &&
           this.validEmails.includes(row[0][1].toLowerCase())
         ) {
-          this.sample = row;
           console.log("Tem que rodar o print");
           this.print();
         } else {

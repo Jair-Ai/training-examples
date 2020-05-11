@@ -1,6 +1,9 @@
 <template>
   <b-container fluid>
     <b-row md="12" cols="1">
+      <b-alert show variant="warning">A ordem tem que ser Nome - Email - Telefone</b-alert>
+    </b-row>
+    <b-row md="12" cols="1">
       <textarea
         class="form-control"
         style="margin-bottom: 50px; margin-top: 20px;"
@@ -15,7 +18,7 @@
     <b-row md="12" cols="1">
       <div>
         <div class="mt-3" style="margin-bottom: 30px">
-          <b-button-group size="sm">
+          <b-button-group size="sm" v-if="toTableCP">
             <b-button
               @click="change(true)"
               variant="success"
