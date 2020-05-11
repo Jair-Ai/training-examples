@@ -1,7 +1,15 @@
 <template>
   <b-container fluid>
     <b-row md="12" cols="1">
-      <b-alert show variant="warning">A ordem tem que ser Nome - Email - Telefone</b-alert>
+      <b-alert :show="!congrats" fade variant="warning">
+        A ordem tem que ser Nome - Email - Telefone
+        <b-icon icon="exclamation-circle-fill" variant="warning" style="width: 25px; height: 25px;"></b-icon>
+      </b-alert>
+      <b-alert :show="congrats" fade variant="success">
+        Muito bem, todos os registros carregados estão certos, clique em salvar
+        e avançar
+        <b-icon icon="exclamation-circle-fill" variant="success" style="width: 25px; height: 25px;"></b-icon>
+      </b-alert>
     </b-row>
     <b-row md="12" cols="1">
       <textarea
@@ -215,7 +223,7 @@ export default {
       return Yup.string().emailValidator();
     },
     congrats() {
-      if (this.incorrects.length == 0 && this.corrects.lenght > 0) {
+      if (this.incorrects.length == 0 && this.corrects.length > 0) {
         return true;
       } else {
         return false;
