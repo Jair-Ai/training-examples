@@ -3,12 +3,22 @@
     <b-row md="12" cols="1">
       <b-alert :show="!congrats" fade variant="warning">
         A ordem tem que ser Nome - Email - Telefone
-        <b-icon icon="exclamation-circle-fill" variant="warning" style="width: 25px; height: 25px;"></b-icon>
+        <b-icon
+          animation="fade"
+          icon="exclamation-circle-fill"
+          variant="warning"
+          style="width: 25px; height: 25px;"
+        ></b-icon>
       </b-alert>
       <b-alert :show="congrats" fade variant="success">
         Muito bem, todos os registros carregados estão certos, clique em salvar
         e avançar
-        <b-icon icon="exclamation-circle-fill" variant="success" style="width: 25px; height: 25px;"></b-icon>
+        <b-icon
+          animation="cylon"
+          icon="exclamation-circle-fill"
+          variant="success"
+          style="width: 25px; height: 25px;"
+        ></b-icon>
       </b-alert>
     </b-row>
     <b-row md="12" cols="1">
