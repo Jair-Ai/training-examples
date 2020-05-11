@@ -62,20 +62,19 @@
         </b-form-group>
       </b-card>
     </b-row>
-    <b-row md="12" cols="1" v-if="toTableCP.length > 0">
+    <b-row md="12" cols="1" v-if="incorrects.length > 0">
       <div>
         <div class="mt-3" style="margin-bottom: 30px">
-          <b-button-group size="sm">
-            <b-button
-              @click="change(true)"
-              variant="outline-success"
-              :pressed="showCorrects"
-            >Registros Corretos</b-button>
-            <b-button
-              @click="change(false)"
-              variant="outline-danger"
-              :pressed="!showCorrects"
-            >Registros Incorretos</b-button>
+          <b-button-group size="xl">
+            <b-button @click="change(true)" variant="outline-success" :pressed="showCorrects">
+              Registros Corretos
+              {{ corrects.length }}
+            </b-button>
+
+            <b-button @click="change(false)" variant="outline-danger" :pressed="!showCorrects">
+              Registros Incorretos
+              {{ incorrects.length }}
+            </b-button>
           </b-button-group>
         </div>
       </div>
@@ -132,7 +131,21 @@
         :filter="filters"
         :filterIncludedFields="filtersOn"
         @filtered="onFiltered"
-      ></b-table>
+      >
+        <template v-if="!showCorrects && incorrects.length > 0" v-slot:cell(Nome)="row">
+          <b-form-input type="text" v-model="row.item.Nome" />
+        </template>
+        <template v-if="!showCorrects && incorrects.length > 0" v-slot:cell(email)="row">
+          <b-form-input @change="editedRow($event, row)" type="email" v-model="row.item.email" />
+        </template>
+        <template v-if="!showCorrects && incorrects.length > 0" v-slot:cell(telefone)="row">
+          <b-form-input
+            @change.prevent="print($event, row)"
+            type="number"
+            v-model="row.item.Telefone"
+          />
+        </template>
+      </b-table>
     </b-row>
   </b-container>
 </template>
@@ -140,6 +153,8 @@
 <script>
 import { emailValidator, emailValidatorNot } from "../../main";
 import { get } from "lodash";
+import * as Yup from "yup";
+
 export default {
   name: "TabCopyAndPast",
   data() {
@@ -153,6 +168,8 @@ export default {
       filtersOn: [],
       corrects: {},
       incorrects: {},
+      loadedInput: {},
+      row: {},
       show: false,
       showCorrects: true,
       validNames: ["nome", "nomes", "cliente", "clientes"],
@@ -193,6 +210,16 @@ export default {
     firstRow() {
       console.log("Esta rodando first row");
       return get(this, "sample.0");
+    },
+    emailState() {
+      return Yup.string().emailValidator();
+    },
+    congrats() {
+      if (this.incorrects.length == 0 && this.corrects.lenght > 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   mounted() {
@@ -201,6 +228,13 @@ export default {
   },
 
   methods: {
+    editedRow(e, item) {
+      console.log(`Este é o e = ${e}`);
+      console.log(item.item.field);
+      console.log(this.loadedInput[0].email);
+      this.loadedInput[0].email = e;
+      this.separateIncorrectsFromCorrects(this.loadedInput);
+    },
     change(validator) {
       if (validator) {
         this.toTableCP = this.corrects;
@@ -216,10 +250,12 @@ export default {
       for (let i = 0; i < clipRows.length; i++) {
         clipRows[i] = clipRows[i].split("\t");
       }
+      console.log();
       this.headerValidator(clipRows, clipRows[0].length);
     },
     async print() {
       console.log("Entrou no print");
+      console.log(this.row);
       this.notCorrect = false;
       var jsonteste = [];
       for (let i = 1; i < this.sample.length; i++) {
@@ -231,18 +267,21 @@ export default {
         jsonteste.push(item);
       }
       console.log(jsonteste);
+      this.loadedInput = jsonteste;
       //console.log("Agora vem o Json");
       //console.log(JSON.stringify(jsonteste));
+      this.separateIncorrectsFromCorrects(this.loadedInput);
+    },
+    async separateIncorrectsFromCorrects(file) {
       this.tableone = true;
-      this.corrects = await emailValidator(jsonteste);
-      this.incorrects = await emailValidatorNot(jsonteste);
+      this.corrects = await emailValidator(file);
+      this.incorrects = await emailValidatorNot(file);
       if (this.incorrects.length > 0) {
         this.showCorrects = false;
         this.toTableCP = this.incorrects;
       } else {
         this.toTableCP = this.corrects;
       }
-
       console.log(this.incorrects);
     },
     headerValidator(row, tam) {
