@@ -66,7 +66,12 @@
             label-for="select_email"
             description="Escolha aqui qual coluna corresponde ao email"
           >
-            <b-form-select id="select_email" v-model="map.email" :options="firstRow" required></b-form-select>
+            <b-form-select
+              id="select_email"
+              v-model="map.email"
+              :options="firstRow"
+              required
+            ></b-form-select>
           </b-form-group>
           <b-form-group
             id="input-telefone"
@@ -75,21 +80,42 @@
             label="Telefone"
             label-for="select_telefone"
           >
-            <b-form-select id="select_telefone" v-model="map.telefone" :options="firstRow"></b-form-select>
+            <b-form-select
+              id="select_telefone"
+              v-model="map.telefone"
+              :options="firstRow"
+            ></b-form-select>
           </b-form-group>
+
+          <div class="botoes">
+            <div style="float: right;">
+              <b-button variant="outline-primary" @click="checkMapPosition"
+                >Carregar</b-button
+              >
+            </div>
+          </div>
         </b-form-group>
       </b-card>
     </b-row>
+
     <b-row md="12" cols="1" v-if="incorrects.length > 0">
       <div>
         <div class="mt-3" style="margin-bottom: 30px">
           <b-button-group size="xl">
-            <b-button @click="change(true)" variant="outline-success" :pressed="showCorrects">
+            <b-button
+              @click="change(true)"
+              variant="outline-success"
+              :pressed="showCorrects"
+            >
               Registros Corretos
               {{ corrects.length }}
             </b-button>
 
-            <b-button @click="change(false)" variant="outline-danger" :pressed="!showCorrects">
+            <b-button
+              @click="change(false)"
+              variant="outline-danger"
+              :pressed="!showCorrects"
+            >
               Registros Incorretos
               {{ incorrects.length }}
             </b-button>
@@ -116,7 +142,9 @@
               placeholder="Digite aqui para buscar"
             ></b-form-input>
             <b-input-group-append>
-              <b-button :disabled="!filters" @click="filters = ''">Limpar</b-button>
+              <b-button :disabled="!filters" @click="filters = ''"
+                >Limpar</b-button
+              >
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
@@ -150,13 +178,26 @@
         :filterIncludedFields="filtersOn"
         @filtered="onFiltered"
       >
-        <template v-if="!showCorrects && incorrects.length > 0" v-slot:cell(Nome)="row">
+        <template
+          v-if="!showCorrects && incorrects.length > 0"
+          v-slot:cell(Nome)="row"
+        >
           <b-form-input type="text" v-model="row.item.Nome" />
         </template>
-        <template v-if="!showCorrects && incorrects.length > 0" v-slot:cell(email)="row">
-          <b-form-input @change="editedRow($event, row)" type="email" v-model="row.item.email" />
+        <template
+          v-if="!showCorrects && incorrects.length > 0"
+          v-slot:cell(email)="row"
+        >
+          <b-form-input
+            @change="editedRow($event, row)"
+            type="email"
+            v-model="row.item.email"
+          />
         </template>
-        <template v-if="!showCorrects && incorrects.length > 0" v-slot:cell(telefone)="row">
+        <template
+          v-if="!showCorrects && incorrects.length > 0"
+          v-slot:cell(telefone)="row"
+        >
           <b-form-input
             @change.prevent="print($event, row)"
             type="number"
@@ -253,6 +294,21 @@ export default {
       this.loadedInput[0].email = e;
       this.separateIncorrectsFromCorrects(this.loadedInput);
     },
+    checkMapPosition() {
+      let colNome = this.sample[0].indexOf(this.map.name);
+      let colEmail = this.sample[0].indexOf(this.map.email);
+      let colTelefone = this.sample[0].indexOf(this.map.telefone);
+      var objectToTable = [];
+      for (let i = 0; i < this.sample.length; i++) {
+        var item = {};
+        item[this.fields[0].key] = this.sample[i][colNome];
+        item[this.fields[1].key] = this.sample[i][colEmail];
+        item[this.fields[2].key] = this.sample[i][colTelefone];
+        objectToTable.push(item);
+      }
+      this.separateIncorrectsFromCorrects(objectToTable);
+
+    },
     change(validator) {
       if (validator) {
         this.toTableCP = this.corrects;
@@ -268,12 +324,10 @@ export default {
       for (let i = 0; i < clipRows.length; i++) {
         clipRows[i] = clipRows[i].split("\t");
       }
-      console.log();
       this.headerValidator(clipRows, clipRows[0].length);
     },
     async print() {
-      console.log("Entrou no print");
-      console.log(this.row);
+
       this.notCorrect = false;
       var jsonteste = [];
       for (let i = 1; i < this.sample.length; i++) {
@@ -330,4 +384,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.botoes {
+  display: inline;
+  overflow: auto;
+  white-space: nowrap;
+  margin: 0px auto;
+}
+</style>
