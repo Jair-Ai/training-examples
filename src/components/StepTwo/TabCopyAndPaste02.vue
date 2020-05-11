@@ -9,12 +9,12 @@
         placeholder="É simples, é só copiar do excell e colar aqui!"
         rows="3"
         max-rows="6"
-        @input="print"
+        @input="readPasteText"
       ></textarea>
     </b-row>
-    <b-row>
+    <b-row md="12" cols="1">
       <div class="vue-csv-uploader-part-two">
-        <div class="vue-csv-mapping" v-if="sample">
+        <div class="vue-csv-mapping" v-if="notCorrect">
           <table :class="tableClass">
             <slot name="thead">
               <thead>
@@ -25,7 +25,7 @@
               </thead>
             </slot>
             <tbody>
-              <tr v-for="(field, key) in fieldsToMap" :key="key">
+              <tr v-for="(field, key) in fields" :key="key">
                 <td>{{ field.label }}</td>
                 <td>
                   <select
@@ -33,7 +33,12 @@
                     :name="`csv_uploader_map_${key}`"
                     v-model="map[field.key]"
                   >
-                    <option v-for="(column, key) in firstRow" :key="key" :value="key">{{ column }}</option>
+                    <option
+                      v-for="(column, key) in firstRow"
+                      :key="key"
+                      :value="key"
+                      >{{ column }}</option
+                    >
                   </select>
                 </td>
               </tr>
@@ -60,12 +65,14 @@
               @click="change(true)"
               variant="success"
               :pressed="showCorrects"
-            >Registros Corretos</b-button>
+              >Registros Corretos</b-button
+            >
             <b-button
               @click="change(false)"
               variant="danger"
               :pressed="!showCorrects"
-            >Registros Incorretos</b-button>
+              >Registros Incorretos</b-button
+            >
           </b-button-group>
         </div>
       </div>
@@ -89,7 +96,9 @@
               placeholder="Digite aqui para buscar"
             ></b-form-input>
             <b-input-group-append>
-              <b-button :disabled="!filters" @click="filters = ''">Limpar</b-button>
+              <b-button :disabled="!filters" @click="filters = ''"
+                >Limpar</b-button
+              >
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
@@ -129,7 +138,7 @@
 
 <script>
 import { emailValidator, emailValidatorNot } from "../../main";
-import { drop, every, forEach, get, isArray, map, set } from "lodash";
+import { get } from "lodash";
 export default {
   name: "TabCopyAndPast",
   data() {
@@ -145,27 +154,30 @@ export default {
       incorrects: {},
       show: false,
       showCorrects: true,
+      validNames: ["nome", "nomes", "cliente", "clientes"],
+      validEmails: ["e-mail", "email"],
+      notCorrect: true,
       fields: [
         {
           key: "Nome",
           label: "Nome",
-          sortable: true,
+          sortable: true
         },
         {
-          key: "E-mail",
-          label: "E-mail",
-          sortable: true,
+          key: "email",
+          label: "email",
+          sortable: true
         },
         {
           key: "Telefone",
           label: "Telefone",
-          sortable: true,
-        },
-      ],
+          sortable: true
+        }
+      ]
     };
   },
   props: {
-    transProps: {},
+    transProps: {}
   },
   computed: {
     rows() {
@@ -195,23 +207,21 @@ export default {
         this.showCorrects = false;
       }
     },
-    showIncorrects() {
-      this.toTableCP = this.incorrects;
-    },
-    async print() {
-      var jsonteste = [];
+    readPasteText() {
       var clipRows = this.text.split("\n");
       for (let i = 0; i < clipRows.length; i++) {
         clipRows[i] = clipRows[i].split("\t");
       }
-
-      this.sample = clipRows;
-
-      for (let i = 1; i < clipRows.length; i++) {
+      this.headerValidator(clipRows, clipRows[0].length);
+    },
+    async print() {
+      console.log("Entrou no print");
+      var jsonteste = [];
+      for (let i = 1; i < this.sample.length; i++) {
         var item = {};
 
-        for (let j = 0; j < clipRows[0].length; j++) {
-          item[clipRows[0][j]] = clipRows[i][j];
+        for (let j = 0; j < 3; j++) {
+          item[this.fields[j].label] = this.sample[i][j];
         }
         jsonteste.push(item);
       }
@@ -224,20 +234,31 @@ export default {
       this.toTableCP = this.corrects;
       console.log(this.incorrects);
     },
-    headerValidator (row){
-      if (row[0].lenght === 3):
-        
-
-
-      
-
+    headerValidator(row, tam) {
+      if ( tam === 3) {
+        console.log(row[0]);
+        console.log(this.validNames.includes(row[0][0].toLowerCase()));
+        console.log(this.validEmails.includes(row[0][1].toLowerCase()));
+        if (
+          this.validNames.includes(row[0][0].toLowerCase()) &&
+          this.validEmails.includes(row[0][1].toLowerCase())
+        ) {
+          this.sample = row;
+          console.log("Tem que rodar o print");
+          this.print();
+        } else {
+          this.notCorrect = true;
+        }
+      } else {
+        this.notCorrect = true;
+      }
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.rows = filteredItems.length;
       this.currentPage = 1;
-    },
-  },
+    }
+  }
 };
 </script>
 

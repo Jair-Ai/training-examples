@@ -2,8 +2,15 @@
   <div>
     <div class="form">
       <div>
-        <div class="form-check form-group csv-import-checkbox" v-if="headers === null">
-          <slot name="hasHeaders" :headers="hasHeaders" :toggle="toggleHasHeaders">
+        <div
+          class="form-check form-group csv-import-checkbox"
+          v-if="headers === null"
+        >
+          <slot
+            name="hasHeaders"
+            :headers="hasHeaders"
+            :toggle="toggleHasHeaders"
+          >
             <input
               :class="checkboxClass"
               type="checkbox"
@@ -11,7 +18,9 @@
               :value="hasHeaders"
               @change="toggleHasHeaders"
             />
-            <label class="form-check-label" :for="makeId('hasHeaders')">File Has Headers</label>
+            <label class="form-check-label" :for="makeId('hasHeaders')"
+              >File Has Headers</label
+            >
           </slot>
         </div>
         <div class="form-group csv-import-file">
@@ -34,7 +43,9 @@
               :disabled="disabledNextButton"
               :class="buttonClass"
               @click.prevent="load"
-            >{{ loadBtnText }}</button>
+            >
+              {{ loadBtnText }}
+            </button>
           </slot>
         </div>
       </div>
@@ -58,7 +69,12 @@
                     :name="`csv_uploader_map_${key}`"
                     v-model="map[field.key]"
                   >
-                    <option v-for="(column, key) in firstRow" :key="key" :value="key">{{ column }}</option>
+                    <option
+                      v-for="(column, key) in firstRow"
+                      :key="key"
+                      :value="key"
+                      >{{ column }}</option
+                    >
                   </select>
                 </td>
               </tr>
@@ -224,7 +240,7 @@ export default {
 
       return map(csv, row => {
         let newRow = {};
-
+        console.log(_this.map);
         forEach(_this.map, (column, field) => {
           set(newRow, field, get(row, column));
         });
@@ -290,6 +306,7 @@ export default {
     map: {
       deep: true,
       handler: function(newVal) {
+        console.log(this.mapFields);
         if (!this.url) {
           let hasAllKeys = Array.isArray(this.mapFields)
             ? every(this.mapFields, function(item) {
@@ -298,7 +315,7 @@ export default {
             : every(this.mapFields, function(item, key) {
                 return newVal(key);
               });
-          console.log("chamou a função map");
+
           if (hasAllKeys) {
             this.submit();
           }

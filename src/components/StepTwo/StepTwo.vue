@@ -17,7 +17,11 @@
         </b-tab>
         <b-tab title="Importe em Formato Csv" active>
           <TabImportCsv :transProps="transProps"></TabImportCsv>
+          
         </b-tab>
+        <b-tab title="Under test" active> 
+            <underTest></underTest>
+          </b-tab>
       </b-tabs>
     </div>
     <div class="botoes" v-if="everythingOK">
@@ -34,11 +38,13 @@
 <script>
 import TabCopyAndPast from "./TabCopyAndPast";
 import TabImportCsv from "./TabImportCsv";
+import underTest from "./TabCopyAndPaste02";
 export default {
   name: "StepTwo",
   components: {
     TabCopyAndPast,
-    TabImportCsv
+    TabImportCsv,
+    underTest
   },
   data() {
     return {
