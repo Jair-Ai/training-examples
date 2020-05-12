@@ -150,7 +150,6 @@ export default {
       this.table = reader.readAsText(file);
       EventBus.$emit("FileSend", this.table);
     },
-
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.rows = filteredItems.length;

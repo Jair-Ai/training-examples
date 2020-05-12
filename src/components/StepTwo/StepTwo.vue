@@ -6,19 +6,19 @@
       variant="info"
       @dismissed="dismissCountDown = 0"
       @dismiss-count-down="countDownChanged"
-    >{{ AlertStepTwo }} {{ dismissCountDown }}</b-alert>
+      >{{ AlertStepTwo }} {{ dismissCountDown }}</b-alert
+    >
 
     <p>{{ textClient }}</p>
     <div>
       <b-tabs content-class="mt-3" fill>
         <b-tab title="Copie e Cole">
-          <TabCopyAndPast :transProps="transProps"></TabCopyAndPast>
+          <underTest></underTest>
         </b-tab>
         <b-tab title="Importe em Formato Csv" active>
           <TabImportCsv :transProps="transProps"></TabImportCsv>
         </b-tab>
-        <b-tab title="Under test" active>
-          <underTest></underTest>
+        <b-tab title="Escreva" active>
         </b-tab>
       </b-tabs>
     </div>
@@ -34,13 +34,11 @@
 </template>
 
 <script>
-import TabCopyAndPast from "./TabCopyAndPast";
 import TabImportCsv from "./TabImportCsv";
 import underTest from "./TabCopyAndPaste02";
 export default {
   name: "StepTwo",
   components: {
-    TabCopyAndPast,
     TabImportCsv,
     underTest
   },

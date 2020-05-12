@@ -182,7 +182,11 @@
           v-if="!showCorrects && incorrects.length > 0"
           v-slot:cell(Nome)="row"
         >
-          <b-form-input type="text" v-model="row.item.Nome" />
+          <b-form-input
+            @change="editedRow($event, row)"
+            type="text"
+            v-model="row.item.Nome"
+          />
         </template>
         <template
           v-if="!showCorrects && incorrects.length > 0"
@@ -199,7 +203,7 @@
           v-slot:cell(telefone)="row"
         >
           <b-form-input
-            @change.prevent="print($event, row)"
+            @change="editedRow($event, row)"
             type="number"
             v-model="row.item.Telefone"
           />
@@ -213,7 +217,7 @@
 import { emailValidator, emailValidatorNot } from "../../main";
 import { get } from "lodash";
 import * as Yup from "yup";
-
+//TODO NAO PODE TER EMAIL REPITIDO
 export default {
   name: "TabCopyAndPast",
   data() {
@@ -288,10 +292,13 @@ export default {
 
   methods: {
     editedRow(e, item) {
-      console.log(`Este é o e = ${e}`);
-      console.log(item.item.field);
-      console.log(this.loadedInput[0].email);
-      this.loadedInput[0].email = e;
+      console.log(`Este é o e = ${e} `);
+      console.log(item);
+      let aKey = item.field.key;
+      let aIndex = item.index;
+      console.log(this.loadedInput[0][aKey]);
+
+      this.loadedInput[aIndex][aKey] = e;
       this.separateIncorrectsFromCorrects(this.loadedInput);
     },
     checkMapPosition() {
@@ -307,7 +314,6 @@ export default {
         objectToTable.push(item);
       }
       this.separateIncorrectsFromCorrects(objectToTable);
-
     },
     change(validator) {
       if (validator) {
@@ -327,7 +333,6 @@ export default {
       this.headerValidator(clipRows, clipRows[0].length);
     },
     async print() {
-
       this.notCorrect = false;
       var jsonteste = [];
       for (let i = 1; i < this.sample.length; i++) {
