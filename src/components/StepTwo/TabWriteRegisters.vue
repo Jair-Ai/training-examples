@@ -26,7 +26,7 @@
             <b-form-input
               @change="editedRow($event, row)"
               type="number"
-              v-model="row.item.Telefone"
+              v-model="row.item.telefone"
             />
           </template>
         </b-table>
@@ -53,15 +53,16 @@ export default {
   name: "WriteRegisters",
   data() {
     return {
-      toTableCP: [{ Nome: "", email: "", Telefone: "" }],
-      blankRow: { Nome: "", email: "", Telefone: "" },
-      fieldsFromMain: fields
+      toTableCP: [{ Nome: "", email: "", telefone: "" }],
+      blankRow: { Nome: "", email: "", telefone: "" },
+      fieldsFromMain: fields,
+      loadedInput: {}
     };
   },
 
   methods: {
     insertRow() {
-      this.toTableCP.push({ Nome: "", email: "", Telefone: "" });
+      this.toTableCP.push({ Nome: "", email: "", telefone: "" });
       console.log(this.toTableCP);
     },
     deleteRow() {

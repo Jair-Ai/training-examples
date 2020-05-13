@@ -50,14 +50,16 @@ export { emailValidatorNot };
 const fields = [
   {
     key: "Nome",
+    label: "Nome",
     sortable: true
   },
   {
     key: "email",
+    label: "email",
     sortable: true
   },
   {
-    key: "Telefone",
+    key: "telefone",
     label: "telefone",
     sortable: true
     // Variant applies to the whole column, including the header and footer
