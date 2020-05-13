@@ -1,7 +1,9 @@
 <template>
   <b-container fluid>
     <b-row md="12" cols="1">
-      <b-alert show variant="warning">A ordem tem que ser Nome - Email - Telefone</b-alert>
+      <b-alert show variant="warning"
+        >A ordem tem que ser Nome - Email - Telefone</b-alert
+      >
     </b-row>
     <b-row md="12" cols="1">
       <textarea
@@ -23,12 +25,14 @@
               @click="change(true)"
               variant="success"
               :pressed="showCorrects"
-            >Registros Corretos</b-button>
+              >Registros Corretos</b-button
+            >
             <b-button
               @click="change(false)"
               variant="danger"
               :pressed="!showCorrects"
-            >Registros Incorretos</b-button>
+              >Registros Incorretos</b-button
+            >
           </b-button-group>
         </div>
       </div>
@@ -52,7 +56,9 @@
               placeholder="Digite aqui para buscar"
             ></b-form-input>
             <b-input-group-append>
-              <b-button :disabled="!filters" @click="filters = ''">Limpar</b-button>
+              <b-button :disabled="!filters" @click="filters = ''"
+                >Limpar</b-button
+              >
             </b-input-group-append>
           </b-input-group>
         </b-form-group>

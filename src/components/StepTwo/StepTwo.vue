@@ -15,10 +15,11 @@
         <b-tab title="Copie e Cole">
           <underTest></underTest>
         </b-tab>
-        <b-tab title="Importe em Formato Csv" active>
+        <b-tab title="Importe em Formato Csv">
           <TabImportCsv :transProps="transProps"></TabImportCsv>
         </b-tab>
         <b-tab title="Escreva" active>
+          <TabWriteRegisters></TabWriteRegisters>
         </b-tab>
       </b-tabs>
     </div>
@@ -36,11 +37,14 @@
 <script>
 import TabImportCsv from "./TabImportCsv";
 import underTest from "./TabCopyAndPaste02";
+import TabWriteRegisters from "./TabWriteRegisters";
+
 export default {
   name: "StepTwo",
   components: {
     TabImportCsv,
-    underTest
+    underTest,
+    TabWriteRegisters
   },
   data() {
     return {

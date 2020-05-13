@@ -7,8 +7,10 @@ import { VueCsvImport } from "vue-csv-import";
 import { Datetime } from "vue-datetime";
 import { Settings } from "luxon";
 import * as Yup from "yup";
+import VueResorce from "vue-resource";
 
 Settings.defaultLocale = "pt-Br";
+Vue.use(VueResorce);
 Vue.use(Datetime);
 // Install BootstrapVue
 Vue.use(BootstrapVue);
@@ -37,8 +39,8 @@ const emailValidatorNot = async function(arraytoValidate) {
     .email()
     .required();
 
-  return arraytoValidate.filter(element =>
-    !yupValidator.isValidSync(element.email)
+  return arraytoValidate.filter(
+    element => !yupValidator.isValidSync(element.email)
   );
 };
 
@@ -51,7 +53,7 @@ const fields = [
     sortable: true
   },
   {
-    key: "E-mail",
+    key: "email",
     sortable: true
   },
   {
