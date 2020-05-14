@@ -244,17 +244,20 @@ export default {
         {
           key: "Nome",
           label: "Nome",
-          sortable: true
+          sortable: true,
+          variant: "light"
         },
         {
           key: "email",
           label: "email",
-          sortable: true
+          sortable: true,
+          variant: "light"
         },
         {
           key: "Telefone",
           label: "Telefone",
-          sortable: true
+          sortable: true,
+          variant: "light"
         }
       ]
     };
@@ -263,11 +266,11 @@ export default {
     transProps: {}
   },
   computed: {
-    rows() {
-      if (this.filters <= 0) {
-        return this.toTableCP.length;
+    rowColor() {
+      if (this.showCorrects) {
+        return "primary";
       } else {
-        return 1;
+        return "danger";
       }
     },
     firstRow() {
@@ -289,7 +292,6 @@ export default {
     // Set the initial number of items
     this.rows = this.toTableCP.length;
   },
-
   methods: {
     editedRow(e, item) {
       console.log(`Este é o e = ${e} `);
@@ -317,10 +319,17 @@ export default {
     },
     change(validator) {
       if (validator) {
+        this.fields[0].variant = "success";
+        this.fields[1].variant = "success";
+        this.fields[2].variant = "success";
         this.toTableCP = this.corrects;
         this.$root.$emit("bv::refresh::table", "my-table");
         this.showCorrects = true;
       } else {
+        this.fields[0].variant = "danger";
+        this.fields[1].variant = "danger";
+        this.fields[2].variant = "danger";
+        //this.fields.Nome.variant = "danger";
         this.toTableCP = this.incorrects;
         this.showCorrects = false;
       }
@@ -356,6 +365,10 @@ export default {
       if (this.incorrects.length > 0) {
         this.showCorrects = false;
         this.toTableCP = this.incorrects;
+        this.fields[0].variant = "danger";
+        this.fields[1].variant = "danger";
+        this.fields[2].variant = "danger";
+
       } else {
         this.toTableCP = this.corrects;
       }
@@ -364,14 +377,11 @@ export default {
     headerValidator(row, tam) {
       this.sample = row;
       if (tam === 3) {
-        console.log(row[0]);
-        console.log(this.validNames.includes(row[0][0].toLowerCase()));
-        console.log(this.validEmails.includes(row[0][1].toLowerCase()));
+
         if (
           this.validNames.includes(row[0][0].toLowerCase()) &&
           this.validEmails.includes(row[0][1].toLowerCase())
         ) {
-          console.log("Tem que rodar o print");
           this.print();
         } else {
           this.notCorrect = true;
