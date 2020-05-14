@@ -9,7 +9,9 @@
     <img class="center" :src="file" alt="Logo da Empresa" />
     <p class="pa">Olá, João</p>
 
-    <p class="pa">Qual a probabilidade de você nos recomendar para um amigo ou {{ choice }}.</p>
+    <p class="pa">
+      Qual a probabilidade de você nos recomendar para um amigo ou {{ choice }}.
+    </p>
 
     <div>
       <ul class="float">
@@ -18,7 +20,9 @@
           v-for="(color, i) in score_color"
           :key="color"
           :style="{ 'background-color': color }"
-        >{{ i }}</li>
+        >
+          {{ i }}
+        </li>
       </ul>
     </div>
     <br />
@@ -41,7 +45,8 @@ export default {
   name: "FormRight",
   data() {
     return {
-      file: null,
+      file:
+        "https://produzindosom8.webnode.com/_files/200000051-0a9120b8a3/sua%20marca%20aqui.png",
       choice: "familiar",
       company: "Unilever",
       campaign: "Pesquisa de satisfação",

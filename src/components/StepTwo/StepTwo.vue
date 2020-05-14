@@ -10,6 +10,26 @@
     >
 
     <p>{{ textClient }}</p>
+     <b-row md="12" cols="1">
+      <b-alert :show="!congrats" fade variant="warning">
+        A ordem é Nome - Email - Telefone
+        <b-icon
+          icon="exclamation-circle-fill"
+          variant="warning"
+          style="width: 25px; height: 25px;"
+        ></b-icon>
+      </b-alert>
+      <b-alert :show="congrats" fade variant="success">
+        Muito bem, todos os registros carregados estão certos, clique em salvar
+        e avançar
+        <b-icon
+          animation="cylon"
+          icon="exclamation-circle-fill"
+          variant="success"
+          style="width: 25px; height: 25px;"
+        ></b-icon>
+      </b-alert>
+    </b-row>
     <div>
       <b-tabs content-class="mt-3" fill>
         <b-tab title="Copie e Cole">
@@ -53,7 +73,8 @@ export default {
       dismissSecs: 10,
       dismissCountDown: 0,
       textClient:
-        "Voce pode optar por copiar e colar ou Importar um arquivo de clientes.",
+        "Voce pode optar por copiar e colar, Importar um arquivo de clientes, ou mesmo digitar os dados dos clientes",
+      textClient2: "A ordem é Nome, email e telefone",
       transProps: {
         // Transition name
         name: "flip-list"

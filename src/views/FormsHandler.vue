@@ -14,7 +14,7 @@
     </b-row>
   </b-container>
 </template>
-// #TODO FAZER CONFORME O STEP PROGRESS BAR DO CHECKOUT SOMENTE LIBERANDO APOS A CONFIRMACAO DO PASSO ANTERIOR
+
 <script>
 import StepProgressBar from "@/components/StepProgressBar.vue";
 import StepOne from "@/components//StepOne/StepOne.vue";
