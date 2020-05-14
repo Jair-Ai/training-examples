@@ -1,9 +1,5 @@
 <template>
   <b-container fluid>
-    <b-row>
-      Window width: {{ windowWidth }}
-      <p>Window width: {{ windowWidth }}</p>
-    </b-row>
     <b-row align-v="center">
       <b-col cols="10">
         <b-table
@@ -89,8 +85,6 @@ export default {
   },
   computed: {
     mobile() {
-      console.log(`Dentro do computed ${this.windowWidth}`);
-      console.log(this.windowWidth >= 700);
       return this.windowWidth >= 700;
     }
   },
@@ -103,7 +97,6 @@ export default {
   mounted() {
     window.addEventListener("resize", () => {
       this.windowWidth = window.innerWidth;
-      console.log(this.windowWidth);
     });
   },
 
@@ -119,7 +112,6 @@ export default {
       return rowEmailValidator.isValidSync(e);
     },
     validateTelefone(e) {
-      console.log(e.length);
       if (dddList.toString().includes(e.slice(0, 2)) && e.length === 11) {
         return true;
       } else {
@@ -143,12 +135,8 @@ export default {
       }
     },
     editedRow(e, item) {
-      console.log(this.toTableCP);
-      console.log(item.field.key);
-      console.log(item.index);
       let aKey = item.field.key;
       let aIndex = item.index;
-
       this.toTableCP[aIndex][aKey] = e;
     }
   }
