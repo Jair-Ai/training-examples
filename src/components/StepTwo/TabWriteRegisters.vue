@@ -79,7 +79,7 @@ export default {
       blankRow: { Nome: "", email: "", telefone: "" },
       fieldsFromMain: fields,
       validDDD: false,
-      windowWidth: 0,
+      windowWidth: window.innerWidth,
       txt: ""
     };
   },
@@ -93,7 +93,6 @@ export default {
       this.txt = `it changed to ${newWidth} from ${oldWidth}`;
     }
   },
-
   mounted() {
     window.addEventListener("resize", () => {
       this.windowWidth = window.innerWidth;
