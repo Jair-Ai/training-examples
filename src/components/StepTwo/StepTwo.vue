@@ -10,7 +10,7 @@
     >
 
     <p>{{ textClient }}</p>
-     <b-row md="12" cols="1">
+    <b-row md="12" cols="1">
       <b-alert :show="!congrats" fade variant="warning">
         A ordem é Nome - Email - Telefone
         <b-icon
@@ -33,13 +33,13 @@
     <div>
       <b-tabs content-class="mt-3" fill>
         <b-tab title="Copie e Cole">
-          <underTest></underTest>
+          <underTest :perPage=perPage></underTest>
         </b-tab>
         <b-tab title="Importe em Formato Csv">
-          <TabImportCsv :transProps="transProps"></TabImportCsv>
+          <TabImportCsv :transProps="transProps" :perPage=perPage></TabImportCsv>
         </b-tab>
         <b-tab title="Escreva" active>
-          <TabWriteRegisters></TabWriteRegisters>
+          <TabWriteRegisters :perPage=perPage></TabWriteRegisters>
         </b-tab>
       </b-tabs>
     </div>
@@ -58,7 +58,8 @@
 import TabImportCsv from "./TabImportCsv";
 import underTest from "./TabCopyAndPaste02";
 import TabWriteRegisters from "./TabWriteRegisters";
-
+import { perPage } from "../../main"
+// TODO: Create confirmation for this Steps checking each tab searching for corrects inputs
 export default {
   name: "StepTwo",
   components: {
@@ -79,7 +80,8 @@ export default {
         // Transition name
         name: "flip-list"
       },
-      everythingOK: true
+      everythingOK: true,
+      perPage: perPage
     };
   },
   methods: {

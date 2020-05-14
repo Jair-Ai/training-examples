@@ -83,6 +83,9 @@ export default {
       txt: ""
     };
   },
+  props: {
+    perPage: { default: 20, required: true }
+  },
   computed: {
     mobile() {
       return this.windowWidth >= 700;

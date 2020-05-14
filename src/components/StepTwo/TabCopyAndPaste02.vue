@@ -1,6 +1,5 @@
 <template>
   <b-container fluid>
-   
     <b-row md="12" cols="1">
       <textarea
         class="form-control"
@@ -204,7 +203,6 @@ export default {
     return {
       text: "",
       toTableCP: [],
-      perPage: 20,
       currentPage: 1,
       tableone: false,
       filters: null,
@@ -243,7 +241,8 @@ export default {
     };
   },
   props: {
-    transProps: {}
+    transProps: {},
+    perPage: { default: 20, required: true }
   },
   computed: {
     rowColor() {
@@ -348,7 +347,6 @@ export default {
         this.fields[0].variant = "danger";
         this.fields[1].variant = "danger";
         this.fields[2].variant = "danger";
-
       } else {
         this.toTableCP = this.corrects;
       }
@@ -357,7 +355,6 @@ export default {
     headerValidator(row, tam) {
       this.sample = row;
       if (tam === 3) {
-
         if (
           this.validNames.includes(row[0][0].toLowerCase()) &&
           this.validEmails.includes(row[0][1].toLowerCase())

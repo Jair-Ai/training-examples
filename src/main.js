@@ -24,6 +24,7 @@ import "vue-datetime/dist/vue-datetime.css";
 Vue.config.productionTip = false;
 export const EventBus = new Vue();
 
+const perPage = 50;
 const dddList = [
   11,
   12,
@@ -119,6 +120,7 @@ export { emailValidatorNot };
 export { rowEmailValidator };
 export { rowNameValidator };
 export { dddList };
+export { perPage };
 const fields = [
   {
     key: "Nome",

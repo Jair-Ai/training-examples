@@ -107,7 +107,8 @@ export default {
     testeCsv
   },
   props: {
-    transProps: {}
+    transProps: {},
+    perPage: { default: 20, required: true }
   },
   data() {
     return {
@@ -115,7 +116,6 @@ export default {
       quero: false,
       csv: "",
       text: "",
-      perPage: 20,
       currentPage: 1,
       tableone: false,
       everythingOK: true,
