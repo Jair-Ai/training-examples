@@ -20,14 +20,24 @@
               @change="editedRow($event, row)"
               type="email"
               v-model="row.item.email"
+              :state="validateEmail(row.item.email)"
             />
+            <b-form-invalid-feedback :state="validateEmail(row.item.email)">
+              Coloque um e-mail valido.
+            </b-form-invalid-feedback>
           </template>
           <template v-slot:cell(telefone)="row">
             <b-form-input
               @change="editedRow($event, row)"
               type="number"
               v-model="row.item.telefone"
+              :state="validateTelefone(row.item.telefone)"
             />
+            <b-form-invalid-feedback
+              :state="validateTelefone(row.item.telefone)"
+            >
+              Coloque um Celular valido.
+            </b-form-invalid-feedback>
           </template>
         </b-table>
       </b-col>
@@ -47,7 +57,12 @@
 </template>
 
 <script>
-import { fields } from "../../main";
+import {
+  fields,
+  rowEmailValidator,
+  rowNameValidator,
+  dddList
+} from "../../main";
 
 export default {
   name: "WriteRegisters",
@@ -56,14 +71,26 @@ export default {
       toTableCP: [{ Nome: "", email: "", telefone: "" }],
       blankRow: { Nome: "", email: "", telefone: "" },
       fieldsFromMain: fields,
-      loadedInput: {}
+      validDDD: false
     };
   },
-
   methods: {
+    validateEmail(e) {
+      return rowEmailValidator.isValidSync(e);
+    },
+    validateTelefone(e) {
+      console.log(e.length);
+      if (dddList.toString().includes(e.slice(0, 2)) && e.length === 11) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    validateName(e) {
+      return rowNameValidator.isValidSync(e);
+    },
     insertRow() {
       this.toTableCP.push({ Nome: "", email: "", telefone: "" });
-      console.log(this.toTableCP);
     },
     deleteRow() {
       if (this.toTableCP.length > 1) {
@@ -71,14 +98,13 @@ export default {
       }
     },
     editedRow(e, item) {
-      console.log(`Este é o e = ${e} `);
-      console.log(item);
+      console.log(this.toTableCP);
+      console.log(item.field.key);
+      console.log(item.index);
       let aKey = item.field.key;
       let aIndex = item.index;
-      console.log(this.loadedInput[0][aKey]);
 
-      this.loadedInput[aIndex][aKey] = e;
-      this.separateIncorrectsFromCorrects(this.loadedInput);
+      this.toTableCP[aIndex][aKey] = e;
     }
   }
 };
