@@ -1,9 +1,13 @@
 <template>
   <b-container fluid>
+    <b-row>
+      Window width: {{ windowWidth }}
+      <p>Window width: {{ windowWidth }}</p>
+    </b-row>
     <b-row align-v="center">
       <b-col cols="10">
         <b-table
-          class="mb-3"
+          :stacked="!mobile"
           id="my-table"
           striped
           hover
@@ -13,7 +17,14 @@
           primary-key="a"
         >
           <template v-slot:cell(Nome)="row">
-            <b-form-input type="text" v-model="row.item.Nome" />
+            <b-form-input
+              type="text"
+              v-model="row.item.Nome"
+              :state="validateName(row.item.Nome)"
+            />
+            <b-form-invalid-feedback :state="validateName(row.item.Nome)">
+              Coloque um nome valido.
+            </b-form-invalid-feedback>
           </template>
           <template v-slot:cell(email)="row">
             <b-form-input
@@ -59,8 +70,8 @@
 <script>
 import {
   fields,
-  rowEmailValidator,
   rowNameValidator,
+  rowEmailValidator,
   dddList
 } from "../../main";
 
@@ -71,8 +82,37 @@ export default {
       toTableCP: [{ Nome: "", email: "", telefone: "" }],
       blankRow: { Nome: "", email: "", telefone: "" },
       fieldsFromMain: fields,
-      validDDD: false
+      validDDD: false,
+      windowWidth: 0,
+      txt: ""
     };
+  },
+  computed: {
+    mobile() {
+      console.log(`Dentro do computed ${this.windowWidth}`);
+      console.log(this.windowWidth >= 700);
+      return this.windowWidth >= 700;
+    }
+  },
+  watch: {
+    windowHeight(newWidth, oldWidth) {
+      this.txt = `it changed to ${newWidth} from ${oldWidth}`;
+    }
+  },
+
+  mounted() {
+    window.addEventListener("resize", () => {
+      this.windowWidth = window.innerWidth;
+      console.log(this.windowWidth);
+    });
+  },
+
+  beforeDestroy() {
+    window.removeEventListener("resize", this.onResize);
+  },
+
+  onResize() {
+    this.windowWidth = window.innerWidth;
   },
   methods: {
     validateEmail(e) {
@@ -87,10 +127,15 @@ export default {
       }
     },
     validateName(e) {
-      return rowNameValidator.isValidSync(e);
+      if (rowNameValidator.isValidSync(e) && e.length > 3) {
+        return true;
+      } else {
+        return false;
+      }
     },
     insertRow() {
       this.toTableCP.push({ Nome: "", email: "", telefone: "" });
+      this.mobile = !this.mobile;
     },
     deleteRow() {
       if (this.toTableCP.length > 1) {
