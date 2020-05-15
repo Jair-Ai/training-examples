@@ -16,7 +16,7 @@
 </template>
 
 <script>
-//TODO: CRIAR MIXINGS PARA OS CODIGOS REPITIDOS
+//TODO: CRIAR MIXINGS PARA OS CODIGOS REPETIDOS
 import StepProgressBar from "@/components/StepProgressBar.vue";
 import StepOne from "@/components//StepOne/StepOne.vue";
 import StepTwo from "@/components/StepTwo/StepTwo.vue";

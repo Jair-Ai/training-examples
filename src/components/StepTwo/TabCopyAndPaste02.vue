@@ -221,32 +221,13 @@ export default {
       validEmails: ["e-mail", "email"],
       notCorrect: false,
       map: {},
-      sample: {},
-      fields: [
-        {
-          key: "Nome",
-          label: "Nome",
-          sortable: true,
-          variant: "light"
-        },
-        {
-          key: "email",
-          label: "email",
-          sortable: true,
-          variant: "light"
-        },
-        {
-          key: "Telefone",
-          label: "Telefone",
-          sortable: true,
-          variant: "light"
-        }
-      ]
+      sample: {}
     };
   },
   props: {
     transProps: {},
-    perPage: { default: 20, required: true }
+    perPage: { default: 20, required: true },
+    fields: { type: Array, required: true }
   },
   computed: {
     rowColor() {
@@ -257,7 +238,6 @@ export default {
       }
     },
     firstRow() {
-      console.log("Esta rodando first row");
       return get(this, "sample.0");
     },
     emailState() {
@@ -277,15 +257,11 @@ export default {
   },
   methods: {
     editedRow(e, item) {
-      console.log(`Este é o e = ${e} `);
-      console.log(item);
+
       let aKey = item.field.key;
       let aIndex = item.index;
-      console.log(this.loadedInput[0][aKey]);
-
       this.loadedInput[aIndex][aKey] = e;
       let validReg = rowEmailValidator.isValidSync(e);
-      console.log(validReg);
       if (validReg) {
         this.separateIncorrectsFromCorrects(this.loadedInput);
       }
@@ -339,7 +315,7 @@ export default {
         }
         jsonteste.push(item);
       }
-      console.log(jsonteste);
+
       this.loadedInput = jsonteste;
       //console.log("Agora vem o Json");
       //console.log(JSON.stringify(jsonteste));
@@ -352,13 +328,16 @@ export default {
       if (this.incorrects.length > 0) {
         this.showCorrects = false;
         this.toTableCP = this.incorrects;
-        this.fields[0].variant = "danger";
-        this.fields[1].variant = "danger";
-        this.fields[2].variant = "danger";
+        this.coloredIncorrects;
       } else {
         this.toTableCP = this.corrects;
       }
-      console.log("rodou a funcao separar");
+
+    },
+    coloredIncorrects() { 
+      this.fields[0].variant = "danger";
+      this.fields[1].variant = "danger";
+      this.fields[2].variant = "danger";
     },
     headerValidator(row, tam) {
       this.sample = row;
