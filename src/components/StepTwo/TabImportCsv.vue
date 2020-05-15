@@ -108,7 +108,8 @@ export default {
   },
   props: {
     transProps: {},
-    perPage: { default: 20, required: true }
+    perPage: { default: 20, required: true },
+    fields: { type: Array, required: true }
   },
   data() {
     return {
@@ -120,24 +121,7 @@ export default {
       tableone: false,
       everythingOK: true,
       filters: null,
-      filtersOn: [],
-      fields: [
-        {
-          key: "Nome",
-          sortable: true
-        },
-        {
-          key: "E-mail",
-          sortable: true
-        },
-        {
-          key: "Telefone",
-          label: "telefone",
-          sortable: true
-          // Variant applies to the whole column, including the header and footer
-          //variant: "danger"
-        }
-      ]
+      filtersOn: []
     };
   },
   computed: {

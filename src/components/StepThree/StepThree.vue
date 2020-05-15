@@ -41,17 +41,16 @@
             type="datetime"
             min-date="today"
             input-style="{width: 120%;
-  padding: 12px 60px;
-  margin: 8px 8px;
-  display: inline-block;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  cursor: alias
-}"
-          >
-          
-          </datetime>
+                          padding: 12px 60px;
+                          margin: 8px 8px;
+                          display: inline-block;
+                          border: 2px solid #ccc;
+                          border-radius: 4px;
+                          box-sizing: border-box;
+                          cursor: alias
+                        }"
+            :min-datetime="initDate"
+          ></datetime>
         </div>
       </b-col>
     </b-row>
@@ -72,9 +71,16 @@ export default {
       stateD: true,
       dateP: null,
       date: "",
-      dataform: false
+      dataform: false,
+      initDate: null
     };
   },
+  created() {
+    let date = new Date();
+    this.initDate = date.toISOString();
+    console.log(this.initDate);
+  },
+
   methods: {
     activeButton() {
       this.button1 = !this.button1;

@@ -193,7 +193,11 @@
 </template>
 
 <script>
-import { emailValidator, emailValidatorNot } from "../../main";
+import {
+  emailValidator,
+  emailValidatorNot,
+  rowEmailValidator
+} from "../../main";
 import { get } from "lodash";
 import * as Yup from "yup";
 //TODO NAO PODE TER EMAIL REPITIDO
@@ -280,7 +284,11 @@ export default {
       console.log(this.loadedInput[0][aKey]);
 
       this.loadedInput[aIndex][aKey] = e;
-      this.separateIncorrectsFromCorrects(this.loadedInput);
+      let validReg = rowEmailValidator.isValidSync(e);
+      console.log(validReg);
+      if (validReg) {
+        this.separateIncorrectsFromCorrects(this.loadedInput);
+      }
     },
     checkMapPosition() {
       let colNome = this.sample[0].indexOf(this.map.name);
@@ -350,7 +358,7 @@ export default {
       } else {
         this.toTableCP = this.corrects;
       }
-      console.log(this.incorrects);
+      console.log("rodou a funcao separar");
     },
     headerValidator(row, tam) {
       this.sample = row;
