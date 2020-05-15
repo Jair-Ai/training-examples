@@ -2,7 +2,7 @@
 <template>
   <b-container float-center>
     <h4 style="text-align: center">
-      Aqui voce configurará o envio da sua pesquisa
+      Aqui voce escolherá quando enviar sua pesquisa.
     </h4>
 
     <hr />
@@ -19,7 +19,7 @@
           variant="outline-primary"
           @click="dataform = true"
           :pressed="dataform"
-          >Escolher Data de Envio</b-button
+          >Escolher Data e Hora</b-button
         >
       </b-button-group>
     </div>
@@ -39,6 +39,7 @@
           <datetime
             v-model="date"
             type="datetime"
+            min-date="today"
             input-style="{width: 120%;
   padding: 12px 60px;
   margin: 8px 8px;
@@ -48,7 +49,9 @@
   box-sizing: border-box;
   cursor: alias
 }"
-          ></datetime>
+          >
+          
+          </datetime>
         </div>
       </b-col>
     </b-row>

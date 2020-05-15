@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       componentActive: 0,
-      stepsTo: ["Pesquisa", "Clientes", "Data de Envio", "Confira"]
+      stepsTo: ["Pesquisa", "Clientes", "Envio", "Confira"]
     };
   },
   components: {

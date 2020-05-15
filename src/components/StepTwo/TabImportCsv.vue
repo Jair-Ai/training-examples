@@ -22,7 +22,7 @@
               :value="headers"
               @change="toggle"
             />
-            Cabeçalho?
+            O Arquivo contém cabeçalho?
           </label>
         </template>
 
