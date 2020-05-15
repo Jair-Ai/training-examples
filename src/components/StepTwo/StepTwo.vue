@@ -33,13 +33,20 @@
     <div>
       <b-tabs content-class="mt-3" fill>
         <b-tab title="Copie e Cole">
-          <underTest :perPage=perPage></underTest>
+          <underTest :perPage="perPage" :fields="fields"></underTest>
         </b-tab>
         <b-tab title="Importe em Formato Csv">
-          <TabImportCsv :transProps="transProps" :perPage=perPage></TabImportCsv>
+          <TabImportCsv
+            :transProps="transProps"
+            :perPage="perPage"
+            :fields="fields"
+          ></TabImportCsv>
         </b-tab>
         <b-tab title="Escreva" active>
-          <TabWriteRegisters :perPage=perPage></TabWriteRegisters>
+          <TabWriteRegisters
+            :perPage="perPage"
+            :fields="fields"
+          ></TabWriteRegisters>
         </b-tab>
       </b-tabs>
     </div>
@@ -58,8 +65,10 @@
 import TabImportCsv from "./TabImportCsv";
 import underTest from "./TabCopyAndPaste02";
 import TabWriteRegisters from "./TabWriteRegisters";
-import { perPage } from "../../main"
+import { perPage, fields } from "../../main";
+
 // TODO: Create confirmation for this Steps checking each tab searching for corrects inputs
+// TODO: Create vaidation for repeated emails
 export default {
   name: "StepTwo",
   components: {
@@ -81,7 +90,8 @@ export default {
         name: "flip-list"
       },
       everythingOK: true,
-      perPage: perPage
+      perPage: perPage,
+      fields: fields
     };
   },
   methods: {
