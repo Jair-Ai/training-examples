@@ -93,7 +93,6 @@
               @click="change('duplicates')"
               variant="outline-warning"
               :pressed="show == 'duplicates'"
-              v-if="duplicates.length > 0"
             >
               Registros Duplicados
               {{ duplicates.length }}
@@ -231,7 +230,6 @@ export default {
       validNames: ["nome", "nomes", "cliente", "clientes"],
       validEmails: ["e-mail", "email"],
       notCorrect: false,
-      testConcat: [],
       map: {},
       sample: {}
     };
@@ -270,25 +268,12 @@ export default {
   methods: {
     editedRow(e, item) {
       console.log(item);
-      console.log(this.duplicates);
-      console.log(this.show);
       let aKey = item.field.key;
       let aIndex = item.index;
-      if (this.show == "incorrects") {
-        this.incorrects[aIndex][aKey] = e;
-      } else if (this.show == "duplicates") {
-        this.duplicates[aIndex][aKey] = e;
-      }
-      this.testConcat = [
-        ...this.corrects,
-        ...this.incorrects,
-        ...this.duplicates
-      ];
-      console.log(this.testConcat);
-      //this.loadedInput[aIndex][aKey] = e;
+      this.loadedInput[aIndex][aKey] = e;
       let validReg = rowEmailValidator.isValidSync(e);
       if (validReg) {
-        this.separateIncorrectsFromCorrects(this.testConcat);
+        this.separateIncorrectsFromCorrects(this.loadedInput);
       }
     },
     checkMapPosition() {
@@ -311,6 +296,8 @@ export default {
         this.fields[1].variant = "success";
         this.fields[2].variant = "success";
         this.toTableCP = this.corrects;
+        console.log(this.corrects);
+
         this.show = "corrects";
       } else if (validator == "incorrects") {
         this.fields[0].variant = "danger";
@@ -320,6 +307,7 @@ export default {
         this.toTableCP = this.incorrects;
 
         this.show = "incorrects";
+        console.log(this.incorrects);
       } else {
         this.fields[0].variant = "warning";
         this.fields[1].variant = "warning";
@@ -359,6 +347,7 @@ export default {
       let dupl = takeDupl(this.corrects, "email");
       this.corrects = dupl[0];
       this.duplicates = dupl[1];
+      console.log(dupl);
       if (this.incorrects.length > 0) {
         this.show = "incorrects";
         this.toTableCP = this.incorrects;

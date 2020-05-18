@@ -277,7 +277,7 @@ export default {
       if (this.show == "incorrects") {
         this.incorrects[aIndex][aKey] = e;
       } else if (this.show == "duplicates") {
-        this.duplicates[aIndex][aKey] = e;
+        this.incorrects[aIndex][aKey] = e;
       }
       this.testConcat = [
         ...this.corrects,

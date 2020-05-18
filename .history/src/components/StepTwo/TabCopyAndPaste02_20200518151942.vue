@@ -231,7 +231,7 @@ export default {
       validNames: ["nome", "nomes", "cliente", "clientes"],
       validEmails: ["e-mail", "email"],
       notCorrect: false,
-      testConcat: [],
+      testeConcat: [],
       map: {},
       sample: {}
     };
@@ -277,18 +277,14 @@ export default {
       if (this.show == "incorrects") {
         this.incorrects[aIndex][aKey] = e;
       } else if (this.show == "duplicates") {
-        this.duplicates[aIndex][aKey] = e;
+        this.incorrects[aIndex][aKey] = e;
       }
-      this.testConcat = [
-        ...this.corrects,
-        ...this.incorrects,
-        ...this.duplicates
-      ];
+      this.testConcat = this.correct.concat(this.incorrects, this.duplicates);
       console.log(this.testConcat);
       //this.loadedInput[aIndex][aKey] = e;
       let validReg = rowEmailValidator.isValidSync(e);
       if (validReg) {
-        this.separateIncorrectsFromCorrects(this.testConcat);
+        this.separateIncorrectsFromCorrects(this.testeConcat);
       }
     },
     checkMapPosition() {
