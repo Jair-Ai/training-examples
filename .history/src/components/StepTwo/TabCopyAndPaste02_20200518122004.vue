@@ -192,7 +192,7 @@
           <b-form-input
             @change="editedRow($event, row)"
             type="number"
-            v-model="row.item.telefone"
+            v-model="row.item.Telefone"
           />
         </template>
       </b-table>

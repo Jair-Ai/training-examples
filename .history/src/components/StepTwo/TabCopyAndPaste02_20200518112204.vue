@@ -82,7 +82,7 @@
         <div class="mt-3" style="margin-bottom: 30px">
           <b-button-group size="xl">
             <b-button
-              @click="change('corrects')"
+              @click="change(true)"
               variant="outline-success"
               :pressed="show == 'corrects'"
             >
@@ -90,16 +90,16 @@
               {{ corrects.length }}
             </b-button>
             <b-button
-              @click="change('duplicates')"
+              @click="change(false)"
               variant="outline-warning"
               :pressed="show == 'duplicates'"
             >
               Registros Duplicados
-              {{ duplicates.length }}
+              {{ incorrects.length }}
             </b-button>
 
             <b-button
-              @click="change('incorrects')"
+              @click="change(false)"
               variant="outline-danger"
               :pressed="show == 'incorrects'"
             >
@@ -166,7 +166,7 @@
         @filtered="onFiltered"
       >
         <template
-          v-if="(show == 'incorrects') | (show == 'duplicates')"
+          v-if="!showCorrects && incorrects.length > 0"
           v-slot:cell(Nome)="row"
         >
           <b-form-input
@@ -176,7 +176,7 @@
           />
         </template>
         <template
-          v-if="(show == 'incorrects') | (show == 'duplicates')"
+          v-if="!showCorrects && incorrects.length > 0"
           v-slot:cell(email)="row"
         >
           <b-form-input
@@ -186,13 +186,13 @@
           />
         </template>
         <template
-          v-if="(show == 'incorrects') | (show == 'duplicates')"
+          v-if="!showCorrects && incorrects.length > 0"
           v-slot:cell(telefone)="row"
         >
           <b-form-input
             @change="editedRow($event, row)"
             type="number"
-            v-model="row.item.telefone"
+            v-model="row.item.Telefone"
           />
         </template>
       </b-table>
@@ -222,7 +222,6 @@ export default {
       filtersOn: [],
       corrects: {},
       incorrects: {},
-      duplicates: {},
       loadedInput: {},
       row: {},
       show: "duplicates",
@@ -290,29 +289,20 @@ export default {
       this.separateIncorrectsFromCorrects(objectToTable);
     },
     change(validator) {
-      if (validator == "corrects") {
+      if (validator) {
         this.fields[0].variant = "success";
         this.fields[1].variant = "success";
         this.fields[2].variant = "success";
         this.toTableCP = this.corrects;
-        console.log(this.corrects);
-
-        this.show = "corrects";
-      } else if (validator == "incorrects") {
+        this.$root.$emit("bv::refresh::table", "my-table");
+        this.showCorrects = true;
+      } else {
         this.fields[0].variant = "danger";
         this.fields[1].variant = "danger";
         this.fields[2].variant = "danger";
         //this.fields.Nome.variant = "danger";
         this.toTableCP = this.incorrects;
-
-        this.show = "incorrects";
-        console.log(this.incorrects);
-      } else {
-        this.fields[0].variant = "warning";
-        this.fields[1].variant = "warning";
-        this.fields[2].variant = "warning";
-        this.toTableCP = this.duplicates;
-        this.show = "duplicates";
+        this.showCorrects = false;
       }
     },
     readPasteText() {
@@ -341,20 +331,17 @@ export default {
     },
     async separateIncorrectsFromCorrects(file) {
       this.tableone = true;
-      this.incorrects = await emailValidatorNot(file);
       this.corrects = await emailValidator(file);
-      let dupl = takeDupl(this.corrects, "email");
-      this.corrects = dupl[0];
-      this.duplicates = dupl[1];
-      console.log(dupl);
+      this.incorrects = await emailValidatorNot(file);
       if (this.incorrects.length > 0) {
-        this.show = "incorrects";
+        this.showCorrects = false;
         this.toTableCP = this.incorrects;
         this.coloredIncorrects;
       } else {
         this.toTableCP = this.corrects;
-        this.show = "corrects";
       }
+      let dupl = takeDupl(this.corrects, "email");
+      console.log(dupl);
     },
     coloredIncorrects() {
       this.fields[0].variant = "danger";

@@ -192,7 +192,7 @@
           <b-form-input
             @change="editedRow($event, row)"
             type="number"
-            v-model="row.item.telefone"
+            v-model="row.item.Telefone"
           />
         </template>
       </b-table>
@@ -295,8 +295,8 @@ export default {
         this.fields[1].variant = "success";
         this.fields[2].variant = "success";
         this.toTableCP = this.corrects;
-        console.log(this.corrects);
-
+        console.log(`Os correctos ${this.corrects}`);
+        this.$root.$emit("bv::refresh::table", "my-table");
         this.show = "corrects";
       } else if (validator == "incorrects") {
         this.fields[0].variant = "danger";
@@ -304,14 +304,14 @@ export default {
         this.fields[2].variant = "danger";
         //this.fields.Nome.variant = "danger";
         this.toTableCP = this.incorrects;
-
+        this.$root.$emit("bv::refresh::table", "my-table");
         this.show = "incorrects";
-        console.log(this.incorrects);
       } else {
         this.fields[0].variant = "warning";
         this.fields[1].variant = "warning";
         this.fields[2].variant = "warning";
         this.toTableCP = this.duplicates;
+        this.$root.$emit("bv::refresh::table", "my-table");
         this.show = "duplicates";
       }
     },

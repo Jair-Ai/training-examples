@@ -166,7 +166,7 @@
         @filtered="onFiltered"
       >
         <template
-          v-if="(show == 'incorrects') | (show == 'duplicates')"
+          v-if="!showCorrects && incorrects.length > 0"
           v-slot:cell(Nome)="row"
         >
           <b-form-input
@@ -176,7 +176,7 @@
           />
         </template>
         <template
-          v-if="(show == 'incorrects') | (show == 'duplicates')"
+          v-if="!showCorrects && incorrects.length > 0"
           v-slot:cell(email)="row"
         >
           <b-form-input
@@ -186,13 +186,13 @@
           />
         </template>
         <template
-          v-if="(show == 'incorrects') | (show == 'duplicates')"
+          v-if="!showCorrects && incorrects.length > 0"
           v-slot:cell(telefone)="row"
         >
           <b-form-input
             @change="editedRow($event, row)"
             type="number"
-            v-model="row.item.telefone"
+            v-model="row.item.Telefone"
           />
         </template>
       </b-table>
@@ -295,24 +295,24 @@ export default {
         this.fields[1].variant = "success";
         this.fields[2].variant = "success";
         this.toTableCP = this.corrects;
-        console.log(this.corrects);
-
-        this.show = "corrects";
+        console.log(`Os correctos ${this.corrects}`);
+        this.$root.$emit("bv::refresh::table", "my-table");
+        this.showCorrects = true;
       } else if (validator == "incorrects") {
         this.fields[0].variant = "danger";
         this.fields[1].variant = "danger";
         this.fields[2].variant = "danger";
         //this.fields.Nome.variant = "danger";
         this.toTableCP = this.incorrects;
-
-        this.show = "incorrects";
-        console.log(this.incorrects);
+        this.$root.$emit("bv::refresh::table", "my-table");
+        this.showCorrects = false;
       } else {
         this.fields[0].variant = "warning";
         this.fields[1].variant = "warning";
         this.fields[2].variant = "warning";
         this.toTableCP = this.duplicates;
-        this.show = "duplicates";
+        this.$root.$emit("bv::refresh::table", "my-table");
+        this.showCorrects = false;
       }
     },
     readPasteText() {
