@@ -268,7 +268,6 @@ export default {
   mounted() {
     // Set the initial number of items
     this.rows = this.toTableCP.length;
-    this.show = "danger";
   },
   methods: {
     editedRow(e, item) {
