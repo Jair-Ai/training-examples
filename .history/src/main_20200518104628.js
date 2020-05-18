@@ -123,7 +123,7 @@ const takeDupl = function(arr, column) {
     .map(e => arr[e][column]);
 
   let duplicatesObj = arr.filter(obj => duplIds.includes(obj[column]));
-  let notduplicates = arr.filter(obj => !duplIds.includes(obj[column]));
+  let notduplicates = arr.filter(obj => !obj.includes([column]));
 
   return [duplicatesObj, notduplicates];
 };

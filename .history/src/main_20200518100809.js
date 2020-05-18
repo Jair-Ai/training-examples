@@ -122,10 +122,7 @@ const takeDupl = function(arr, column) {
     .filter(obj => arr[obj])
     .map(e => arr[e][column]);
 
-  let duplicatesObj = arr.filter(obj => duplIds.includes(obj[column]));
-  let notduplicates = arr.filter(obj => !duplIds.includes(obj[column]));
-
-  return [duplicatesObj, notduplicates];
+  return arr.filter(obj => duplIds.includes(obj[column]));
 };
 
 const emailValidator = async function(arraytoValidate) {

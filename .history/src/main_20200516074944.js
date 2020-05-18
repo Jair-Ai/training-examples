@@ -8,6 +8,21 @@ import { Datetime } from "vue-datetime";
 import { Settings } from "luxon";
 import * as Yup from "yup";
 import VueResorce from "vue-resource";
+import firebase from "firebase/App";
+import "firebase/auth";
+import "firebase/storage";
+import "firebase/database";
+
+export const firebaseApp = firebase.initializeApp({
+  apiKey: process.env.VUE_APP_API_KEY,
+  authDomain: process.env.VUE_APP_AUTH_DOMAIN,
+  databaseURL: process.env.VUE_APP_DATABASE_URL,
+  projectId: process.env.VUE_APP_PROJECT_ID,
+  storageBucket: process.env.VUE_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.VUE_APP_MESSAGE_APP_ID,
+  appId: process.env.VUE_APP_MESSAGE_APP_ID,
+  measurementId: process.env.VUE_APP_MEASUREMENT_ID
+});
 
 Settings.defaultLocale = "pt-Br";
 Vue.use(VueResorce);
@@ -103,29 +118,12 @@ const rowNameValidator = Yup.string().required();
 
 //const rowTelefoneValidator = Yup.number();
 
-const checkDuplicates = function(array, key) {
-  let lookup = {};
-  let result = [];
-  array.forEach(element => {
-    if (lookup[element[key]]) {
-      lookup[element[key]] = true;
-      result.push(element);
-    }
-  });
-  return result;
-};
-
-const takeDupl = function(arr, column) {
-  let duplIds = arr
-    .map(e => e[column])
-    .map((e, i, final) => final.indexOf(e) !== i && i)
-    .filter(obj => arr[obj])
-    .map(e => arr[e][column]);
-
-  let duplicatesObj = arr.filter(obj => duplIds.includes(obj[column]));
-  let notduplicates = arr.filter(obj => !duplIds.includes(obj[column]));
-
-  return [duplicatesObj, notduplicates];
+const checkDuplicates = function(arrayToCheck) {
+  return arrayToCheck.filter(element =>
+    element.filter((element, i) => {
+      return element.email.indexOf(element) != i;
+    })
+  );
 };
 
 const emailValidator = async function(arraytoValidate) {
@@ -147,7 +145,6 @@ export { rowNameValidator };
 export { dddList };
 export { perPage };
 export { checkDuplicates };
-export { takeDupl };
 const fields = [
   {
     key: "Nome",

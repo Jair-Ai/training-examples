@@ -103,29 +103,12 @@ const rowNameValidator = Yup.string().required();
 
 //const rowTelefoneValidator = Yup.number();
 
-const checkDuplicates = function(array, key) {
-  let lookup = {};
-  let result = [];
-  array.forEach(element => {
-    if (lookup[element[key]]) {
-      lookup[element[key]] = true;
-      result.push(element);
-    }
-  });
-  return result;
-};
-
-const takeDupl = function(arr, column) {
-  let duplIds = arr
-    .map(e => e[column])
-    .map((e, i, final) => final.indexOf(e) !== i && i)
-    .filter(obj => arr[obj])
-    .map(e => arr[e][column]);
-
-  let duplicatesObj = arr.filter(obj => duplIds.includes(obj[column]));
-  let notduplicates = arr.filter(obj => !duplIds.includes(obj[column]));
-
-  return [duplicatesObj, notduplicates];
+const checkDuplicates = function(arrayToCheck) {
+  return arrayToCheck.filter(element =>
+    element.filter((element, i) => {
+      return element.email.indexOf(element) != i;
+    })
+  );
 };
 
 const emailValidator = async function(arraytoValidate) {
@@ -147,7 +130,6 @@ export { rowNameValidator };
 export { dddList };
 export { perPage };
 export { checkDuplicates };
-export { takeDupl };
 const fields = [
   {
     key: "Nome",

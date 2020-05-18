@@ -196,9 +196,7 @@
 import {
   emailValidator,
   emailValidatorNot,
-  rowEmailValidator,
-  //checkDuplicates
-  takeDupl
+  rowEmailValidator
 } from "../../main";
 import { get } from "lodash";
 import * as Yup from "yup";
@@ -259,6 +257,7 @@ export default {
   },
   methods: {
     editedRow(e, item) {
+
       let aKey = item.field.key;
       let aIndex = item.index;
       this.loadedInput[aIndex][aKey] = e;
@@ -333,9 +332,9 @@ export default {
       } else {
         this.toTableCP = this.corrects;
       }
-      console.log(takeDupl(this.corrects, "email"));
+
     },
-    coloredIncorrects() {
+    coloredIncorrects() { 
       this.fields[0].variant = "danger";
       this.fields[1].variant = "danger";
       this.fields[2].variant = "danger";

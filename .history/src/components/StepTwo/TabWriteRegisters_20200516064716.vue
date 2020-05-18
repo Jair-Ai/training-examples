@@ -88,6 +88,7 @@ export default {
   },
   computed: {
     mobile() {
+      console.log(this.windowWidth);
       return this.windowWidth >= 700;
     }
   },
@@ -99,6 +100,7 @@ export default {
   mounted() {
     window.addEventListener("resize", () => {
       this.windowWidth = window.innerWidth;
+      console.log(this.windowWidth);
     });
   },
   beforeDestroy() {

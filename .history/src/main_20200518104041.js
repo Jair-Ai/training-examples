@@ -115,17 +115,22 @@ const checkDuplicates = function(array, key) {
   return result;
 };
 
-const takeDupl = function(arr, column) {
+const takeUniqueObj = function(arr, column) {
+  return arr
+    .map(e => e[column])
+    .map((e, i, final) => final.indexOf(e) === i && i)
+    .filter(obj => arr[obj])
+    .map(e => arr[e]);
+};
+
+const takeDuplObj = function(arr, column) {
   let duplIds = arr
     .map(e => e[column])
     .map((e, i, final) => final.indexOf(e) !== i && i)
     .filter(obj => arr[obj])
     .map(e => arr[e][column]);
 
-  let duplicatesObj = arr.filter(obj => duplIds.includes(obj[column]));
-  let notduplicates = arr.filter(obj => !duplIds.includes(obj[column]));
-
-  return [duplicatesObj, notduplicates];
+  return arr.filter(obj => duplIds.includes(obj[column]));
 };
 
 const emailValidator = async function(arraytoValidate) {
@@ -140,14 +145,6 @@ const emailValidatorNot = async function(arraytoValidate) {
   );
 };
 
-export { emailValidator };
-export { emailValidatorNot };
-export { rowEmailValidator };
-export { rowNameValidator };
-export { dddList };
-export { perPage };
-export { checkDuplicates };
-export { takeDupl };
 const fields = [
   {
     key: "Nome",
@@ -170,6 +167,16 @@ const fields = [
     //variant: "danger"
   }
 ];
+
+export { emailValidator };
+export { emailValidatorNot };
+export { rowEmailValidator };
+export { rowNameValidator };
+export { dddList };
+export { perPage };
+export { checkDuplicates };
+export { takeDuplObj };
+export { takeUniqueObj };
 
 export { fields };
 

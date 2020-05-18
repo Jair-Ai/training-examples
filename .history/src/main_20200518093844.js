@@ -115,19 +115,6 @@ const checkDuplicates = function(array, key) {
   return result;
 };
 
-const takeDupl = function(arr, column) {
-  let duplIds = arr
-    .map(e => e[column])
-    .map((e, i, final) => final.indexOf(e) !== i && i)
-    .filter(obj => arr[obj])
-    .map(e => arr[e][column]);
-
-  let duplicatesObj = arr.filter(obj => duplIds.includes(obj[column]));
-  let notduplicates = arr.filter(obj => !duplIds.includes(obj[column]));
-
-  return [duplicatesObj, notduplicates];
-};
-
 const emailValidator = async function(arraytoValidate) {
   return arraytoValidate.filter(element =>
     rowEmailValidator.isValidSync(element.email)
@@ -147,7 +134,6 @@ export { rowNameValidator };
 export { dddList };
 export { perPage };
 export { checkDuplicates };
-export { takeDupl };
 const fields = [
   {
     key: "Nome",

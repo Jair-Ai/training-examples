@@ -196,9 +196,8 @@
 import {
   emailValidator,
   emailValidatorNot,
-  rowEmailValidator,
+  rowEmailValidator
   //checkDuplicates
-  takeDupl
 } from "../../main";
 import { get } from "lodash";
 import * as Yup from "yup";
@@ -333,7 +332,7 @@ export default {
       } else {
         this.toTableCP = this.corrects;
       }
-      console.log(takeDupl(this.corrects, "email"));
+      console.log(this.corrects);
     },
     coloredIncorrects() {
       this.fields[0].variant = "danger";
