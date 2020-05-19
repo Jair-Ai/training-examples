@@ -268,7 +268,7 @@ export default {
   mounted() {
     // Set the initial number of items
     this.rows = this.toTableCP.length;
-    this.show = "incorrects";
+    this.show = "danger";
   },
   methods: {
     editedRow(e, item) {
@@ -305,9 +305,7 @@ export default {
       this.separateIncorrectsFromCorrects(objectToTable);
     },
     change(validator) {
-      console.log("mudou para corrects");
       if (validator == "corrects") {
-        console.log("mudou para corrects");
         this.fields[0].variant = "success";
         this.fields[1].variant = "success";
         this.fields[2].variant = "success";

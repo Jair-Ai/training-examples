@@ -268,10 +268,13 @@ export default {
   mounted() {
     // Set the initial number of items
     this.rows = this.toTableCP.length;
-    this.show = "incorrects";
+    this.show = "danger";
   },
   methods: {
     editedRow(e, item) {
+      console.log(item);
+      console.log(this.duplicates);
+      console.log(this.show);
       let aKey = item.field.key;
       let aIndex = item.index;
       if (this.show == "incorrects") {
@@ -284,6 +287,7 @@ export default {
         ...this.incorrects,
         ...this.duplicates
       ];
+      console.log(this.testConcat);
       //this.loadedInput[aIndex][aKey] = e;
       let validReg = rowEmailValidator.isValidSync(e);
       if (validReg) {
@@ -305,9 +309,7 @@ export default {
       this.separateIncorrectsFromCorrects(objectToTable);
     },
     change(validator) {
-      console.log("mudou para corrects");
       if (validator == "corrects") {
-        console.log("mudou para corrects");
         this.fields[0].variant = "success";
         this.fields[1].variant = "success";
         this.fields[2].variant = "success";

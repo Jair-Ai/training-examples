@@ -1,17 +1,5 @@
 <template>
   <b-container fluid>
-    <b-row md="12" cols="1">
-      <textarea
-        class="form-control"
-        style="margin-bottom: 50px; margin-top: 20px;"
-        id="textarea"
-        v-model="text"
-        placeholder="É simples, é só copiar do excell e colar aqui!"
-        rows="3"
-        max-rows="6"
-        @input="readPasteText"
-      ></textarea>
-    </b-row>
     <b-row md="12" cols="1" v-if="notCorrect">
       <b-card bg-variant="light">
         <b-form-group
@@ -208,17 +196,13 @@ import {
   rowEmailValidator,
   takeDupl
 } from "../../main";
-import { get } from "lodash";
-import * as Yup from "yup";
-//TODO Corrigir a celula editada
 export default {
-  name: "TabCopyAndPast",
+  name: "SuperTable",
   data() {
     return {
       text: "",
       toTableCP: [],
       currentPage: 1,
-      tableone: false,
       filters: null,
       filtersOn: [],
       corrects: {},
@@ -250,25 +234,15 @@ export default {
       } else {
         return "warning";
       }
-    },
-    firstRow() {
-      return get(this, "sample.0");
-    },
-    emailState() {
-      return Yup.string().emailValidator();
-    },
-    congrats() {
-      if (this.incorrects.length == 0 && this.corrects.length > 0) {
-        return true;
-      } else {
-        return false;
-      }
     }
+  },
+  firstRow() {
+    return get(this, "sample.0");
   },
   mounted() {
     // Set the initial number of items
     this.rows = this.toTableCP.length;
-    this.show = "incorrects";
+    this.show = "danger";
   },
   methods: {
     editedRow(e, item) {
@@ -305,9 +279,7 @@ export default {
       this.separateIncorrectsFromCorrects(objectToTable);
     },
     change(validator) {
-      console.log("mudou para corrects");
       if (validator == "corrects") {
-        console.log("mudou para corrects");
         this.fields[0].variant = "success";
         this.fields[1].variant = "success";
         this.fields[2].variant = "success";
@@ -329,32 +301,7 @@ export default {
         this.show = "duplicates";
       }
     },
-    readPasteText() {
-      var clipRows = this.text.split("\n");
-      for (let i = 0; i < clipRows.length; i++) {
-        clipRows[i] = clipRows[i].split("\t");
-      }
-      this.headerValidator(clipRows, clipRows[0].length);
-    },
-    async print() {
-      this.notCorrect = false;
-      var jsonteste = [];
-      for (let i = 1; i < this.sample.length; i++) {
-        var item = {};
-
-        for (let j = 0; j < 3; j++) {
-          item[this.fields[j].label] = this.sample[i][j];
-        }
-        jsonteste.push(item);
-      }
-
-      this.loadedInput = jsonteste;
-      //console.log("Agora vem o Json");
-      //console.log(JSON.stringify(jsonteste));
-      this.separateIncorrectsFromCorrects(this.loadedInput);
-    },
     async separateIncorrectsFromCorrects(file) {
-      this.tableone = true;
       this.incorrects = await emailValidatorNot(file);
       this.corrects = await emailValidator(file);
       let dupl = takeDupl(this.corrects, "email");
@@ -398,11 +345,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.botoes {
-  display: inline;
-  overflow: auto;
-  white-space: nowrap;
-  margin: 0px auto;
-}
-</style>
+<style></style>

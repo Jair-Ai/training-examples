@@ -305,9 +305,7 @@ export default {
       this.separateIncorrectsFromCorrects(objectToTable);
     },
     change(validator) {
-      console.log("mudou para corrects");
       if (validator == "corrects") {
-        console.log("mudou para corrects");
         this.fields[0].variant = "success";
         this.fields[1].variant = "success";
         this.fields[2].variant = "success";

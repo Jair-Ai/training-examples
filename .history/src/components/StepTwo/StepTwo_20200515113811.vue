@@ -48,9 +48,6 @@
             :fields="fields"
           ></TabWriteRegisters>
         </b-tab>
-        <b-tab>
-          <TabTest :perPage="perPage" :fields="fields"></TabTest>
-        </b-tab>
       </b-tabs>
     </div>
     <div class="botoes" v-if="everythingOK">
@@ -68,17 +65,16 @@
 import TabImportCsv from "./TabImportCsv";
 import underTest from "./TabCopyAndPaste02";
 import TabWriteRegisters from "./TabWriteRegisters";
-import TabTest from "./TabCopyAndPaste03";
 import { perPage, fields } from "../../main";
 
 // TODO: Create confirmation for this Steps checking each tab searching for corrects inputs
+// TODO: Create vaidation for repeated emails
 export default {
   name: "StepTwo",
   components: {
     TabImportCsv,
     underTest,
-    TabWriteRegisters,
-    TabTest
+    TabWriteRegisters
   },
   data() {
     return {
