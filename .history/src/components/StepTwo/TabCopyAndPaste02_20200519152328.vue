@@ -233,8 +233,7 @@ export default {
       notCorrect: false,
       testConcat: [],
       map: {},
-      sample: {},
-      rowColor: "warning"
+      sample: {}
     };
   },
   props: {
@@ -254,6 +253,16 @@ export default {
     }
   },
   computed: {
+    rowColor() {
+       if (this.show == "corrects") {
+        this.rowColor = "primary";
+      } else if (this.show == "incorrects") {
+        this.rowColor = "danger";
+      } else {
+        this.rowColor = "warning";
+      }
+    }
+    },
     firstRow() {
       return get(this, "sample.0");
     },
@@ -310,12 +319,24 @@ export default {
     change(validator) {
       console.log("mudou para corrects");
       if (validator == "corrects") {
+        console.log("mudou para corrects");
+        this.fields[0].variant = "success";
+        this.fields[1].variant = "success";
+        this.fields[2].variant = "success";
         this.toTableCP = this.corrects;
         this.show = "corrects";
       } else if (validator == "incorrects") {
+        this.fields[0].variant = "danger";
+        this.fields[1].variant = "danger";
+        this.fields[2].variant = "danger";
+        //this.fields.Nome.variant = "danger";
         this.toTableCP = this.incorrects;
+
         this.show = "incorrects";
       } else {
+        this.fields[0].variant = "warning";
+        this.fields[1].variant = "warning";
+        this.fields[2].variant = "warning";
         this.toTableCP = this.duplicates;
         this.show = "duplicates";
       }

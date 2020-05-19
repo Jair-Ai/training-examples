@@ -76,7 +76,7 @@
         </b-form-group>
       </b-card>
     </b-row>
-    <b-row v-show="runTable">
+    <b-row v-if="loadedInput.length > 0">
       <SuperTable
         :perPage="perPage"
         :fields="fields"
@@ -115,9 +115,6 @@ export default {
   computed: {
     firstRow() {
       return get(this, "sample.0");
-    },
-    runTable() {
-      return this.loadedInput.length > 0;
     }
   },
   methods: {

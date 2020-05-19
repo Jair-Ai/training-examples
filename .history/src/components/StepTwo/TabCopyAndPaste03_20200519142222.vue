@@ -76,7 +76,7 @@
         </b-form-group>
       </b-card>
     </b-row>
-    <b-row v-show="runTable">
+    <b-row v-if="runTable">
       <SuperTable
         :perPage="perPage"
         :fields="fields"

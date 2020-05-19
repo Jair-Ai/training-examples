@@ -1,82 +1,5 @@
 <template>
   <b-container fluid>
-    <b-row md="12" cols="1">
-      <textarea
-        class="form-control"
-        style="margin-bottom: 50px; margin-top: 20px;"
-        id="textarea"
-        v-model="text"
-        placeholder="É simples, é só copiar do excell e colar aqui!"
-        rows="3"
-        max-rows="6"
-        @input="readPasteText"
-      ></textarea>
-    </b-row>
-    <b-row md="12" cols="1" v-if="notCorrect">
-      <b-card bg-variant="light">
-        <b-form-group
-          label-cols-lg="3"
-          label="Escolha as colunas correspondentes ao lado"
-          label-size="lg"
-          label-class="font-weight-bold pt-0"
-          class="mb-0"
-        >
-          <b-form-group
-            id="input-name"
-            label-cols-sm="3"
-            label-align-sm="right"
-            label="Nome"
-            label-for="select_name"
-            description="Escolha aqui a coluna correspondente ao nome"
-          >
-            <b-form-select
-              id="select_name"
-              v-model="map.name"
-              :options="firstRow"
-              required
-              placeholder="familiar"
-            ></b-form-select>
-          </b-form-group>
-          <b-form-group
-            id="input-email"
-            label-cols-sm="3"
-            label-align-sm="right"
-            label="Email"
-            label-for="select_email"
-            description="Escolha aqui qual coluna corresponde ao email"
-          >
-            <b-form-select
-              id="select_email"
-              v-model="map.email"
-              :options="firstRow"
-              required
-            ></b-form-select>
-          </b-form-group>
-          <b-form-group
-            id="input-telefone"
-            label-cols-sm="3"
-            label-align-sm="right"
-            label="Telefone"
-            label-for="select_telefone"
-          >
-            <b-form-select
-              id="select_telefone"
-              v-model="map.telefone"
-              :options="firstRow"
-            ></b-form-select>
-          </b-form-group>
-
-          <div class="botoes">
-            <div style="float: right;">
-              <b-button variant="outline-primary" @click="checkMapPosition"
-                >Carregar</b-button
-              >
-            </div>
-          </div>
-        </b-form-group>
-      </b-card>
-    </b-row>
-
     <b-row md="12" cols="1" v-if="incorrects.length > 0">
       <div>
         <div class="mt-3" style="margin-bottom: 30px">
@@ -152,14 +75,13 @@
     </b-row>
     <b-row>
       <b-table
-        id="my-table"
-        striped
-        :head-row-variant="rowColor"
-        :items="toTableCP"
+        id="table-transition-example"
         :fields="fields"
+        striped
         small
-        primary-key="a"
+        primary-key="Nome"
         :tbody-transition-props="transProps"
+        :items="toTableCP"
         :per-page="perPage"
         :current-page="currentPage"
         :filter="filters"
@@ -209,69 +131,78 @@ import {
   takeDupl
 } from "../../main";
 import { get } from "lodash";
-import * as Yup from "yup";
-//TODO Corrigir a celula editada
 export default {
-  name: "TabCopyAndPast",
+  name: "SuperTable",
   data() {
     return {
-      text: "",
       toTableCP: [],
+      transProps: {
+        // Transition name
+        name: "flip-list"
+      },
       currentPage: 1,
-      tableone: false,
       filters: null,
       filtersOn: [],
       corrects: {},
       incorrects: {},
       duplicates: {},
-      loadedInput: {},
       row: {},
-      show: "duplicates",
+      show: "",
       showCorrects: true,
       validNames: ["nome", "nomes", "cliente", "clientes"],
       validEmails: ["e-mail", "email"],
-      notCorrect: false,
       testConcat: [],
       map: {},
-      sample: {},
-      rowColor: "warning"
+      sample: {}
     };
   },
   props: {
-    transProps: {},
     perPage: { default: 20, required: true },
-    fields: { type: Array, required: true }
+    fields: { type: Array, required: true },
+    loadedInput: {}
   },
-  watch: {
-    show: function() {
+  computed: {
+    rowColor() {
       if (this.show == "corrects") {
-        this.rowColor = "primary";
+        return "primary";
       } else if (this.show == "incorrects") {
-        this.rowColor = "danger";
+        return "danger";
       } else {
-        this.rowColor = "warning";
+        return "warning";
       }
     }
   },
-  computed: {
-    firstRow() {
-      return get(this, "sample.0");
-    },
-    emailState() {
-      return Yup.string().emailValidator();
-    },
-    congrats() {
-      if (this.incorrects.length == 0 && this.corrects.length > 0) {
-        return true;
-      } else {
-        return false;
-      }
+  firstRow() {
+    return get(this, "sample.0");
+  },
+  watch: {
+    loadedInput: function() {
+      this.separateIncorrectsFromCorrects(this.loadedInput);
+    }
+  },
+  created() {
+    this.fields[0].variant = this.rowColor;
+    this.fields[1].variant = this.rowColor;
+    this.fields[2].variant = this.rowColor;
+    if (this.incorrects.length > 0) {
+      this.show = "incorrects";
+    } else if (this.duplicates.length > 0) {
+      this.show = "duplicates";
+    } else {
+      this.show = "corrects";
     }
   },
   mounted() {
     // Set the initial number of items
+
     this.rows = this.toTableCP.length;
-    this.show = "incorrects";
+    if (this.incorrects.length > 0) {
+      this.show = "incorrects";
+    } else if (this.duplicates.length > 0) {
+      this.show = "duplicates";
+    } else {
+      this.show = "corrects";
+    }
   },
   methods: {
     editedRow(e, item) {
@@ -308,44 +239,28 @@ export default {
       this.separateIncorrectsFromCorrects(objectToTable);
     },
     change(validator) {
-      console.log("mudou para corrects");
       if (validator == "corrects") {
         this.toTableCP = this.corrects;
+        this.fields[0].variant = "success";
+        this.fields[1].variant = "success";
+        this.fields[2].variant = "success";
         this.show = "corrects";
       } else if (validator == "incorrects") {
+        //this.fields.Nome.variant = "danger";
         this.toTableCP = this.incorrects;
+        this.fields[0].variant = "danger";
+        this.fields[1].variant = "danger";
+        this.fields[2].variant = "danger";
         this.show = "incorrects";
       } else {
+        this.fields[0].variant = "warning";
+        this.fields[1].variant = "warning";
+        this.fields[2].variant = "warning";
         this.toTableCP = this.duplicates;
         this.show = "duplicates";
       }
     },
-    readPasteText() {
-      var clipRows = this.text.split("\n");
-      for (let i = 0; i < clipRows.length; i++) {
-        clipRows[i] = clipRows[i].split("\t");
-      }
-      this.headerValidator(clipRows, clipRows[0].length);
-    },
-    async print() {
-      this.notCorrect = false;
-      var jsonteste = [];
-      for (let i = 1; i < this.sample.length; i++) {
-        var item = {};
-
-        for (let j = 0; j < 3; j++) {
-          item[this.fields[j].label] = this.sample[i][j];
-        }
-        jsonteste.push(item);
-      }
-
-      this.loadedInput = jsonteste;
-      //console.log("Agora vem o Json");
-      //console.log(JSON.stringify(jsonteste));
-      this.separateIncorrectsFromCorrects(this.loadedInput);
-    },
     async separateIncorrectsFromCorrects(file) {
-      this.tableone = true;
       this.incorrects = await emailValidatorNot(file);
       this.corrects = await emailValidator(file);
       let dupl = takeDupl(this.corrects, "email");
@@ -359,11 +274,6 @@ export default {
         this.toTableCP = this.corrects;
         this.show = "corrects";
       }
-    },
-    coloredIncorrects() {
-      this.fields[0].variant = "danger";
-      this.fields[1].variant = "danger";
-      this.fields[2].variant = "danger";
     },
     headerValidator(row, tam) {
       this.sample = row;
@@ -389,14 +299,8 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scooped>
 table#table-transition-example .flip-list-move {
   transition: transform 1s;
-}
-.botoes {
-  display: inline;
-  overflow: auto;
-  white-space: nowrap;
-  margin: 0px auto;
 }
 </style>
