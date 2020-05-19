@@ -98,7 +98,6 @@
 
 <script>
 import { drop, every, forEach, get, isArray, map, set } from "lodash";
-import axios from "axios";
 import Papa from "papaparse";
 import mimeTypes from "mime-types";
 import { EventBus } from "../../main";
@@ -213,42 +212,22 @@ export default {
 
   methods: {
     submit() {
-      const _this = this;
       this.form.csv = this.buildMappedCsv();
       EventBus.$emit("inputCsv", this.form.csv);
-      if (this.url) {
-        axios
-          .post(this.url, this.form)
-          .then(response => {
-            _this.callback(response);
-          })
-          .catch(response => {
-            _this.catch(response);
-          })
-          .finally(response => {
-            _this.finally(response);
-          });
-      } else {
-        _this.callback(this.form.csv);
-      }
     },
     buildMappedCsv() {
       const _this = this;
 
       let csv = this.hasHeaders ? drop(this.csv) : this.csv;
-      console.log(csv);
 
       return map(csv, row => {
         let newRow = {};
-        console.log(_this.map);
         forEach(_this.map, (column, field) => {
           set(newRow, field, get(row, column));
         });
-
         return newRow;
       });
     },
-
     validFileMimeType() {
       let file = this.$refs.csv.selectedFile;
       const mimeType =
@@ -271,10 +250,8 @@ export default {
       var _this = this;
       console.log(_this.$refs.csv["$refs"]["input"].files[0]);
     },
-
     load() {
       const _this = this;
-      console.log(_this);
       this.readFile(output => {
         _this.sample = get(
           Papa.parse(output, { preview: 2, skipEmptyLines: true }),
@@ -306,7 +283,6 @@ export default {
     map: {
       deep: true,
       handler: function(newVal) {
-        console.log(this.mapFields);
         if (!this.url) {
           let hasAllKeys = Array.isArray(this.mapFields)
             ? every(this.mapFields, function(item) {

@@ -209,7 +209,6 @@ import {
   takeDupl
 } from "../../main";
 import { get } from "lodash";
-import * as Yup from "yup";
 //TODO Corrigir a celula editada
 export default {
   name: "TabCopyAndPast",
@@ -218,7 +217,6 @@ export default {
       text: "",
       toTableCP: [],
       currentPage: 1,
-      tableone: false,
       filters: null,
       filtersOn: [],
       corrects: {},
@@ -254,9 +252,6 @@ export default {
     firstRow() {
       return get(this, "sample.0");
     },
-    emailState() {
-      return Yup.string().emailValidator();
-    },
     congrats() {
       if (this.incorrects.length == 0 && this.corrects.length > 0) {
         return true;
@@ -272,9 +267,6 @@ export default {
   },
   methods: {
     editedRow(e, item) {
-      console.log(item);
-      console.log(this.duplicates);
-      console.log(this.show);
       let aKey = item.field.key;
       let aIndex = item.index;
       if (this.show == "incorrects") {
@@ -287,7 +279,6 @@ export default {
         ...this.incorrects,
         ...this.duplicates
       ];
-      console.log(this.testConcat);
       //this.loadedInput[aIndex][aKey] = e;
       let validReg = rowEmailValidator.isValidSync(e);
       if (validReg) {
@@ -356,7 +347,6 @@ export default {
       this.separateIncorrectsFromCorrects(this.loadedInput);
     },
     async separateIncorrectsFromCorrects(file) {
-      this.tableone = true;
       this.incorrects = await emailValidatorNot(file);
       this.corrects = await emailValidator(file);
       let dupl = takeDupl(this.corrects, "email");

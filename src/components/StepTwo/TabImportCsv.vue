@@ -9,11 +9,7 @@
       ></b-form-file>
     </b-row>
     <b-row md="12" cols="1">
-      <testeCsv
-        v-model="csv"
-        :map-fields="['Nome', 'E-mail', 'Telefone']"
-        url="teste"
-      >
+      <testeCsv v-model="csv" :map-fields="fields_to_component" url="teste">
         <template slot="hasHeaders" slot-scope="{ headers, toggle }">
           <label>
             <input
@@ -131,14 +127,16 @@ export default {
       } else {
         return 1;
       }
+    },
+    fields_to_component() {
+      return [this.fields[0].key, this.fields[1].key, this.fields[2].key];
     }
   },
   mounted() {
     EventBus.$on("inputCsv", valor => {
       this.items = valor;
-      console.log(`Tipo do valor ${typeof valor}`);
+      console.log(this.items);
     });
-
     // Set the initial number of items
     this.rows = this.items.length;
   },
