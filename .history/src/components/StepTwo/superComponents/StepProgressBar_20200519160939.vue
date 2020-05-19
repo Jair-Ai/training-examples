@@ -7,9 +7,7 @@
           v-for="(item, i) in lenght"
           :key="i"
           @click="stepClicked(i)"
-        >
-          {{ item }}
-        </li>
+        >{{ item }}</li>
       </ul>
     </div>
   </div>

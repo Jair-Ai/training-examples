@@ -33,10 +33,7 @@
     <div>
       <b-tabs content-class="mt-3" fill>
         <b-tab title="Copie e Cole">
-          <TabCopyandPaste03
-            :perPage="perPage"
-            :fields="fields"
-          ></TabCopyandPaste03>
+          <underTest :perPage="perPage" :fields="fields"></underTest>
         </b-tab>
         <b-tab title="Importe em Formato Csv">
           <TabImportCsv
@@ -50,6 +47,9 @@
             :perPage="perPage"
             :fields="fields"
           ></TabWriteRegisters>
+        </b-tab>
+        <b-tab>
+          <TabTest :perPage="perPage" :fields="fields"></TabTest>
         </b-tab>
       </b-tabs>
     </div>
@@ -66,9 +66,9 @@
 
 <script>
 import TabImportCsv from "./tabs/TabImportCsv";
-
+import underTest from "./tabs/TabCopyAndPaste02";
 import TabWriteRegisters from "./tabs/TabWriteRegisters";
-import TabCopyandPaste03 from "./tabs/TabCopyAndPaste03";
+import TabTest from "./tabs/TabCopyAndPaste03";
 import { perPage, fields } from "../../main";
 
 // TODO: Create confirmation for this Steps checking each tab searching for corrects inputs
@@ -76,8 +76,9 @@ export default {
   name: "StepTwo",
   components: {
     TabImportCsv,
+    underTest,
     TabWriteRegisters,
-    TabCopyandPaste03
+    TabTest
   },
   data() {
     return {
