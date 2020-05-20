@@ -42,7 +42,7 @@
     <b-row md="12" cols="2">
       <b-col>
         <b-form-group
-          v-if="rows >= 1 && showFilter"
+          v-if="rows >= 1"
           inline
           label="Filtro"
           label-cols-sm="1"
@@ -58,7 +58,9 @@
               placeholder="Digite aqui para buscar"
             ></b-form-input>
             <b-input-group-append>
-              <b-button @click="filters = ''">Limpar</b-button>
+              <b-button :disabled="!filters" @click="filters = ''"
+                >Limpar</b-button
+              >
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
@@ -89,7 +91,7 @@
         :per-page="perPage"
         :current-page="currentPage"
         :filter="filters"
-        :filterIncludedFields="filterOn"
+        :filterIncludedFields="filtersOn"
         @filtered="onFiltered"
       >
         <template
@@ -145,7 +147,6 @@ export default {
         name: "flip-list"
       },
       currentPage: 1,
-      showFilter: false,
       filters: null,
       filtersOn: [],
       corrects: {},
@@ -185,7 +186,7 @@ export default {
     },
     show: function() {
       if (this.show == "corrects") {
-        this.rowColor = "success";
+        this.rowColor = "primary";
       } else if (this.show == "incorrects") {
         this.rowColor = "danger";
       } else {
@@ -195,7 +196,6 @@ export default {
   },
   mounted() {
     // Set the initial number of items
-
     this.rows = this.toTableCP.length;
     if (this.incorrects.length > 0) {
       this.show = "incorrects";

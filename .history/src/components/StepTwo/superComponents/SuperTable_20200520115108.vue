@@ -42,7 +42,7 @@
     <b-row md="12" cols="2">
       <b-col>
         <b-form-group
-          v-if="rows >= 1 && showFilter"
+          v-if="rows >= 1"
           inline
           label="Filtro"
           label-cols-sm="1"
@@ -58,7 +58,9 @@
               placeholder="Digite aqui para buscar"
             ></b-form-input>
             <b-input-group-append>
-              <b-button @click="filters = ''">Limpar</b-button>
+              <b-button :disabled="!filters" @click="filters = ''"
+                >Limpar</b-button
+              >
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
@@ -145,7 +147,6 @@ export default {
         name: "flip-list"
       },
       currentPage: 1,
-      showFilter: false,
       filters: null,
       filtersOn: [],
       corrects: {},

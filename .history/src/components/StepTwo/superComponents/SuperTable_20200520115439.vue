@@ -42,7 +42,7 @@
     <b-row md="12" cols="2">
       <b-col>
         <b-form-group
-          v-if="rows >= 1 && showFilter"
+          v-if="rows >= 1"
           inline
           label="Filtro"
           label-cols-sm="1"
@@ -145,7 +145,6 @@ export default {
         name: "flip-list"
       },
       currentPage: 1,
-      showFilter: false,
       filters: null,
       filtersOn: [],
       corrects: {},
