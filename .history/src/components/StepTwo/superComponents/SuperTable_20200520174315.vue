@@ -97,7 +97,7 @@
           v-slot:cell(Nome)="row"
         >
           <b-form-input
-            @change="editedRow($event, row)"
+            @change="editedRow('edit', $event, row)"
             type="text"
             v-model="row.item.Nome"
           />
@@ -107,7 +107,7 @@
           v-slot:cell(email)="row"
         >
           <b-form-input
-            @change="editedRow($event, row)"
+            @change="editedRow('edit', $event, row)"
             type="email"
             v-model="row.item.email"
           />
@@ -117,7 +117,7 @@
           v-slot:cell(telefone)="row"
         >
           <b-form-input
-            @change="editedRow($event, row)"
+            @change="editedRow('edit', $event, row)"
             type="number"
             v-model="row.item.telefone"
           />
@@ -128,8 +128,7 @@
         >
           <b-button
             variant="outline-danger"
-            @click="editedRow($event, row)"
-            v-model="row.item.telefone"
+            @click="editedRow('delete', $event, row)"
           >
             <b-icon-trash small></b-icon-trash>
           </b-button>
@@ -219,21 +218,28 @@ export default {
     }
   },
   methods: {
-    editedRow(e, item) {
+    editedRow(eventType, e, item) {
       console.log(item);
       let aKey = item.field.key;
       let aIndex = item.index;
       if (this.show == "incorrects") {
-        this.incorrects[aIndex][aKey] = e;
+        if (eventType == "delete") {
+          this.incorrects.slice(item.index, 1);
+        } else {
+          this.incorrects[aIndex][aKey] = e;
+        }
       } else if (this.show == "duplicates") {
-        this.duplicates[aIndex][aKey] = e;
+        if (eventType == "delete") {
+          this.duplicates.slice(item.index, 1);
+        } else {
+          this.duplicates[aIndex][aKey] = e;
+        }
       }
       this.testConcat = [
         ...this.corrects,
         ...this.incorrects,
         ...this.duplicates
       ];
-      console.log(this.testConcat);
       //this.loadedInput[aIndex][aKey] = e;
       let validReg = rowEmailValidator.isValidSync(e);
       if (validReg) {
@@ -279,16 +285,13 @@ export default {
         this.show = "incorrects";
         this.toTableCP = this.incorrects;
         this.coloredIncorrects;
-        this.$root.$emit("bv::refresh::table", "table-transition-example");
       } else if (this.duplicates.length > 0) {
         console.log(this.incorrects);
         this.toTableCP = this.duplicates;
         this.show = "duplicates";
-        this.$root.$emit("bv::refresh::table", "table-transition-example");
       } else {
         this.toTableCP = this.corrects;
         this.show = "corrects";
-        this.$root.$emit("bv::refresh::table", "table-transition-example");
       }
     },
     headerValidator(row, tam) {

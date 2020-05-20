@@ -170,8 +170,8 @@ const fields = [
     //variant: "danger"
   },
   {
-    key: "Acoes",
-    label: "Acoes"
+    key: "Ações",
+    label: "Ações"
   }
 ];
 

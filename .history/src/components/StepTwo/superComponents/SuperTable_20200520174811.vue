@@ -279,16 +279,13 @@ export default {
         this.show = "incorrects";
         this.toTableCP = this.incorrects;
         this.coloredIncorrects;
-        this.$root.$emit("bv::refresh::table", "table-transition-example");
       } else if (this.duplicates.length > 0) {
         console.log(this.incorrects);
         this.toTableCP = this.duplicates;
         this.show = "duplicates";
-        this.$root.$emit("bv::refresh::table", "table-transition-example");
       } else {
         this.toTableCP = this.corrects;
         this.show = "corrects";
-        this.$root.$emit("bv::refresh::table", "table-transition-example");
       }
     },
     headerValidator(row, tam) {

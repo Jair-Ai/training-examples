@@ -127,11 +127,18 @@
           v-slot:cell(Acoes)="row"
         >
           <b-button
-            variant="outline-danger"
+            size="sm"
+            pill
+            class="mb-2"
+            variant="danger"
             @click="editedRow($event, row)"
             v-model="row.item.telefone"
           >
-            <b-icon-trash small></b-icon-trash>
+            <b-icon-trash
+              @click="editedRow($event, row)"
+              small
+              aria-hidden="true"
+            ></b-icon-trash>
           </b-button>
         </template>
       </b-table>
@@ -219,7 +226,7 @@ export default {
     }
   },
   methods: {
-    editedRow(e, item) {
+    editedRow(eventType, e, item) {
       console.log(item);
       let aKey = item.field.key;
       let aIndex = item.index;
@@ -233,7 +240,6 @@ export default {
         ...this.incorrects,
         ...this.duplicates
       ];
-      console.log(this.testConcat);
       //this.loadedInput[aIndex][aKey] = e;
       let validReg = rowEmailValidator.isValidSync(e);
       if (validReg) {
@@ -279,16 +285,13 @@ export default {
         this.show = "incorrects";
         this.toTableCP = this.incorrects;
         this.coloredIncorrects;
-        this.$root.$emit("bv::refresh::table", "table-transition-example");
       } else if (this.duplicates.length > 0) {
         console.log(this.incorrects);
         this.toTableCP = this.duplicates;
         this.show = "duplicates";
-        this.$root.$emit("bv::refresh::table", "table-transition-example");
       } else {
         this.toTableCP = this.corrects;
         this.show = "corrects";
-        this.$root.$emit("bv::refresh::table", "table-transition-example");
       }
     },
     headerValidator(row, tam) {

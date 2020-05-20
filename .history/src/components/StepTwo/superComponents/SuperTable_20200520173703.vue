@@ -219,21 +219,28 @@ export default {
     }
   },
   methods: {
-    editedRow(e, item) {
+    editedRow(eventType, e, item) {
       console.log(item);
       let aKey = item.field.key;
       let aIndex = item.index;
       if (this.show == "incorrects") {
-        this.incorrects[aIndex][aKey] = e;
+        if (eventType == "delete") {
+          this.incorrects.slice(item.index);
+        } else {
+          this.incorrects[aIndex][aKey] = e;
+        }
       } else if (this.show == "duplicates") {
-        this.duplicates[aIndex][aKey] = e;
+        if (eventType == "delete") {
+          this.duplicates.slice(item.index);
+        } else {
+          this.duplicates[aIndex][aKey] = e;
+        }
       }
       this.testConcat = [
         ...this.corrects,
         ...this.incorrects,
         ...this.duplicates
       ];
-      console.log(this.testConcat);
       //this.loadedInput[aIndex][aKey] = e;
       let validReg = rowEmailValidator.isValidSync(e);
       if (validReg) {
@@ -279,16 +286,13 @@ export default {
         this.show = "incorrects";
         this.toTableCP = this.incorrects;
         this.coloredIncorrects;
-        this.$root.$emit("bv::refresh::table", "table-transition-example");
       } else if (this.duplicates.length > 0) {
         console.log(this.incorrects);
         this.toTableCP = this.duplicates;
         this.show = "duplicates";
-        this.$root.$emit("bv::refresh::table", "table-transition-example");
       } else {
         this.toTableCP = this.corrects;
         this.show = "corrects";
-        this.$root.$emit("bv::refresh::table", "table-transition-example");
       }
     },
     headerValidator(row, tam) {

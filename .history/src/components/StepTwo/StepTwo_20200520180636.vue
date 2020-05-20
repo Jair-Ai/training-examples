@@ -33,10 +33,10 @@
     <div>
       <b-tabs content-class="mt-3" fill>
         <b-tab title="Copie e Cole">
-          <TabCopyandPaste02
+          <TabCopyandPaste03
             :perPage="perPage"
             :fields="fields"
-          ></TabCopyandPaste02>
+          ></TabCopyandPaste03>
         </b-tab>
         <b-tab title="Importe em Formato Csv">
           <TabImportCsv
@@ -68,7 +68,7 @@
 import TabImportCsv from "./tabs/TabImportCsv";
 
 import TabWriteRegisters from "./tabs/TabWriteRegisters";
-import TabCopyandPaste02 from "./TabCopyAndPaste02";
+import TabCopyandPaste03 from "./old/TabCopyAndPaste03";
 import { perPage, fields } from "../../main";
 
 // TODO: Create confirmation for this Steps checking each tab searching for corrects inputs
@@ -77,7 +77,7 @@ export default {
   components: {
     TabImportCsv,
     TabWriteRegisters,
-    TabCopyandPaste02
+    TabCopyandPaste03
   },
   data() {
     return {
