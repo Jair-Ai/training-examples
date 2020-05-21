@@ -32,20 +32,27 @@
     </b-row>
     <div>
       <b-tabs content-class="mt-3" fill>
-        <b-tab title="Import em formato CSV">
+        <b-tab title="Import Teste">
           <TabImportCsv02
             :transProps="transProps"
             :perPage="perPage"
             :fields="fields"
           ></TabImportCsv02>
         </b-tab>
-        <b-tab title="Copie e Cole">
+        <b-tab title="Copie e Cole2">
           <TabCopyandPaste04
             :perPage="perPage"
             :fields="fields"
           ></TabCopyandPaste04>
         </b-tab>
-        <b-tab title="Inserir Registros" active>
+        <b-tab title="Importe em Formato Csv">
+          <TabImportCsv
+            :transProps="transProps"
+            :perPage="perPage"
+            :fields="fields"
+          ></TabImportCsv>
+        </b-tab>
+        <b-tab title="Escreva" active>
           <TabWriteRegisters
             :perPage="perPage"
             :fields="fields"
@@ -65,6 +72,8 @@
 </template>
 
 <script>
+import TabImportCsv from "./tabs/TabImportCsv";
+
 import TabWriteRegisters from "./tabs/TabWriteRegisters";
 import TabImportCsv02 from "./tabs/TabImportCsv02";
 import TabCopyandPaste04 from "./tabs/TabCopyAndPaste04";
@@ -75,6 +84,7 @@ import { perPage, fields } from "../../main";
 export default {
   name: "StepTwo",
   components: {
+    TabImportCsv,
     TabWriteRegisters,
     TabImportCsv02,
     TabCopyandPaste04
@@ -96,12 +106,6 @@ export default {
       perPage: perPage,
       fields: fields
     };
-  },
-  props: {
-    congrats: {
-      type: Boolean,
-      default: false
-    }
   },
   methods: {
     countDownChanged(dismissCountDown) {

@@ -180,7 +180,7 @@
           <b-button
             class="delete"
             variant="outline-danger"
-            @click="deleteRow(row)"
+            @click="deleteRowTest(row)"
             v-model="row.item"
           >
             <b-icon-trash small></b-icon-trash>
@@ -202,6 +202,10 @@ export default {
     };
   },
   methods: {
+    deleteRowTest(row) {
+      console.log(row);
+      console.log(this);
+    },
     readPasteText() {
       var clipRows = this.text.split("\n");
       for (let i = 0; i < clipRows.length; i++) {

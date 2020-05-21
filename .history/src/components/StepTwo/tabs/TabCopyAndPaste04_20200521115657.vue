@@ -177,12 +177,16 @@
           v-if="(show == 'incorrects') | (show == 'duplicates')"
           v-slot:cell(Acoes)="row"
         >
-          <b-button
-            class="delete"
-            variant="outline-danger"
-            @click="deleteRow(row)"
-            v-model="row.item"
-          >
+         <button class='centerMe'>
+  <div class='icon'>
+    <i class='fa fa-trash-o'></i>
+    <i class='fa fa-question'></i>
+    <i class='fa fa-check'></i>
+  </div>
+  <div class='text'>
+    <span>Delete</span>
+  </div>
+</button>
             <b-icon-trash small></b-icon-trash>
           </b-button>
         </template>
@@ -202,6 +206,10 @@ export default {
     };
   },
   methods: {
+    deleteRowTest(row) {
+      console.log(row);
+      console.log(this);
+    },
     readPasteText() {
       var clipRows = this.text.split("\n");
       for (let i = 0; i < clipRows.length; i++) {
@@ -243,6 +251,29 @@ export default {
     }
   }
 };
+</script>
+<script>
+$("button").click(function() {
+  if ($(this).hasClass("confirm")) {
+    $(this).addClass("done");
+    $("span").text("Deleted");
+  } else {
+    $(this).addClass("confirm");
+    $("span").text("Are you sure?");
+  }
+});
+
+// Reset
+$("button").on("mouseout", function() {
+  if ($(this).hasClass("confirm") || $(this).hasClass("done")) {
+    setTimeout(function() {
+      $("button")
+        .removeClass("confirm")
+        .removeClass("done");
+      $("span").text("Delete");
+    }, 3000);
+  }
+});
 </script>
 <style scoped>
 table#table-transition-example .flip-list-move {

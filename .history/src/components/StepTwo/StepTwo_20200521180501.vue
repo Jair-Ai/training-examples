@@ -45,7 +45,7 @@
             :fields="fields"
           ></TabCopyandPaste04>
         </b-tab>
-        <b-tab title="Inserir Registros" active>
+        <b-tab title="Escreva" active>
           <TabWriteRegisters
             :perPage="perPage"
             :fields="fields"
@@ -96,12 +96,6 @@ export default {
       perPage: perPage,
       fields: fields
     };
-  },
-  props: {
-    congrats: {
-      type: Boolean,
-      default: false
-    }
   },
   methods: {
     countDownChanged(dismissCountDown) {

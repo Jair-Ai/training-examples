@@ -97,12 +97,6 @@ export default {
       fields: fields
     };
   },
-  props: {
-    congrats: {
-      type: Boolean,
-      default: false
-    }
-  },
   methods: {
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown;

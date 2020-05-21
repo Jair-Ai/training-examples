@@ -118,6 +118,31 @@
     </b-row>
     <b-row md="12" cols="2">
       <b-col>
+        <b-form-group
+          v-if="rows >= 1"
+          inline
+          label="Filtro"
+          label-cols-sm="1"
+          label-align-sm="left"
+          label-size="sm"
+          label-for="filterInput"
+        >
+          <b-input-group size="sm">
+            <b-form-input
+              v-model="filters"
+              type="search"
+              id="filterInput"
+              placeholder="Digite aqui para buscar"
+            ></b-form-input>
+            <b-input-group-append>
+              <b-button :disabled="!filters" @click="filters = ''"
+                >Limpar</b-button
+              >
+            </b-input-group-append>
+          </b-input-group>
+        </b-form-group>
+      </b-col>
+      <b-col>
         <b-pagination
           v-if="rows >= perPage"
           v-model="currentPage"
@@ -180,7 +205,7 @@
           <b-button
             class="delete"
             variant="outline-danger"
-            @click="deleteRow(row)"
+            @click="deleteRowTest(row, $event)"
             v-model="row.item"
           >
             <b-icon-trash small></b-icon-trash>
@@ -202,6 +227,10 @@ export default {
     };
   },
   methods: {
+    deleteRowTest(row, event) {
+      console.log(row);
+      console.log(event);
+    },
     readPasteText() {
       var clipRows = this.text.split("\n");
       for (let i = 0; i < clipRows.length; i++) {

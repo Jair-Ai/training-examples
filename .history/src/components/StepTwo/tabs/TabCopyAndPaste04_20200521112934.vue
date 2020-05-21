@@ -118,6 +118,31 @@
     </b-row>
     <b-row md="12" cols="2">
       <b-col>
+        <b-form-group
+          v-if="rows >= 1"
+          inline
+          label="Filtro"
+          label-cols-sm="1"
+          label-align-sm="left"
+          label-size="sm"
+          label-for="filterInput"
+        >
+          <b-input-group size="sm">
+            <b-form-input
+              v-model="filters"
+              type="search"
+              id="filterInput"
+              placeholder="Digite aqui para buscar"
+            ></b-form-input>
+            <b-input-group-append>
+              <b-button :disabled="!filters" @click="filters = ''"
+                >Limpar</b-button
+              >
+            </b-input-group-append>
+          </b-input-group>
+        </b-form-group>
+      </b-col>
+      <b-col>
         <b-pagination
           v-if="rows >= perPage"
           v-model="currentPage"
@@ -177,19 +202,44 @@
           v-if="(show == 'incorrects') | (show == 'duplicates')"
           v-slot:cell(Acoes)="row"
         >
-          <b-button
-            class="delete"
-            variant="outline-danger"
-            @click="deleteRow(row)"
-            v-model="row.item"
-          >
-            <b-icon-trash small></b-icon-trash>
-          </b-button>
+          <button class="centerMe">
+            <div class="icon">
+              <i class="fa fa-trash-o"></i>
+              <i class="fa fa-question"></i>
+              <i class="fa fa-check"></i>
+            </div>
+            <div class="text">
+              <span>Delete</span>
+            </div>
+          </button>
         </template>
       </b-table>
     </b-row>
   </b-container>
 </template>
+<script>
+$("button").click(function() {
+  if ($(this).hasClass("confirm")) {
+    $(this).addClass("done");
+    $("span").text("Deleted");
+  } else {
+    $(this).addClass("confirm");
+    $("span").text("Are you sure?");
+  }
+});
+
+// Reset
+$("button").on("mouseout", function() {
+  if ($(this).hasClass("confirm") || $(this).hasClass("done")) {
+    setTimeout(function() {
+      $("button")
+        .removeClass("confirm")
+        .removeClass("done");
+      $("span").text("Delete");
+    }, 3000);
+  }
+});
+</script>
 <script>
 import { tableManager } from "./../../../mixins/tableSeparatorMixing";
 export default {
