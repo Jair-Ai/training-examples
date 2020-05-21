@@ -46,6 +46,12 @@
           ></TabCopyandPaste04>
         </b-tab>
         <b-tab title="Inserir Registros" active>
+          <TabWriteRegisters
+            :perPage="perPage"
+            :fields="fields"
+          ></TabWriteRegisters>
+        </b-tab>
+        <b-tab title="Inserir Registros 2" active>
           <TabWriteRegisters02
             :perPage="perPage"
             :fields="fields"
@@ -65,6 +71,7 @@
 </template>
 
 <script>
+import TabWriteRegisters from "./tabs/TabWriteRegisters";
 import TabImportCsv02 from "./tabs/TabImportCsv02";
 import TabCopyandPaste04 from "./tabs/TabCopyAndPaste04";
 import TabWriteRegisters02 from "./tabs/TabWriteRegisters02";
@@ -75,6 +82,7 @@ import { perPage, fields } from "../../main";
 export default {
   name: "StepTwo",
   components: {
+    TabWriteRegisters,
     TabImportCsv02,
     TabCopyandPaste04,
     TabWriteRegisters02
