@@ -75,7 +75,7 @@ import TabImportCsv from "./tabs/TabImportCsv";
 
 import TabWriteRegisters from "./tabs/TabWriteRegisters";
 import TabCopyandPaste02 from "./TabCopyAndPaste02";
-import TabCopyandPaste03 from "./tabs/TabCopyAndPaste03";
+import TabCopyandPaste03 from "./tab/TabCopyAndPaste03";
 import { perPage, fields } from "../../main";
 
 // TODO: Create confirmation for this Steps checking each tab searching for corrects inputs

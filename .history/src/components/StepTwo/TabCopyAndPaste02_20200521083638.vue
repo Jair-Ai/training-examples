@@ -77,11 +77,7 @@
       </b-card>
     </b-row>
 
-    <b-row
-      md="12"
-      cols="1"
-      v-if="(incorrects.length > 0) | (duplicates.length > 0)"
-    >
+    <b-row md="12" cols="1" v-if="incorrects.length > 0">
       <div>
         <div class="mt-3" style="margin-bottom: 30px">
           <b-button-group size="xl">
@@ -104,7 +100,6 @@
             </b-button>
 
             <b-button
-              v-if="incorrects.length > 0"
               @click="change('incorrects')"
               variant="outline-danger"
               :pressed="show == 'incorrects'"
@@ -203,13 +198,9 @@
         </template>
         <template
           v-if="(show == 'incorrects') | (show == 'duplicates')"
-          v-slot:cell(Acoes)="row"
+          v-slot:cell(telefone)="row"
         >
-          <b-button
-            variant="outline-danger"
-            @click="deleteRow(row)"
-            v-model="row.item"
-          >
+          <b-button variant="outline-danger" @click="deleteRow($event)">
             <b-icon-trash small></b-icon-trash>
           </b-button>
         </template>
@@ -313,15 +304,11 @@ export default {
       }
     },
     deleteRow(event) {
-      console.log("Disparado deleteRow");
       if (this.show == "incorrects") {
-        console.log(this.incorrects);
-        console.log(event);
-        this.incorrects.splice(event.index, 1);
+        this.incorrects.slice(event.index, 1);
       } else {
-        this.duplicates.splice(event.index, 1);
+        this.duplicates.slice(event.index, 1);
       }
-      console.log(this.incorrects);
     },
     checkMapPosition() {
       let colNome = this.sample[0].indexOf(this.map.name);

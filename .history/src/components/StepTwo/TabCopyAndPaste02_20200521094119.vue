@@ -104,7 +104,6 @@
             </b-button>
 
             <b-button
-              v-if="incorrects.length > 0"
               @click="change('incorrects')"
               variant="outline-danger"
               :pressed="show == 'incorrects'"

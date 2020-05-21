@@ -77,11 +77,7 @@
       </b-card>
     </b-row>
 
-    <b-row
-      md="12"
-      cols="1"
-      v-if="(incorrects.length > 0) | (duplicates.length > 0)"
-    >
+    <b-row md="12" cols="1" v-if="incorrects.length > 0">
       <div>
         <div class="mt-3" style="margin-bottom: 30px">
           <b-button-group size="xl">
@@ -104,7 +100,6 @@
             </b-button>
 
             <b-button
-              v-if="incorrects.length > 0"
               @click="change('incorrects')"
               variant="outline-danger"
               :pressed="show == 'incorrects'"
