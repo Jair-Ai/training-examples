@@ -1,0 +1,281 @@
+<template>
+  <b-container fluid>
+    <b-row md="12" cols="1">
+      <textarea
+        class="form-control"
+        style="margin-bottom: 50px; margin-top: 20px;"
+        id="textarea"
+        v-model="text"
+        placeholder="É simples, é só copiar do excell e colar aqui!"
+        rows="3"
+        max-rows="6"
+        @input="readPasteText"
+      ></textarea>
+    </b-row>
+    <b-row md="12" cols="1" v-if="notCorrect">
+      <b-card bg-variant="light">
+        <b-form-group
+          label-cols-lg="3"
+          label="Escolha as colunas correspondentes ao lado"
+          label-size="lg"
+          label-class="font-weight-bold pt-0"
+          class="mb-0"
+        >
+          <b-form-group
+            id="input-name"
+            label-cols-sm="3"
+            label-align-sm="right"
+            label="Nome"
+            label-for="select_name"
+            description="Escolha aqui a coluna correspondente ao nome"
+          >
+            <b-form-select
+              id="select_name"
+              v-model="map.name"
+              :options="firstRow"
+              required
+              placeholder="familiar"
+            ></b-form-select>
+          </b-form-group>
+          <b-form-group
+            id="input-email"
+            label-cols-sm="3"
+            label-align-sm="right"
+            label="Email"
+            label-for="select_email"
+            description="Escolha aqui qual coluna corresponde ao email"
+          >
+            <b-form-select
+              id="select_email"
+              v-model="map.email"
+              :options="firstRow"
+              required
+            ></b-form-select>
+          </b-form-group>
+          <b-form-group
+            id="input-telefone"
+            label-cols-sm="3"
+            label-align-sm="right"
+            label="Telefone"
+            label-for="select_telefone"
+          >
+            <b-form-select
+              id="select_telefone"
+              v-model="map.telefone"
+              :options="firstRow"
+            ></b-form-select>
+          </b-form-group>
+
+          <div class="botoes">
+            <div style="float: right;">
+              <b-button variant="outline-primary" @click="checkMapPosition"
+                >Carregar</b-button
+              >
+            </div>
+          </div>
+        </b-form-group>
+      </b-card>
+    </b-row>
+
+    <b-row
+      md="12"
+      cols="1"
+      v-if="(incorrects.length > 0) | (duplicates.length > 0)"
+    >
+      <div>
+        <div class="mt-3" style="margin-bottom: 30px">
+          <b-button-group size="xl">
+            <b-button
+              @click="change('corrects')"
+              variant="outline-success"
+              :pressed="show == 'corrects'"
+            >
+              Registros Corretos
+              {{ corrects.length }}
+            </b-button>
+            <b-button
+              @click="change('duplicates')"
+              variant="outline-warning"
+              :pressed="show == 'duplicates'"
+              v-if="duplicates.length > 0"
+            >
+              Registros Duplicados
+              {{ duplicates.length }}
+            </b-button>
+
+            <b-button
+              v-if="incorrects.length > 0"
+              @click="change('incorrects')"
+              variant="outline-danger"
+              :pressed="show == 'incorrects'"
+            >
+              Registros Incorretos
+              {{ incorrects.length }}
+            </b-button>
+          </b-button-group>
+        </div>
+      </div>
+    </b-row>
+    <b-row md="12" cols="2">
+      <b-col>
+        <b-form-group
+          v-if="rows >= 1"
+          inline
+          label="Filtro"
+          label-cols-sm="1"
+          label-align-sm="left"
+          label-size="sm"
+          label-for="filterInput"
+        >
+          <b-input-group size="sm">
+            <b-form-input
+              v-model="filters"
+              type="search"
+              id="filterInput"
+              placeholder="Digite aqui para buscar"
+            ></b-form-input>
+            <b-input-group-append>
+              <b-button :disabled="!filters" @click="filters = ''"
+                >Limpar</b-button
+              >
+            </b-input-group-append>
+          </b-input-group>
+        </b-form-group>
+      </b-col>
+      <b-col>
+        <b-pagination
+          v-if="rows >= perPage"
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="my-table"
+          align="fill"
+          size="sm"
+          class="my-0"
+        ></b-pagination>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-table
+        id="my-table"
+        striped
+        :head-row-variant="rowColor"
+        :items="toTableCP"
+        :fields="fields"
+        small
+        primary-key="a"
+        :tbody-transition-props="transProps"
+        :per-page="perPage"
+        :current-page="currentPage"
+      >
+        <template
+          v-if="(show == 'incorrects') | (show == 'duplicates')"
+          v-slot:cell(Nome)="row"
+        >
+          <b-form-input
+            @change="editedRow($event, row)"
+            type="text"
+            v-model="row.item.Nome"
+          />
+        </template>
+        <template
+          v-if="(show == 'incorrects') | (show == 'duplicates')"
+          v-slot:cell(email)="row"
+        >
+          <b-form-input
+            @change="editedRow($event, row)"
+            type="email"
+            v-model="row.item.email"
+          />
+        </template>
+        <template
+          v-if="(show == 'incorrects') | (show == 'duplicates')"
+          v-slot:cell(telefone)="row"
+        >
+          <b-form-input
+            @change="editedRow($event, row)"
+            type="number"
+            v-model="row.item.telefone"
+          />
+        </template>
+        <template
+          v-if="(show == 'incorrects') | (show == 'duplicates')"
+          v-slot:cell(Acoes)="row"
+        >
+          <b-button
+            variant="outline-danger"
+            @click="deleteRow(row)"
+            v-model="row.item"
+          >
+            <b-icon-trash small></b-icon-trash>
+          </b-button>
+        </template>
+      </b-table>
+    </b-row>
+  </b-container>
+</template>
+<script>
+import { tableManager } from "./../../../mixins/tableSeparatorMixing";
+export default {
+  mixins: [tableManager],
+  data() {
+    return {
+      text: "",
+      validNames: ["nome", "nomes", "cliente", "clientes"],
+      validEmails: ["e-mail", "email"]
+    };
+  },
+  methods: {
+    readPasteText() {
+      var clipRows = this.text.split("\n");
+      for (let i = 0; i < clipRows.length; i++) {
+        clipRows[i] = clipRows[i].split("\t");
+      }
+      this.headerValidator(clipRows, clipRows[0].length);
+    },
+    async print() {
+      this.notCorrect = false;
+      var jsonteste = [];
+      for (let i = 1; i < this.sample.length; i++) {
+        var item = {};
+
+        for (let j = 0; j < 3; j++) {
+          item[this.fields[j].label] = this.sample[i][j];
+        }
+        jsonteste.push(item);
+      }
+
+      this.loadedInput = jsonteste;
+      //console.log("Agora vem o Json");
+      //console.log(JSON.stringify(jsonteste));
+      this.separateIncorrectsFromCorrects(this.loadedInput);
+    },
+    headerValidator(row, tam) {
+      this.sample = row;
+      if (tam === 3) {
+        if (
+          this.validNames.includes(row[0][0].toLowerCase()) &&
+          this.validEmails.includes(row[0][1].toLowerCase())
+        ) {
+          this.print();
+        } else {
+          this.notCorrect = true;
+        }
+      } else {
+        this.notCorrect = true;
+      }
+    }
+  }
+};
+</script>
+<style scoped>
+table#table-transition-example .flip-list-move {
+  transition: transform 1s;
+}
+.botoes {
+  display: inline;
+  overflow: auto;
+  white-space: nowrap;
+  margin: 0px auto;
+}
+</style>

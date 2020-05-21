@@ -75,7 +75,6 @@ import TabImportCsv from "./tabs/TabImportCsv";
 
 import TabWriteRegisters from "./tabs/TabWriteRegisters";
 import TabCopyandPaste02 from "./tabs/TabCopyAndPaste02";
-import TabCopyandPaste04 from "./tabs/TabCopyAndPaste04";
 import { perPage, fields } from "../../main";
 
 // TODO: Create confirmation for this Steps checking each tab searching for corrects inputs
@@ -85,8 +84,7 @@ export default {
   components: {
     TabImportCsv,
     TabWriteRegisters,
-    TabCopyandPaste02,
-    TabCopyandPaste04
+    TabCopyandPaste02
   },
   data() {
     return {

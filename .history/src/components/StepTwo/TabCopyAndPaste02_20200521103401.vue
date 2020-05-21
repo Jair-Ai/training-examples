@@ -226,7 +226,6 @@ import {
   takeDupl
 } from "../../main";
 import { get } from "lodash";
-import * as Yup from "yup";
 //TODO Corrigir a celula editada
 export default {
   name: "TabCopyAndPast",
@@ -235,7 +234,6 @@ export default {
       text: "",
       toTableCP: [],
       currentPage: 1,
-      tableone: false,
       filters: null,
       filtersOn: [],
       corrects: {},
@@ -273,16 +271,6 @@ export default {
   computed: {
     firstRow() {
       return get(this, "sample.0");
-    },
-    emailState() {
-      return Yup.string().emailValidator();
-    },
-    congrats() {
-      if (this.incorrects.length == 0 && this.corrects.length > 0) {
-        return true;
-      } else {
-        return false;
-      }
     }
   },
   mounted() {
@@ -390,11 +378,6 @@ export default {
         this.show = "corrects";
       }
     },
-    coloredIncorrects() {
-      this.fields[0].variant = "danger";
-      this.fields[1].variant = "danger";
-      this.fields[2].variant = "danger";
-    },
     headerValidator(row, tam) {
       this.sample = row;
       if (tam === 3) {
@@ -409,11 +392,6 @@ export default {
       } else {
         this.notCorrect = true;
       }
-    },
-    onFiltered(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
-      this.rows = filteredItems.length;
-      this.currentPage = 1;
     }
   }
 };

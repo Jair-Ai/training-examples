@@ -39,10 +39,10 @@
           ></TabCopyandPaste02>
         </b-tab>
         <b-tab title="Copie e Cole2 a vinganca">
-          <TabCopyandPaste04
+          <TabCopyandPaste03
             :perPage="perPage"
             :fields="fields"
-          ></TabCopyandPaste04>
+          ></TabCopyandPaste03>
         </b-tab>
         <b-tab title="Importe em Formato Csv">
           <TabImportCsv
@@ -74,19 +74,18 @@
 import TabImportCsv from "./tabs/TabImportCsv";
 
 import TabWriteRegisters from "./tabs/TabWriteRegisters";
-import TabCopyandPaste02 from "./tabs/TabCopyAndPaste02";
-import TabCopyandPaste04 from "./tabs/TabCopyAndPaste04";
+import TabCopyandPaste02 from "./TabCopyAndPaste02";
+import TabCopyandPaste03 from "./tabs/TabCopyAndPaste03";
 import { perPage, fields } from "../../main";
 
 // TODO: Create confirmation for this Steps checking each tab searching for corrects inputs
-// TODO: THIS function should be computed or event from event bus taking information from 3 tables.
 export default {
   name: "StepTwo",
   components: {
     TabImportCsv,
     TabWriteRegisters,
     TabCopyandPaste02,
-    TabCopyandPaste04
+    TabCopyandPaste03
   },
   data() {
     return {
@@ -105,6 +104,15 @@ export default {
       perPage: perPage,
       fields: fields
     };
+  },
+  computed: {
+    congrats() {
+      if (this.incorrects.length == 0 && this.corrects.length > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   },
   methods: {
     countDownChanged(dismissCountDown) {

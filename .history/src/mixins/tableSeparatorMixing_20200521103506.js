@@ -4,7 +4,7 @@ import {
   emailValidatorNot,
   rowEmailValidator,
   takeDupl
-} from "../main";
+} from "../../main";
 const tableManager = {
   data() {
     return {
@@ -128,5 +128,3 @@ const tableManager = {
     }
   }
 };
-
-export { tableManager };
