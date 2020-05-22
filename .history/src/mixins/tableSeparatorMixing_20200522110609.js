@@ -46,6 +46,7 @@ const tableManager = {
         this.rowColor = "warning";
       }
     },
+
     corrects: function() {
       if (this.corrects.lenght > this.minCorrects) {
         EventBus.$emit("forwardButton", true);

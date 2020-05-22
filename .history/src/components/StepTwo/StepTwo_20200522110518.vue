@@ -110,7 +110,7 @@ export default {
   },
   mounted() {
     this.dismissCountDown = this.dismissSecs;
-    EventBus.$on("forwardButton", bolValue => {
+    EventBus.$on("fowardButton", bolValue => {
       this.everythingOK = bolValue;
     });
   }
