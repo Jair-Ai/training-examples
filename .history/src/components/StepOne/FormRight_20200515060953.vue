@@ -10,8 +10,7 @@
     <p class="pa">Olá, João</p>
 
     <p class="pa">
-      Qual a probabilidade de você recomendar {{ company }} para um
-      {{ choice }}.
+      Qual a probabilidade de você nos recomendar para um amigo ou {{ choice }}.
     </p>
 
     <div>
@@ -48,7 +47,7 @@ export default {
     return {
       file:
         "https://produzindosom8.webnode.com/_files/200000051-0a9120b8a3/sua%20marca%20aqui.png",
-      choice: "amigo",
+      choice: "familiar",
       company: "Unilever",
       campaign: "Pesquisa de satisfação",
       ask: "",

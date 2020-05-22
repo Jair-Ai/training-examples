@@ -10,8 +10,7 @@
     <p class="pa">Olá, João</p>
 
     <p class="pa">
-      Qual a probabilidade de você recomendar {{ company }} para um
-      {{ choice }}.
+      Qual a probabilidade de você recomendar {{ company }}para um {{ choice }}.
     </p>
 
     <div>

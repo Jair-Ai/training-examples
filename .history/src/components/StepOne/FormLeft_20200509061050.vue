@@ -62,7 +62,7 @@
           v-model="form.ask"
           @change="generico($event, 'ask')"
           :options="comment"
-          :selected="form.ask"
+          :selected="comment[3]"
           required
           placeholder="familiar"
           teste
@@ -111,7 +111,7 @@ export default {
       form: {
         campaign: "",
         company: "",
-        ask: null,
+        ask: "",
         file: null,
         choice: null
       },
@@ -131,6 +131,7 @@ export default {
       EventBus.$emit("CurrentStep", 1);
       EventBus.$emit("StepDone", 0);
     },
+
     generico(event, atribute) {
       console.log(event);
       if (atribute == "ask") EventBus.$emit("DataSend", [atribute, event]);
@@ -142,6 +143,7 @@ export default {
       console.log(this.url);
       EventBus.$emit("FileSend", this.url);
     },
+
     onReset(evt) {
       evt.preventDefaut();
       //Reset form values
