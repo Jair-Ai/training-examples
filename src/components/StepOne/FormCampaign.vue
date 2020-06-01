@@ -161,7 +161,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #submitBT {
   text-align: right;
   margin-right: 0;

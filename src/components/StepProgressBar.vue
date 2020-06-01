@@ -4,7 +4,7 @@
       <ul class="progressbar">
         <li
           :class="[step >= i ? 'active' : 'none']"
-          v-for="(item, i) in lenght"
+          v-for="(item, i) in length"
           :key="i"
           @click="stepClicked(i)"
         >
@@ -20,7 +20,7 @@ import { EventBus } from "../main";
 export default {
   name: "Step_Progress_Bar",
   props: {
-    lenght: {
+    length: {
       type: Array,
       default() {
         return [];
@@ -47,7 +47,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .container {
   width: 100%;
   position: absolute;

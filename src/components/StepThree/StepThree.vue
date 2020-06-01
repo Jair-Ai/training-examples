@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 <template>
   <b-container float-center>
     <h4 style="text-align: center">

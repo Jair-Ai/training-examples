@@ -3,14 +3,12 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
-import { VueCsvImport } from "vue-csv-import";
 import { Datetime } from "vue-datetime";
 import { Settings } from "luxon";
 import * as Yup from "yup";
-import VueResorce from "vue-resource";
 
 Settings.defaultLocale = "pt-Br";
-Vue.use(VueResorce);
+
 Vue.use(Datetime);
 // Install BootstrapVue
 Vue.use(BootstrapVue);
@@ -178,7 +176,7 @@ const fields = [
 export { fields };
 
 new Vue({
-  components: { VueCsvImport, Datetime },
+  components: { Datetime },
   router,
   store,
   render: h => h(App)

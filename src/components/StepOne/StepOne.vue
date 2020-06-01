@@ -7,7 +7,12 @@
       <b-col sm="6">
         <p class="pa">
           Como a pesquisa será enviada
-          <b-icon-caret-down animation="fade" font-scale="2" variant="success" shift-v="-4"></b-icon-caret-down>
+          <b-icon-caret-down
+            animation="fade"
+            font-scale="2"
+            variant="success"
+            shift-v="-4"
+          ></b-icon-caret-down>
         </p>
 
         <FormRight></FormRight>
@@ -17,8 +22,8 @@
 </template>
 nao fica
 <script>
-import FormLeft from "./FormLeft.vue";
-import FormRight from "./FormRight.vue";
+import FormLeft from "./FormCampaign.vue";
+import FormRight from "./CampaignPreview.vue";
 
 export default {
   name: "StepOne",

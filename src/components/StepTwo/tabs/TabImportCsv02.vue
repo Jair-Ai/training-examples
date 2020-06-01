@@ -36,6 +36,45 @@
         </template>
       </testeCsv>
     </b-row>
+    <b-row
+      md="12"
+      cols="1"
+      v-if="(incorrects.length > 0) | (duplicates.length > 0)"
+    >
+      <div>
+        <div class="mt-3" style="margin-bottom: 30px">
+          <b-button-group size="xl">
+            <b-button
+              @click="change('corrects')"
+              variant="outline-success"
+              :pressed="show == 'corrects'"
+            >
+              Registros Corretos
+              {{ corrects.length }}
+            </b-button>
+            <b-button
+              @click="change('duplicates')"
+              variant="outline-warning"
+              :pressed="show == 'duplicates'"
+              v-if="duplicates.length > 0"
+            >
+              Registros Duplicados
+              {{ duplicates.length }}
+            </b-button>
+
+            <b-button
+              v-if="incorrects.length > 0"
+              @click="change('incorrects')"
+              variant="outline-danger"
+              :pressed="show == 'incorrects'"
+            >
+              Registros Incorretos
+              {{ incorrects.length }}
+            </b-button>
+          </b-button-group>
+        </div>
+      </div>
+    </b-row>
     <b-row md="12" cols="2">
       <b-col>
         <b-pagination
