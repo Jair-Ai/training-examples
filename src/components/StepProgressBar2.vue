@@ -4,10 +4,10 @@
       <li
         v-for="(steps, index) in StepsData"
         :key="index"
-        :class="[index <= activeStep ? 'liumActive' : 'lium']"
+        :class="[activeStep >= index + 1 ? 'liumActive' : 'lium']"
       >
         <b-icon
-          v-if="index <= activeStep"
+          v-if="activeStep >= index + 1 "
           :icon="steps.icon"
           :class="classIconActive"
           :variant="variantActive"
@@ -23,7 +23,7 @@
         <br />
         <b-icon
           icon="check-circle"
-          v-if="index <= activeStep"
+          v-if="activeStep >= index + 1"
           :variant="variantActive"
           style="width: 20px; height: 20px; background: #5bc0de; border-radius: 50%;"
         ></b-icon>
@@ -127,5 +127,23 @@ export default {
   position: absolute;
   top: 197px;
   z-index: -1;
+}
+
+.ulstep .liumActive:first-child::after {
+  width: 105px;
+  left: 675px;
+}
+
+.ulstep .lium:first-child::after {
+  width: 105px;
+  left: 675px;
+}
+
+.ulstep .liumActive:last-child::after {
+  width: 105px;
+}
+
+.ulstep .lium:last-child::after {
+  width: 105px;
 }
 </style>
