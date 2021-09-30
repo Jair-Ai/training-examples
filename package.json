@@ -13,7 +13,7 @@
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.13.0",
     "core-js": "^3.6.4",
-    "handsontable": "^7.4.2",
+    "handsontable": "^10.0.0",
     "luxon": "^1.24.1",
     "papaparse": "^5.2.0",
     "vue": "^2.6.11",
